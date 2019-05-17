@@ -23,8 +23,10 @@ export default class TicItem extends React.Component<
 	}
 
 	_handlerClick = ():void => {
-		const { click, id } = this.props;
-		click(id);
+        const { click, id, isEmpty } = this.props;
+        if (isEmpty) {
+            click(id);
+        }
 	};
 
 	public render() {
