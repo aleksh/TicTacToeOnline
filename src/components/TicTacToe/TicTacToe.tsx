@@ -5,6 +5,8 @@ import Styles from "./TixTacToe.module.scss";
 import TicItem from "../TicItem/TicItem";
 import VOTicItem from "../../VO/VOTicItem";
 
+import { checkItemsForWin } from "../../utils/Utils";
+
 export interface ITicTacToeProps {}
 
 export interface ITicTacToeAppState {
@@ -59,8 +61,7 @@ export default class TicTacToe extends React.Component<
 		});
 	};
 
-	private _handlerClickItem = (id: number): void => {
-		console.log(this);
+	private _handlerClickItem = (id: number): void => {		
 		console.log(id);
 		const { items, isUser, gameStapesCount, gameType } = this.state;
 		let isStepsExist: boolean = false;
@@ -85,21 +86,12 @@ export default class TicTacToe extends React.Component<
             //check By X
             for(let i:number = 0; i < items.length; i++) {
                 let pRow:VOTicItem[] = items[i];
-                let pRowXAcross = this._filterFilledItems(pRow, true);
-                                
-                if (pRowXAcross.length === gameType){
-                    isWin = true;
-                    console.log("WIN ROW ACROSS => "+ i);
-                    break;                    
-                }
+
+                isWin = checkItemsForWin(pRow, true, gameType);                
+                if (isWin) break;
                 
-                let pRowXCircle = this._filterFilledItems(pRow, false);
-                
-                if (pRowXCircle.length === gameType){
-                    isWin = true;
-                    console.log("WIN ROW CIRCLE => "+ i);
-                    break;                    
-                }                
+                isWin = checkItemsForWin(pRow, false, gameType);
+                if (isWin) break;
             }
 
             // check By Y if no win
@@ -114,21 +106,11 @@ export default class TicTacToe extends React.Component<
                     }
 
                     if(pColumn.length === gameType) {                        
-                        let pColumnYAcross = this._filterFilledItems(pColumn, true);
-                                                        
-                        if (pColumnYAcross.length === gameType){
-                            isWin = true;
-                            console.log("WIN COLUMN ACROSS => "+i);                
-                            break;                    
-                        }
+                        isWin = checkItemsForWin(pColumn, true, gameType);                
+                        if (isWin) break;
                         
-                        let pColumnYCircle = this._filterFilledItems(pColumn, false);
-                                            
-                        if (pColumnYCircle.length === gameType){
-                            isWin = true;                        
-                            console.log("WIN COLUMN CIRCLE => "+i);                
-                            break;                    
-                        } 
+                        isWin = checkItemsForWin(pColumn, false, gameType);
+                        if (isWin) break;
                     }                                        
                 }
             }
@@ -146,42 +128,21 @@ export default class TicTacToe extends React.Component<
                     if (!pRightItem.isEmpty) { pRightCross.push(pRightItem); }
                 }
 
-
                 // check Left Cross
                 if(pLeftCross.length === gameType) {
-                    let pAcross = this._filterFilledItems(pLeftCross, true);
-                    
-                    if (pAcross.length === gameType){
-                        isWin = true;                                
-                        console.log("WIN  1 across");                                   
-                    }
+                    isWin = checkItemsForWin(pLeftCross, true, gameType);
 
                     if (!isWin) {
-                        let pCircle = this._filterFilledItems(pLeftCross, false);
-                                            
-                        if (pCircle.length === gameType){
-                            isWin = true;        
-                            console.log("WIN  1 CIRCLE");                                   
-                        }
+                        isWin = checkItemsForWin(pLeftCross, false, gameType);
                     }
                 }
 
                 if(!isWin && pRightCross.length === gameType) {
-                    let pAcross = this._filterFilledItems(pRightCross, true);
-                    
-                    if (pAcross.length === gameType){
-                        isWin = true;                                
-                        console.log("WIN  2 ACROSS");
-                    }
+                    // check cross from bottom left to bottom right
+                    isWin = checkItemsForWin(pRightCross, true, gameType);                                        
 
                     if (!isWin) {
-                        let pCircle = this._filterFilledItems(pRightCross, false);
-                                            
-                        if (pCircle.length === gameType){
-                            isWin = true;  
-                            
-                            console.log("WIN  2 CIRCLE");
-                        }
+                        isWin = checkItemsForWin(pRightCross, false, gameType);                       
                     }
                 }
             }
@@ -198,12 +159,7 @@ export default class TicTacToe extends React.Component<
 		} else {
 			this._reset();
 		}
-    };
-    
-    private _filterFilledItems = (pItems:VOTicItem[], pByAcross:boolean) => {
-        return pItems.filter(item => item.isEmpty === false &&  item.isAcross === pByAcross);
-    }
-
+    };       
 
 	private _getGameArea = (): any => {
 		const { items } = this.state;
