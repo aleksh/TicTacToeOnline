@@ -1,8 +1,8 @@
 .TicTacToe {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
 
-    .row, .rowTop, .rowBottom {
+    .row {
         justify-content: center;        
         display: flex;
         align-items: center;
@@ -16,27 +16,15 @@
             cursor: pointer;
         }
 
-        div:nth-of-type(2) {
+        div:not(:first-of-type) {
             border-left: 2px solid #444444;
-            border-right: 2px solid #444444;
-        }
-        
-        div:nth-of-type(2) {
-            border-left: 2px solid #444444;
-            border-right: 2px solid #444444;
         }
     }
 
-    .rowTop div {
-        border-bottom: 2px solid #444444;
+    .row:not(:last-of-type) {
+        div{
+            border-bottom: 2px solid #444444;
+        }
     }
-
-    .rowBottom div {
-        border-top: 2px solid #444444;
-    }
-
-
-
-
 }
 
