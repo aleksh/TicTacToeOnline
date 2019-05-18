@@ -1,5 +1,9 @@
 import VOTicItem from "../VO/VOTicItem";
 
+export const getRandomInt = (max:number) => {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 export const checkItemsForWin = (pItems: VOTicItem[], pByAcross: boolean, pGameType: number): boolean => {
     let pFilteredItems: VOTicItem[] = pItems.filter(item => item.isEmpty === false && item.isAcross === pByAcross);
     let isWin: boolean = pFilteredItems.length === pGameType;
@@ -9,7 +13,7 @@ export const checkItemsForWin = (pItems: VOTicItem[], pByAcross: boolean, pGameT
     return isWin;
 }
 
-export const checkEmptyStepsExist = (pItems: VOTicItem[][], pId: number, pIsUser: boolean): boolean => {
+export const setChoice = (pItems: VOTicItem[][], pId: number, pIsUser: boolean): boolean => {
     let isStepsExist: boolean = false;
     pItems.forEach(row => {
         row.forEach(item => {

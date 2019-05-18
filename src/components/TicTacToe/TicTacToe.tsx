@@ -5,14 +5,14 @@ import Styles from "./TixTacToe.module.scss";
 import TicItem from "../TicItem/TicItem";
 import VOTicItem from "../../VO/VOTicItem";
 
-import { checkEmptyStepsExist,
+import { setChoice,
     isWinGame } from "../../utils/Utils";
 import PCPlayer from "../../utils/PCPlayer";
 
 export interface ITicTacToeProps {}
 
 export interface ITicTacToeAppState {
-	isUser: boolean;
+	isYourTurn: boolean;
 	gameType: number;
 	items: VOTicItem[][];
 	gameStapesCount: number;
@@ -29,10 +29,10 @@ export default class TicTacToe extends React.Component<
 		super(props);
 
 		this.state = {
-			isUser: true,
-			gameType: 3,
+			isYourTurn: true,
+			gameType: 7,
 			gameStapesCount: 0,
-			items: this._initGameGrid(3)
+			items: this._initGameGrid(7)
         };
         
         this._pcPlayer = new PCPlayer();
@@ -60,7 +60,7 @@ export default class TicTacToe extends React.Component<
 		// console.log(this.state.gameType);
 		this.setState((prevState, props) => {
 			return {
-				isUser: true,
+				isYourTurn: true,
 				items: this._initGameGrid(prevState.gameType)
 			};
 		});
@@ -68,8 +68,9 @@ export default class TicTacToe extends React.Component<
 
 	private _handlerClickItem = (id: number): void => {		
 		console.log(id);
-		const { items, isUser, gameStapesCount, gameType } = this.state;
-		let isStepsExist: boolean = checkEmptyStepsExist(items, id, isUser);                
+                        
+        const { items, isYourTurn, gameStapesCount, gameType } = this.state;
+		let isStepsExist: boolean = setChoice(items, id, isYourTurn);                
         let isWin:boolean = false;
         // here need check for User Win or for no more steps
         if ((gameStapesCount+1) >= gameType && isStepsExist) {  
@@ -80,14 +81,33 @@ export default class TicTacToe extends React.Component<
             console.log("WIN");
         }
 
-		if (isStepsExist) {
+        if(!isWin && isStepsExist && !isYourTurn === false) {
+            console.log("PC CHOICE")
+            setTimeout(() => {
+                this._madePCChoice();
+            }, 2000);
+        }
+
+		//if (isStepsExist) {
 			this.setState(prevState => {
-				return { ...prevState, isUser: !isUser, items, gameStapesCount: prevState.gameStapesCount + 1 };
+				return { ...prevState, isYourTurn: !isYourTurn, items, gameStapesCount: prevState.gameStapesCount + 1 };
 			});
-		} else {
-			this._reset();
-		}
+		//} else {
+			//this._reset();
+		//}
     };       
+
+    private _madePCChoice = () => {
+        const { items, isYourTurn, gameStapesCount, gameType } = this.state;
+
+        let pId:number = this._pcPlayer.getHardStep(items, gameType);
+
+        this._handlerClickItem(pId);
+    }
+
+
+
+
 
 	private _getGameArea = (): any => {
 		const { items } = this.state;
