@@ -78,24 +78,26 @@ export default class TicTacToe extends React.Component<
 		});
 
         // here need check for User Win or for no more steps
-        if ((gameStapesCount+1) >= gameType) {
+        if ((gameStapesCount+1) >= gameType && isStepsExist) {
             console.log("Check For Win");
 
             let isWin:boolean = false;
             //check By X
             for(let i:number = 0; i < items.length; i++) {
                 let pRow:VOTicItem[] = items[i];
-                let pRowXAcross = pRow.filter(currItem => currItem.isEmpty === false &&  currItem.isAcross === true);
+                let pRowXAcross = this._filterFilledItems(pRow, true);
                                 
                 if (pRowXAcross.length === gameType){
                     isWin = true;
+                    console.log("WIN ROW ACROSS => "+ i);
                     break;                    
                 }
                 
-                let pRowXCircle = pRow.filter(currItem => currItem.isEmpty === false &&  currItem.isAcross === false);
+                let pRowXCircle = this._filterFilledItems(pRow, false);
                 
                 if (pRowXCircle.length === gameType){
                     isWin = true;
+                    console.log("WIN ROW CIRCLE => "+ i);
                     break;                    
                 }                
             }
@@ -103,32 +105,85 @@ export default class TicTacToe extends React.Component<
             // check By Y if no win
             if(!isWin) {
                 for(let i:number = 0; i < gameType; i++) {
-                    let pRow:VOTicItem[] = items[i];
-
                     let pColumn:VOTicItem[] = [];
+
                     for (let j:number = 0; j < gameType; j++) {
-                        pColumn.push(items[j][i]);                        
+                        if (!items[j][i].isEmpty) {
+                            pColumn.push(items[j][i]);          
+                        }              
                     }
 
-                    let pColumnYAcross = pColumn.filter(currItem => currItem.isEmpty === false &&  currItem.isAcross === true);
-                                                    
-                    if (pColumnYAcross.length === gameType){
-                        isWin = true;                    
-                        break;                    
-                    }
-                    
-                    let pColumnYCircle = pColumn.filter(currItem => currItem.isEmpty === false &&  currItem.isAcross === false);
-                                        
-                    if (pColumnYCircle.length === gameType){
-                        isWin = true;                        
-                        break;                    
-                    }       
+                    if(pColumn.length === gameType) {                        
+                        let pColumnYAcross = this._filterFilledItems(pColumn, true);
+                                                        
+                        if (pColumnYAcross.length === gameType){
+                            isWin = true;
+                            console.log("WIN COLUMN ACROSS => "+i);                
+                            break;                    
+                        }
+                        
+                        let pColumnYCircle = this._filterFilledItems(pColumn, false);
+                                            
+                        if (pColumnYCircle.length === gameType){
+                            isWin = true;                        
+                            console.log("WIN COLUMN CIRCLE => "+i);                
+                            break;                    
+                        } 
+                    }                                        
                 }
             }
 
             //check By Cross
             if(!isWin) {
+                let pLeftCross:VOTicItem[] = [];
+                let pRightCross:VOTicItem[] = [];
 
+                for (let i:number = 0; i < gameType; i++) {
+                    let pLeftItem:VOTicItem = items[i][i];
+                    if(!pLeftItem.isEmpty) { pLeftCross.push(items[i][i]); }
+
+                    let pRightItem:VOTicItem = items[gameType-1-i][i];
+                    if (!pRightItem.isEmpty) { pRightCross.push(pRightItem); }
+                }
+
+
+                // check Left Cross
+                if(pLeftCross.length === gameType) {
+                    let pAcross = this._filterFilledItems(pLeftCross, true);
+                    
+                    if (pAcross.length === gameType){
+                        isWin = true;                                
+                        console.log("WIN  1 across");                                   
+                    }
+
+                    if (!isWin) {
+                        let pCircle = this._filterFilledItems(pLeftCross, false);
+                                            
+                        if (pCircle.length === gameType){
+                            isWin = true;        
+                            console.log("WIN  1 CIRCLE");                                   
+                        }
+                    }
+                }
+
+                if(!isWin && pRightCross.length === gameType) {
+                    let pAcross = this._filterFilledItems(pRightCross, true);
+                    
+                    if (pAcross.length === gameType){
+                        isWin = true;                                
+                        console.log("WIN  2 ACROSS");
+                    }
+
+                    if (!isWin) {
+                        let pCircle = this._filterFilledItems(pRightCross, false);
+                                            
+                        if (pCircle.length === gameType){
+                            isWin = true;  
+                            
+                            console.log("WIN  2 CIRCLE");
+                        }
+                    }
+                }
             }
 
             if(isWin) {
@@ -143,7 +198,12 @@ export default class TicTacToe extends React.Component<
 		} else {
 			this._reset();
 		}
-	};
+    };
+    
+    private _filterFilledItems = (pItems:VOTicItem[], pByAcross:boolean) => {
+        return pItems.filter(item => item.isEmpty === false &&  item.isAcross === pByAcross);
+    }
+
 
 	private _getGameArea = (): any => {
 		const { items } = this.state;
