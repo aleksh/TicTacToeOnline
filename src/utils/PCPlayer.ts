@@ -15,6 +15,18 @@ export default class PCPlayer {
         return pRandomId;
     }
 
+    getMiddleStep = (pItems:VOTicItem[][], pGameType:number):number => {
+    
+        let index:number = getRandomInt(2);
+        
+        if (index === 1) {            
+            return this.getEasyStep(pItems, pGameType);
+        } else {
+            return this.getHardStep(pItems, pGameType);
+        }
+
+    }
+
     getHardStep = (pItems:VOTicItem[][], pGameType:number):number => {
         let pTopLeft:boolean = !pItems[0][0].isEmpty;
         let pTopRight:boolean = !pItems[0][pGameType-1].isEmpty;
