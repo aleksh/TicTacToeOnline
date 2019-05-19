@@ -34,7 +34,42 @@ export default class PCPlayer {
         let pBottomLeft:boolean = !pItems[pGameType-1][0].isEmpty;
         let pBottomRight:boolean = !pItems[pGameType-1][pGameType-1].isEmpty;       
 
+        // check 1 empty cell for PC win
+         //check rows to Win
+         for(let i:number = 0; i < pItems.length; i++){
+            let pRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === false && !item.isAcross);
+            let pEmptyRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === true);
+           
+            if(pRow.length <= pGameType-1 && (pRow.length+pEmptyRow.length) === pGameType) {                
+                let pEmptyItems:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === true);
+                if(pEmptyItems.length === 1) {                    
+                    return pEmptyItems[0].id;
+                }                
+            }        
+        }
 
+        // check For Columns
+        for (let i: number = 0; i < pGameType; i++) {
+            let pColumn: VOTicItem[] = [];
+
+            for (let j: number = 0; j < pGameType; j++) {
+                pColumn.push(pItems[j][i]);                
+            }
+
+            let pFilteredCol:VOTicItem[] = pColumn.filter((item) => item.isEmpty === false && !item.isAcross);
+            let pEmptyCol:VOTicItem[] = pColumn.filter((item) => item.isEmpty === true);
+
+            if(pFilteredCol.length <= pGameType-1 && (pFilteredCol.length + pEmptyCol.length) === pGameType) {                
+                let pEmptyItems:VOTicItem[] = pColumn.filter((item) => item.isEmpty === true);
+                if(pEmptyItems.length === 1) {                    
+                    return pEmptyItems[0].id;
+                }                
+            }   
+        }
+
+        ////////////////////////////////////////////////////////////
+
+        // check col and rows for user Win
         //check for rows
         for(let i:number = 0; i < pItems.length; i++){
             let pRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === false && item.isAcross);
@@ -67,14 +102,49 @@ export default class PCPlayer {
 
         // check center position and fill it if it's empty        
         if(!pCenter) return pItems[Math.ceil(pGameType/2)-1][Math.ceil(pGameType/2)-1].id;     
+                
+        if (!pTopLeft) return pItems[0][0].id;
+        if (!pTopRight) return pItems[0][pGameType-1].id;
+        if (!pBottomLeft) return pItems[pGameType-1][0].id;
+        if (!pBottomRight) return pItems[pGameType-1][pGameType-1].id;
         
-        if(pCenter) {
-            if (!pTopLeft) return pItems[0][0].id;
-            if (!pTopRight) return pItems[0][pGameType-1].id;
-            if (!pBottomLeft) return pItems[pGameType-1][0].id;
-            if (!pBottomRight) return pItems[pGameType-1][pGameType-1].id;
+
+         //check rows to Win
+         for(let i:number = 0; i < pItems.length; i++){
+            let pRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === false && !item.isAcross);
+            let pEmptyRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === true);
+           
+            if(pRow.length <= pGameType-1 && (pRow.length+pEmptyRow.length) === pGameType) {                
+                let pEmptyItems:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === true);
+                if(pEmptyItems.length <= pGameType-1 && pEmptyItems.length > 0) {                    
+                    return pEmptyItems[0].id;
+                }                
+            }        
         }
-        
+
+        // check For Columns
+        for (let i: number = 0; i < pGameType; i++) {
+            let pColumn: VOTicItem[] = [];
+
+            for (let j: number = 0; j < pGameType; j++) {
+                pColumn.push(pItems[j][i]);                
+            }
+
+            let pFilteredCol:VOTicItem[] = pColumn.filter((item) => item.isEmpty === false && !item.isAcross);
+            let pEmptyCol:VOTicItem[] = pColumn.filter((item) => item.isEmpty === true);
+
+            if(pFilteredCol.length <= pGameType-1 && (pFilteredCol.length + pEmptyCol.length) === pGameType) {                
+                let pEmptyItems:VOTicItem[] = pColumn.filter((item) => item.isEmpty === true);
+                if(pEmptyItems.length <= pGameType-1  && pEmptyItems.length > 0) {                    
+                    return pEmptyItems[0].id;
+                }                
+            }   
+        }
+
+
+
+
+        console.log("EasyStep=================");
         return this.getEasyStep(pItems, pGameType);
     }
 }

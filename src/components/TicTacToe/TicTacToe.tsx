@@ -31,9 +31,9 @@ export default class TicTacToe extends React.Component<
 
 		this.state = {
 			isYourTurn: true,
-			gameType: 5,
+			gameType: 3,
 			gameStapesCount: 0,
-			items: this._initGameGrid(5)
+			items: this._initGameGrid(3)
         };
         
         this._pcPlayer = new PCPlayer();
@@ -104,9 +104,9 @@ export default class TicTacToe extends React.Component<
     private _madePCChoice = () => {
         const { items, isYourTurn, gameStapesCount, gameType } = this.state;
 
-        //let pId:number = this._pcPlayer.getHardStep(items, gameType);
+        let pId:number = this._pcPlayer.getHardStep(items, gameType);
         // let pId:number = this._pcPlayer.getEasyStep(items, gameType);
-        let pId:number = this._pcPlayer.getMiddleStep(items, gameType);
+        //let pId:number = this._pcPlayer.getMiddleStep(items, gameType);
       
         this._handlerClickItem(pId);
     }
