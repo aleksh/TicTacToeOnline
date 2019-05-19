@@ -141,10 +141,7 @@ export default class PCPlayer {
             }   
         }
 
-
-
-
-        console.log("EasyStep=================");
+        
         return this.getEasyStep(pItems, pGameType);
     }
 }
