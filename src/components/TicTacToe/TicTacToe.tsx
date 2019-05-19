@@ -6,7 +6,8 @@ import TicItem from "../TicItem/TicItem";
 import VOTicItem from "../../VO/VOTicItem";
 
 import { setChoice,
-    isWinGame } from "../../utils/Utils";
+    isWinGame,
+    checkDraw } from "../../utils/Utils";
 import PCPlayer from "../../utils/PCPlayer";
 
 export interface ITicTacToeProps {}
@@ -70,7 +71,10 @@ export default class TicTacToe extends React.Component<
 		console.log(id);
                         
         const { items, isYourTurn, gameStapesCount, gameType } = this.state;
-		let isStepsExist: boolean = setChoice(items, id, isYourTurn);                
+        let isStepsExist: boolean = setChoice(items, id, isYourTurn);
+        
+        let isDraw: boolean = checkDraw(items, gameType);
+
         let isWin:boolean = false;
         // here need check for User Win or for no more steps
         if ((gameStapesCount+1) >= gameType && isStepsExist) {  
