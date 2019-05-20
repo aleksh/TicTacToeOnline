@@ -141,6 +141,34 @@ export default class PCPlayer {
             }   
         }
 
+
+        ///// check for rows without Cross         
+        for(let i:number = 0; i < pItems.length; i++){
+            let pRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === false && item.isAcross);
+            if (pRow.length === 0) {
+                let pEmptyRow:VOTicItem[] = pItems[i].filter((item) => item.isEmpty === true);
+                if(pEmptyRow.length > 0) {                    
+                    return pEmptyRow[0].id;
+                }
+            }               
+        }
+
+        // check For Columns
+        for (let i: number = 0; i < pGameType; i++) {
+            let pColumn: VOTicItem[] = [];
+
+            for (let j: number = 0; j < pGameType; j++) {
+                pColumn.push(pItems[j][i]);                
+            }
+
+            let pFilteredCol:VOTicItem[] = pColumn.filter((item) => item.isEmpty === false && item.isAcross);
+            if (pFilteredCol.length === 0) {
+                let pEmptyCol:VOTicItem[] = pColumn.filter((item) => item.isEmpty === true);
+                if(pEmptyCol.length > 0) {
+                    return pEmptyCol[0].id;
+                }
+            }            
+        }
         
         return this.getEasyStep(pItems, pGameType);
     }
