@@ -9,7 +9,8 @@ interface ITicItemProps {
 	isAcross?: boolean;
 	isEmpty: boolean;
 	id: number;
-	click: Function;
+    click: Function;
+    isMyTurn: boolean;
 }
 
 export interface ITicItemState {}
@@ -23,8 +24,8 @@ export default class TicItem extends React.Component<
 	}
 
 	_handlerClick = ():void => {
-        const { click, id, isEmpty } = this.props;
-        if (isEmpty) {
+        const { click, id, isEmpty, isMyTurn } = this.props;
+        if (isEmpty && isMyTurn) {
             click(id);
         }
 	};

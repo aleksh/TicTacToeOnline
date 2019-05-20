@@ -5,9 +5,11 @@ import { connectRouter } from 'connected-react-router'
 // Reducers
 import { uiReducer as ui } from '../bus/ui/reducer';
 import { userReducer as user } from '../bus/user/reducer';
+import { gameReducer as game } from '../bus/game/reducer';
 
 export const rootReducer = (history:any) => combineReducers({
     router: connectRouter(history),
     ui,
-    user    
+    user,
+    game
 })

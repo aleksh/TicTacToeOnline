@@ -195,3 +195,22 @@ export const checkDraw = (pItems: VOTicItem[][], pGameType: number): boolean => 
 
     return isDraw;
 }
+
+
+export const initGameItems = (pCellNum: number): VOTicItem[][] => {
+    let items: any[] = [];
+    let id: number = 1;
+
+    for (let i = 0; i < pCellNum; i++) {
+        let pRow: VOTicItem[] = [];
+
+        for (let j = 1; j <= pCellNum; j++) {
+            pRow.push(new VOTicItem(id));
+            id++;
+        }
+
+        items.push(pRow);
+    }
+
+    return items;
+};
