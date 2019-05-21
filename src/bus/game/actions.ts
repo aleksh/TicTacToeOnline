@@ -8,7 +8,7 @@ export const gameActions = {
             type: types.SET_CHOICE,
             payload: id,
         };
-    },
+    },  
 
     changeGameType: (id: number) => {
         return {

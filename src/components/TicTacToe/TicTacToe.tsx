@@ -19,6 +19,7 @@ export interface ITicTacToeProps {
 	items: VOTicItem[][];    
     isStepsExist: boolean;
     isWin:boolean;
+    isDraw:boolean;
     actions:any;
 }
 
@@ -64,9 +65,9 @@ class TicTacToe extends React.Component<
     };       
 
     private _madePCChoice = () => {
-        const { items, type, isWin } = this.props;
+        const { items, type, isWin, isDraw } = this.props;
 
-        if(!isWin) {
+        if(!isWin && !isDraw ) {
             console.log("GET PC STEP ==> "+ type);
             console.log(items);
             let pId:number = this._pcPlayer.getHardStep(items, type);
@@ -105,11 +106,12 @@ class TicTacToe extends React.Component<
 	};
 
 	public render() {
-        const { isWin, isMyTurn } = this.props;
+        const { isDraw, isWin, isMyTurn } = this.props;
         
 		return (
             <>
-                { isWin ? isMyTurn ? <p>You Win</p> : <p>Your opponent</p> : null}
+                {isDraw && <p>"ничья"</p>}
+                { !isDraw && isWin ? isMyTurn ? <p>You Win</p> : <p>Your opponent</p> : null}
                 <div className={Styles.TicTacToe}>{this._getGameArea()}</div>
             </>
         );
@@ -123,6 +125,7 @@ const mapStateToProps = (state:any) => {
         items:          state.game.get('items'),
         type:           state.game.get('type'),
         isWin:          state.game.get('isWin'),
+        isDraw:         state.game.get('isDraw'),
         isMyTurn:       state.game.get('isMyTurn'),
         isStepsExist:   state.game.get('isStepsExist'),
     };

@@ -14,6 +14,7 @@ import VOTicItem from '../../VO/VOTicItem';
 import { GAME_TYPES } from '../../utils/Constsnts';
 
 const initialState = Map({
+    opponentUser: null,
     isPlaying: false,
     amICross: true,
     type: GAME_TYPES[1],
@@ -32,12 +33,16 @@ export const gameReducer = (state = initialState, action:any) => {
     let items:VOTicItem[][];
     
     switch (action.type) {
+
         case types.START_GAME:
             return state.set('isPlaying', true);
 
         case types.DRAW_GAME:
             return state.set('isDraw', true);
 
+        /*case types.SET_OPPONENT:
+            return state.set('opponentUser', action.payload);*/
+            
         case types.CHANGE_GAME_TYPE:
             items = initGameItems(action.payload) as VOTicItem[][];
 
