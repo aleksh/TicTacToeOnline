@@ -60,7 +60,7 @@ class TicTacToe extends React.Component<
             console.log("PC CHOICE")
             this._timer = setTimeout(() => {
                 this._madePCChoice();
-            }, 2000);
+            }, 1000);
         }
     };       
 
@@ -77,8 +77,6 @@ class TicTacToe extends React.Component<
             this._handlerClickItem(pId);
         }
     }
-
-
 
 
 
