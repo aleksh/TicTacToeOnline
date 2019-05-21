@@ -1,20 +1,20 @@
-.TicTacToe {
-    display: flex;
+.TicTacToe {     
+
+    display:flex;
     flex-direction: column;    
 
-    .row {
-        justify-content: center;        
+    .row {        
         display: flex;
-        align-items: center;
+        justify-content: center;
 
         div {
             width: 100px;
             height: 100px;
-            display: flex;
-            align-items: center;
+            display: flex;            
             justify-content: center;
             cursor: pointer;
         }
+        
 
         div:not(:first-of-type) {
             border-left: 2px solid #444444;
@@ -27,4 +27,5 @@
         }
     }
 }
+
 

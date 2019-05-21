@@ -7,13 +7,13 @@ import GameSettings from './components/GameSettings/GameSettings';
 const App: React.FC = () => {    
   return (
     <div className="container-fluid">
-        <div className="d-flex justify-content-center">
-            <div className="d-flex">USER 1</div>
-            <div className="d-flex flex-column">
+        <div className="row">     
+            <div className="col-2 bd-highlight">USER 1</div>
+            <div className="col-8 bd-highlight">
                 <GameSettings />
                 <TicTacToe />
             </div>
-            <div className="d-flex">USER 2</div>
+            <div className="col-2 bd-highlight">USER 2</div>
         </div>
     </div>
   );

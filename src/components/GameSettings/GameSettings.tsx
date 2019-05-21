@@ -37,18 +37,18 @@ class GameSettings extends React.Component<
 
 		return (
 			<div>
-				<form>
-					<div className="form-group">
-						<label htmlFor="type">Game Type</label>
-						<select
-							className="form-control"
-							id="type"
+				<form className="form-inline justify-content-center p-3">					
+                    <div className="form-group">
+                        <label htmlFor="type" className="form-label pr-3">Game Type</label>                        
+                        <select
+                            className="form-control"
+                            id="type"
                             defaultValue={type.toString()}
                             onChange={this._handlerTypeUpdated}
-						>
-							{options}
-						</select>
-					</div>
+                        >
+                            {options}
+                        </select>                        
+                    </div>					
 				</form>
 			</div>
 		);
