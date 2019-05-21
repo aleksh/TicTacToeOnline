@@ -12,9 +12,27 @@ isWinGame } from "../../utils/Utils";
 import { types } from './types';
 import VOTicItem from '../../VO/VOTicItem';
 import { GAME_TYPES } from '../../utils/Constsnts';
+import VOUser from '../../VO/VOUser';
+import { any } from 'prop-types';
+/*
+interface IGameState {
+    opponentUser: VOUser | undefined;
+    isPlaying: boolean;
+    amICross: boolean;
+    type: number;
+    isMyTurn: boolean;
+    isOpponentTurn: boolean;
+    time: number;
+    isMeWin: boolean;
+    isOponnentWin: boolean;
+    isStepsExist: boolean;
+    isDraw: boolean;
+    items: VOTicItem[][];
+    stepsCount: number;
+}*/
 
-const initialState = Map({
-    opponentUser: null,
+const initialState= Map({
+    opponentUser: undefined,
     isPlaying: false,
     amICross: true,
     type: GAME_TYPES[1],
@@ -54,14 +72,16 @@ export const gameReducer = (state = initialState, action:any) => {
         case types.SET_CHOICE:
             items = state.get('items') as VOTicItem[][];
             let isMyTurn:boolean = state.get('isMyTurn') as boolean;  
-            let type:number = state.get('type') as number;            
-            let stepsCount:number = state.get('stepsCount') as number;
+            let type:number = Number(state.get('type'));            
+            let stepsCount:number = Number(state.get('stepsCount'));
             let isStepsExist:boolean = setChoice(items, action.payload, isMyTurn);
             let isDraw: boolean = checkDraw(items, type);
             let isWin:boolean = false;
 
-            if ((stepsCount+1) >= type && isStepsExist) {  
-                isWin = isWinGame(items, type);            
+           
+            if (!isDraw && (stepsCount+1) >= type && isStepsExist) {  
+                isWin = isWinGame(items, type);
+                console.log("isWin ======> "+isWin);            
             }            
 
             if(!isWin) {

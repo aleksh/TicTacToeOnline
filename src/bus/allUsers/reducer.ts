@@ -11,13 +11,8 @@ const initialState = Map ({
 
 export const allUsersReducer = (state = initialState, action:any) => {
     switch (action.type) {
-        case types.CHOOSE_OPPONENT:
-            let users:VOUser[] = state.get("allUsers") as VOUser[];
-            const choosedUser = users.filter((item) => item.id === action.payload)[0];
-            console.log(choosedUser)
-            
-
-            return state.set("choosedUser", choosedUser);
+        case types.CHOOSE_OPPONENT:            
+            return state.set("choosedUser", action.payload);
         default:
             return state;
     }

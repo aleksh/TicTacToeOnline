@@ -4,10 +4,10 @@ import VOUser from '../../VO/VOUser';
 
 export const allUsersActions = {
     
-    setOpponent: (id: number) => {
+    setOpponent: (pUser: VOUser) => {
         return {
             type: types.CHOOSE_OPPONENT,
-            payload: id,
+            payload: pUser,
         };
     },
     

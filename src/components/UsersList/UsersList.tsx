@@ -1,5 +1,5 @@
 import * as React from "react";
-import cl from "classnames";
+
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 //actions
 import { allUsersActions } from "../../bus/allUsers/actions";
 import VOUser from "../../VO/VOUser";
+import UserItem from "./UserItem";
 
 interface ITicItemProps {
 	actions: any;
@@ -21,28 +22,20 @@ class UsersList extends React.Component<ITicItemProps, ITicItemState> {
 		super(props);
 	}
 
-	_handlerClick = (event: any): void => {
-		const { choosedUser, actions } = this.props;
-		let pId: number = Number(event.target.value);
+	_handlerClick = (pUser: VOUser): void => {		
+		const { choosedUser, actions } = this.props;		
 
-		if (!choosedUser || choosedUser.id !== pId) {
-			actions.setOpponent(pId);
+		if (!choosedUser || choosedUser.id !== pUser.id) {
+            console.log(pUser)
+			actions.setOpponent(pUser);
 		}
 	};
 
 	_getUsersList = () => {
 		const { choosedUser, allUsers } = this.props;
-		let usersList = allUsers.map(item => {
-			const btnClass = cl({
-				"list-group-item list-group-item-action": true,
-				active: choosedUser ? choosedUser.id === item.id && true : false
-			});
-
-			return (
-				<button key={item.id} value={item.id} className={btnClass}>
-					{item.displayName}
-				</button>
-			);
+		let usersList = allUsers.map(user => {
+        const isActive:boolean = choosedUser ? choosedUser.id === user.id && true : false;			
+			return <UserItem user={user} key={user.id} click={this._handlerClick} isActive={isActive} />;
 		});
 
 		return usersList;
@@ -50,7 +43,7 @@ class UsersList extends React.Component<ITicItemProps, ITicItemState> {
 
 	public render() {
 		return (
-			<div className="list-group" onClick={this._handlerClick}>
+			<div className="list-group">
 				{this._getUsersList()}
 			</div>
 		);

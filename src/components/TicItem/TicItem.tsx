@@ -31,18 +31,11 @@ export default class TicItem extends React.Component<
 	};
 
 	public render() {
-		const { className, isEmpty, isAcross } = this.props;
+        const { className, isEmpty, isAcross } = this.props;
+        const Icon = isAcross ? IconCross : IconZero;
 		return (
 			<div className={className} onClick={this._handlerClick}>
-				{!isEmpty ? (
-					isAcross ? (
-						<img src={IconCross} alt="cross" />
-					) : (
-						<img src={IconZero} alt="zero" />
-					)
-				) : (
-					""
-				)}
+				{!isEmpty && <img src={Icon} alt="" />}
 			</div>
 		);
 	}

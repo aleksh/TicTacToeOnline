@@ -55,8 +55,8 @@ export const isWinGame = (pItems: VOTicItem[][], pGameType: number): boolean => 
                     pColumn.push(pItems[j][i]);
                 }
             }
-
-            if (pColumn.length === pGameType) {
+            
+            if (pColumn.length === pGameType) {                            
                 isWin = checkItemsForWin(pColumn, true, pGameType);
                 if (isWin) break;
 
