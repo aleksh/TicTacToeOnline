@@ -108,7 +108,7 @@ class TicTacToe extends React.Component<
         const { isWin, isMyTurn } = this.props;
         
 		return (
-            <> 
+            <>
                 { isWin ? isMyTurn ? <p>You Win</p> : <p>Your opponent</p> : null}
                 <div className={Styles.TicTacToe}>{this._getGameArea()}</div>
             </>

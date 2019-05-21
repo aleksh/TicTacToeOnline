@@ -1,5 +1,5 @@
 // Core
-import { Map, fromJS } from 'immutable';
+import { Map } from 'immutable';
 
 
 //Utils
@@ -11,11 +11,12 @@ isWinGame } from "../../utils/Utils";
 // Types
 import { types } from './types';
 import VOTicItem from '../../VO/VOTicItem';
+import { GAME_TYPES } from '../../utils/Constsnts';
 
 const initialState = Map({
     isPlaying: false,
     amICross: true,
-    type: 3,
+    type: GAME_TYPES[1],
     isMyTurn: true,
     isOpponentTurn: false,
     time: 30,
@@ -23,19 +24,13 @@ const initialState = Map({
     isOponnentWin: false,
     isStepsExist: true,
     isDraw: false,
-    items: initGameItems(3),
+    items: initGameItems(GAME_TYPES[1]),
     stepsCount: 0,
 });
 
-/*
-
-oldContext.merge({
-    "logged": true, 
-    "error": false
-});
-*/
-
 export const gameReducer = (state = initialState, action:any) => {
+    let items:VOTicItem[][];
+    
     switch (action.type) {
         case types.START_GAME:
             return state.set('isPlaying', true);
@@ -43,8 +38,16 @@ export const gameReducer = (state = initialState, action:any) => {
         case types.DRAW_GAME:
             return state.set('isDraw', true);
 
+        case types.CHANGE_GAME_TYPE:
+            items = initGameItems(action.payload) as VOTicItem[][];
+
+            return state.merge({
+                items,
+                type: action.payload                
+            });
+
         case types.SET_CHOICE:
-            const items:VOTicItem[][] = state.get('items') as VOTicItem[][];
+            items = state.get('items') as VOTicItem[][];
             let isMyTurn:boolean = state.get('isMyTurn') as boolean;  
             let type:number = state.get('type') as number;            
             let stepsCount:number = state.get('stepsCount') as number;
@@ -61,17 +64,14 @@ export const gameReducer = (state = initialState, action:any) => {
             }
 
             stepsCount++;
-            const newState = state.merge({
+            return  state.merge({
                 isMyTurn,
                 isStepsExist,
                 items,
                 isDraw,
                 isWin,
                 stepsCount
-            });
-
-            console.log(items);
-            return newState;
+            });                        
 
         default:
             return state;
