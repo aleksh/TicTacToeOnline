@@ -1,5 +1,5 @@
 import VOUser from "./VOUser";
-import { GAME_TYPES } from "../utils/Constsnts";
+import { GAME_TYPES } from "../utils/Constants";
 import { initGameItems } from "../utils/Utils";
 import VOTicItem from "./VOTicItem";
 

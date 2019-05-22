@@ -4,6 +4,7 @@ import TicTacToe from './components/TicTacToe/TicTacToe';
 import GameSettings from './components/GameSettings/GameSettings';
 import UsersList from './components/UsersList/UsersList';
 import UserCard from './components/UserCard/UserCard';
+import Opponents from './components/Opponents/Opponents';
 
 
 const App: React.FC = () => {    
@@ -15,10 +16,7 @@ const App: React.FC = () => {
                 <GameSettings />
                 <TicTacToe />
             </div>
-            <div className="col-2 bd-highlight">USER 2
-                <UserCard/>
-                <UsersList />
-            </div>
+            <Opponents />            
         </div>
     </div>
   );

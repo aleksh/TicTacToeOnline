@@ -1,31 +1,42 @@
 import * as React from "react";
 import cl from "classnames";
 
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
-import VOUser from "../../VO/VOUser";
-
-
-interface ITicItemProps {
-	user:VOUser
+interface IUserCardProps {
+    displayName:string,
+    isOnline:boolean,
+    avatarUrl:string,
+    click:Function,
 }
 
-export interface ITicItemState {}
+interface IUserCardState {}
 
-class UserCard extends React.Component<
-	ITicItemProps,
-	ITicItemState
+export default class UserCard extends React.Component<
+    IUserCardProps,
+    IUserCardState
 > {	
 
+    private _handlerClick = () => {
+        const { click } = this.props;
+        click();
+    }
+
 	public render() {        
-        const { user: { displayName, isOnline, avatarUrl  } } = this.props;        
+        const { displayName, isOnline, avatarUrl } = this.props;   
+          
         const badgeClass = cl({
             "ml-2": true,
             "badge badge-pill": true,
             "badge-success": isOnline,
             "badge-danger": !isOnline,
         });
+
+        const btnClass = cl({
+            "btn  mt-3": true,            
+            "btn-success": isOnline,
+            "btn-secondary": !isOnline,
+        });
+
 		return (
 			<div className="card text-center">
                 <div className="card-header">
@@ -33,27 +44,10 @@ class UserCard extends React.Component<
                     <span className={badgeClass}>&nbsp;</span>
                 </div>                
                 <div className="card-body">                                                            
-                    <img src={avatarUrl} className="card-img-top rounded-circle border border-success w-50" alt={displayName} />
-                    <button type="button" className="btn btn-success mt-3">Play with Me</button>
+                    <img src={avatarUrl} className="card-img-top rounded-circle w-50" alt={displayName} />
+                    <button type="button" disabled = {isOnline ? false : true } onClick={this._handlerClick} className={btnClass}>Play with Me</button>
                 </div>
             </div>
 		);
 	}
 }
-
-const mapStateToProps = (state: any) => {
-	return {
-		user: state.allUsers.get("choosedUser")		
-	};
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-	return {
-//		actions: bindActionCreators({ ...allUsersActions }, dispatch)
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(UserCard);

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 //actions
 import { gameActions } from "../../bus/game/actions";
-import { GAME_TYPES } from "../../utils/Constsnts";
+import { GAME_TYPES } from "../../utils/Constants";
 
 interface IGameSettingsProps {
     type: number;

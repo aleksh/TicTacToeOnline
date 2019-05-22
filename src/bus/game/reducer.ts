@@ -11,7 +11,7 @@ isWinGame } from "../../utils/Utils";
 // Types
 import { types } from './types';
 import VOTicItem from '../../VO/VOTicItem';
-import { GAME_TYPES } from '../../utils/Constsnts';
+import { GAME_TYPES, PC_USERS } from '../../utils/Constants';
 import VOUser from '../../VO/VOUser';
 import { any } from 'prop-types';
 /*
@@ -60,7 +60,17 @@ export const gameReducer = (state = initialState, action:any) => {
 
         /*case types.SET_OPPONENT:
             return state.set('opponentUser', action.payload);*/
-            
+        case types.INVITE_OPPONENT:
+            const opponent:VOUser = action.payload as VOUser;
+
+            if(PC_USERS.filter((user) => user.id === opponent.id).length > 0) {
+                console.log("Play With PC");
+            } else {
+                // invite online User
+            }
+
+            return state.set('isPlaying', true);
+
         case types.CHANGE_GAME_TYPE:
             items = initGameItems(action.payload) as VOTicItem[][];
 
