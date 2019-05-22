@@ -7,39 +7,39 @@ import VOTicItem from "../../VO/VOTicItem";
 
 import PCPlayer from "../../utils/PCPlayer";
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 //actions
-import { gameActions } from '../../bus/game/actions';
+import { gameActions } from "../../bus/game/actions";
+import VOUser from "../../VO/VOUser";
 
 export interface ITicTacToeProps {
     isMyTurn: boolean;
+    choosedUser: VOUser;
 	type: number;
-	items: VOTicItem[][];    
-    isStepsExist: boolean;
-    isWin:boolean;
-    isDraw:boolean;
-    actions:any;
+	items: VOTicItem[][];
+	isStepsExist: boolean;
+	isWin: boolean;
+	isDraw: boolean;
+	isOpponentPC: boolean;
+	isPlaying: boolean;
+	actions: any;
 }
 
 export interface ITicTacToeAppState {}
 
-class TicTacToe extends React.Component<
-	ITicTacToeProps,
-	ITicTacToeAppState
-> {    
-    private _pcPlayer:PCPlayer;    
-    private _timer: NodeJS.Timeout | undefined;
+class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
+	private _pcPlayer: PCPlayer;
+	private _timer: NodeJS.Timeout | undefined;
 
 	constructor(props: ITicTacToeProps) {
 		super(props);
-        
-        this._pcPlayer = new PCPlayer();
+
+		this._pcPlayer = new PCPlayer();
 	}
 
-
-/*	private _reset = (): void => {
+	/*	private _reset = (): void => {
 		// console.log(this.state.gameType);
 		this.setState((prevState, props) => {
 			return {
@@ -49,40 +49,36 @@ class TicTacToe extends React.Component<
 		});
 	};*/
 
-	private _handlerClickItem = (id: number): void => {		
-        console.log(id);
-        const { actions, isMyTurn, isStepsExist, isWin } = this.props;
-        
-        actions.setChoice(id);
-        
-        console.log("isMyTurn" + isMyTurn);
-        if(!isWin && isStepsExist && !isMyTurn === false) {
-            console.log("PC CHOICE")
-            this._timer = setTimeout(() => {
-                this._madePCChoice();
-            }, 1000);
-        }
-    };       
+	private _handlerClickItem = (id: number): void => {
+		console.log(id);
+        const { actions, isOpponentPC, isPlaying, isMyTurn } = this.props;
+                
+        if(isMyTurn && isPlaying) {
+            console.log("Click Click Click");
+            actions.setChoice(id);
 
-    private _madePCChoice = () => {
-        const { items, type, isWin, isDraw } = this.props;
+            if (isOpponentPC && !isMyTurn === false) {
+                console.log("PC CHOICE");
+                this._timer = setTimeout(() => {
+                    this._madePCChoice();
+                }, 2000);
+            }
+        }        
+	};
 
-        if(!isWin && !isDraw ) {
-            console.log("GET PC STEP ==> "+ type);
-            console.log(items);
-            let pId:number = this._pcPlayer.getHardStep(items, type);
-            // let pId:number = this._pcPlayer.getEasyStep(items, gameType);
-            //let pId:number = this._pcPlayer.getMiddleStep(items, gameType);
-        
-            this._handlerClickItem(pId);
-        }
-    }
+	private _madePCChoice = () => {
+		const { actions, items, type, isWin, isDraw, isPlaying, choosedUser } = this.props;
 
-
+		if (!isWin && !isDraw && isPlaying) {
+			console.log("GET PC STEP ==> " + type);		
+			let pId: number = this._pcPlayer.getStepId(items, type, choosedUser);
+			actions.setChoice(pId);
+		}
+	};
 
 	private _getGameArea = (): any => {
 		const { items, isMyTurn } = this.props;
-        
+
 		return items.map((row, rowIndex) => {
 			return (
 				<div className={Styles.row} key={rowIndex}>
@@ -93,8 +89,8 @@ class TicTacToe extends React.Component<
 								id={item.id}
 								click={this._handlerClickItem}
 								isEmpty={item.isEmpty}
-                                isAcross={item.isAcross}
-                                isMyTurn={isMyTurn}
+								isAcross={item.isAcross}
+								isMyTurn={isMyTurn}
 							/>
 						);
 					})}
@@ -104,36 +100,45 @@ class TicTacToe extends React.Component<
 	};
 
 	public render() {
-        const { isDraw, isWin, isMyTurn } = this.props;
-        
+		const { isDraw, isWin, isMyTurn } = this.props;
+
 		return (
-            <>
-                {isDraw && <p>"ничья"</p>}
-                { !isDraw && isWin ? isMyTurn ? <p>You Win</p> : <p>Your opponent</p> : null}
-                <div className={Styles.TicTacToe}>{this._getGameArea()}</div>
-            </>
-        );
+			<>
+				{isDraw && <p>"ничья"</p>}
+				{!isDraw && isWin ? (
+					isMyTurn ? (
+						<p>You Win</p>
+					) : (
+						<p>Your opponent</p>
+					)
+				) : null}
+				<div className={Styles.TicTacToe}>{this._getGameArea()}</div>
+			</>
+		);
 	}
 }
 
-
-
-const mapStateToProps = (state:any) => {
-    return {
-        items:          state.game.get('items'),
-        type:           state.game.get('type'),
-        isWin:          state.game.get('isWin'),
-        isDraw:         state.game.get('isDraw'),
-        isMyTurn:       state.game.get('isMyTurn'),
-        isStepsExist:   state.game.get('isStepsExist'),
-    };
+const mapStateToProps = (state: any) => {
+	return {
+		items: state.game.get("items"),
+		type: state.game.get("type"),
+		isWin: state.game.get("isWin"),
+		isDraw: state.game.get("isDraw"),
+		isMyTurn: state.game.get("isMyTurn"),
+		isStepsExist: state.game.get("isStepsExist"),
+		isPlaying: state.game.get("isPlaying"),
+		isOpponentPC: state.game.get("isOpponentPC"),
+		choosedUser: state.allUsers.get("choosedUser")
+	};
 };
 
-const mapDispatchToProps = (dispatch:any) => {
-    return {
-        actions: bindActionCreators({ ...gameActions }, dispatch),
-    };
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		actions: bindActionCreators({ ...gameActions }, dispatch)
+	};
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(TicTacToe);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(TicTacToe);

@@ -13,7 +13,7 @@ export const checkItemsForWin = (pItems: VOTicItem[], pByAcross: boolean, pGameT
     return isWin;
 }
 
-export const setChoice = (pItems: VOTicItem[][], pId: number, pIsUser: boolean): boolean => {
+export const setChoice = (pItems: VOTicItem[][], pId: number, pIsUser: boolean = false): boolean => {
     let isStepsExist: boolean = false;
     pItems.forEach(row => {
         row.forEach(item => {

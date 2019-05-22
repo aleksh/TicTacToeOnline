@@ -13,7 +13,8 @@ import { allUsersActions } from "../../bus/allUsers/actions";
 interface IOpponentsProps {
 	choosedUser: VOUser;
 	allUsers: VOUser[];
-	actions: any;
+    actions: any;
+    isPlaying:boolean;
 }
 
 interface IOpponentsState {}
@@ -54,7 +55,8 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 const mapStateToProps = (state: any) => {
 	return {
 		choosedUser: state.allUsers.get("choosedUser"),
-		allUsers: state.allUsers.get("allUsers")
+        allUsers: state.allUsers.get("allUsers"),
+        isPlaying: state.game.get("isPlaying"),
 	};
 };
 

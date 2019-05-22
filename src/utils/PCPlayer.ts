@@ -1,10 +1,28 @@
 import VOTicItem from "../VO/VOTicItem";
 
 import { getRandomInt } from "../utils/Utils";
+import VOUser from "../VO/VOUser";
 
 export default class PCPlayer {    
 
-    getEasyStep = (pItems:VOTicItem[][], pGameType:number):number => {
+    public getStepId = (pItems:VOTicItem[][], pGameType:number, pUser:VOUser):number => {
+
+        let pId:number = 1;
+        switch (pUser.id) {
+            case 1:                
+                pId = this._getEasyStep(pItems);
+                break;
+            case 2:                
+                pId = this.getMiddleStep(pItems, pGameType);
+                break;
+            case 3:                
+                pId = this.getHardStep(pItems, pGameType);
+                break;            
+        }
+        return pId;  
+    }
+
+    private _getEasyStep = (pItems:VOTicItem[][]):number => {
         let pAvailableChoices:VOTicItem[] = [];
 
         pItems.forEach((row) => {
@@ -15,19 +33,19 @@ export default class PCPlayer {
         return pRandomId;
     }
 
-    getMiddleStep = (pItems:VOTicItem[][], pGameType:number):number => {
+    private getMiddleStep = (pItems:VOTicItem[][], pGameType:number):number => {
     
         let index:number = getRandomInt(2);
         
         if (index === 1) {            
-            return this.getEasyStep(pItems, pGameType);
+            return this._getEasyStep(pItems);
         } else {
             return this.getHardStep(pItems, pGameType);
         }
 
     }
 
-    getHardStep = (pItems:VOTicItem[][], pGameType:number):number => {
+    private getHardStep = (pItems:VOTicItem[][], pGameType:number):number => {
         let pTopLeft:boolean = !pItems[0][0].isEmpty;
         let pTopRight:boolean = !pItems[0][pGameType-1].isEmpty;
         let pCenter:boolean = !pItems[Math.ceil(pGameType/2)-1][Math.ceil(pGameType/2)-1].isEmpty;
@@ -170,6 +188,6 @@ export default class PCPlayer {
             }            
         }
         
-        return this.getEasyStep(pItems, pGameType);
+        return this._getEasyStep(pItems);
     }
 }

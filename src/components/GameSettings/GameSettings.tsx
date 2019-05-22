@@ -57,7 +57,7 @@ class GameSettings extends React.Component<
 
 const mapStateToProps = (state: any) => {
 	return {
-		type: state.game.get("type")
+        type: state.game.get("type"),
 	};
 };
 

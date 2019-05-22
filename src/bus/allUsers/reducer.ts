@@ -2,7 +2,6 @@
 import { types } from './types';
 import { Map} from 'immutable';
 import { PC_USERS } from '../../utils/Constants';
-import VOUser from '../../VO/VOUser';
 
 const initialState = Map ({
     allUsers: PC_USERS,

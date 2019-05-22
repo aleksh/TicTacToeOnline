@@ -1,10 +1,4 @@
 import * as React from "react";
-
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-
-//actions
-import { allUsersActions } from "../../bus/allUsers/actions";
 import VOUser from "../../VO/VOUser";
 import UserItem from "./UserItem";
 
