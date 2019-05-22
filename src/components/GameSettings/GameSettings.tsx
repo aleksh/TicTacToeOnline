@@ -26,15 +26,18 @@ class GameSettings extends React.Component<
         actions.changeGameType(Number(event.target.value));        
     }
 
-	public render() {
-		const { type, isPlaying } = this.props;
-		const options = GAME_TYPES.map(item => {
+    _getOptions = () => {
+        return GAME_TYPES.map(item => {
 			return (
-				<option value={item.toString()} key={item}>
+				<option value={item} key={item}>
 					{item}
 				</option>
 			);
-		});
+        });
+    }
+
+	public render() {
+		const { type, isPlaying } = this.props;		
 
 		return (
 			<div>
@@ -45,10 +48,10 @@ class GameSettings extends React.Component<
                             className="form-control"
                             id="type"
                             disabled={isPlaying}
-                            value={type.toString()}
+                            value={type}
                             onChange={this._handlerTypeUpdated}
                         >
-                            {options}
+                            {this._getOptions()}
                         </select>                        
                     </div>					
 				</form>
