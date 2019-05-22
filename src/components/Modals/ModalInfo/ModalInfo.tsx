@@ -18,16 +18,14 @@ class ModalInfo extends React.Component<IGameProps, IGameState> {
 		console.log("modal Mount");
 		this._refModal.on("hide.bs.modal", this._handlerClosedPopup);
 	};
-
-	componentWillMount = () => {
-        console.log("modal UN MOUNT");
-		if (this._refModal) {            
-			this._refModal.off("hide.bs.modal");
-		}
-	};
     
     _handlerClosedPopup = () => {
-		const { click } = this.props;
+        const { click } = this.props;
+        
+        if (this._refModal) {            
+			this._refModal.off("hide.bs.modal");
+		}
+
 		click();
 	};
 
