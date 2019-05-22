@@ -36,7 +36,7 @@ class ModalInfo extends React.Component<IGameProps, IGameState> {
             console.log("TIMER in MODAL ");
             setTimeout(() => {
                 this._refModal.modal('show');
-            }, 4000);
+            }, 1000);
         }
     }
 
