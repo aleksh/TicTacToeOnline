@@ -4,6 +4,18 @@ import VOUser from '../../VO/VOUser';
 
 export const gameActions = {
 
+    playWithPC: () => {
+        return {
+            type: types.PLAY_WITH_PC,
+        }
+    },
+
+    resetGame: () => {
+        return {
+            type: types.RESET_GAME,
+        }
+    },
+
     inviteToPlay: (userOpponent:VOUser) => {
         return {
             type: types.INVITE_OPPONENT,

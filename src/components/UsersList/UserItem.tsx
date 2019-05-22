@@ -5,6 +5,7 @@ import cl from "classnames";
 interface ITicItemProps {
 	user: VOUser;
     isActive: boolean;
+    disabled: boolean;
     click:Function;
 }
 
@@ -16,8 +17,8 @@ export default class UserItem extends React.Component<
 > {
 
     private _handlerClick = () => {
-        const { user, click, isActive } = this.props;
-        if(!isActive){
+        const { user, click, isActive, disabled } = this.props;
+        if(!isActive && !disabled){
             click(user);
         }    
     }

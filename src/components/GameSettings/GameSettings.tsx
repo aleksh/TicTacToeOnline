@@ -9,6 +9,7 @@ import { GAME_TYPES } from "../../utils/Constants";
 
 interface IGameSettingsProps {
     type: number;
+    isPlaying:boolean;
     actions: any;
 }
 
@@ -19,17 +20,17 @@ class GameSettings extends React.Component<
 	IGameSettingsProps
 > {
 
-
     _handlerTypeUpdated = (event:any) => {
         const { actions } = this.props;
-        actions.changeGameType(event.target.value);        
+        
+        actions.changeGameType(Number(event.target.value));        
     }
 
 	public render() {
-		const { type } = this.props;
+		const { type, isPlaying } = this.props;
 		const options = GAME_TYPES.map(item => {
 			return (
-				<option value={item} key={item}>
+				<option value={item.toString()} key={item}>
 					{item}
 				</option>
 			);
@@ -43,7 +44,8 @@ class GameSettings extends React.Component<
                         <select
                             className="form-control"
                             id="type"
-                            defaultValue={type.toString()}
+                            disabled={isPlaying}
+                            value={type.toString()}
                             onChange={this._handlerTypeUpdated}
                         >
                             {options}
@@ -58,6 +60,7 @@ class GameSettings extends React.Component<
 const mapStateToProps = (state: any) => {
 	return {
         type: state.game.get("type"),
+        isPlaying: state.game.get("isPlaying"),
 	};
 };
 

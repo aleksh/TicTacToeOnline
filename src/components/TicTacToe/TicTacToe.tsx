@@ -15,14 +15,13 @@ import { gameActions } from "../../bus/game/actions";
 import VOUser from "../../VO/VOUser";
 
 export interface ITicTacToeProps {
-    isMyTurn: boolean;
-    choosedUser: VOUser;
+	isMyTurn: boolean;
+	choosedUser: VOUser;
 	type: number;
 	items: VOTicItem[][];
 	isStepsExist: boolean;
 	isWin: boolean;
 	isDraw: boolean;
-	isOpponentPC: boolean;
 	isPlaying: boolean;
 	actions: any;
 }
@@ -39,39 +38,41 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		this._pcPlayer = new PCPlayer();
 	}
 
-	/*	private _reset = (): void => {
-		// console.log(this.state.gameType);
-		this.setState((prevState, props) => {
-			return {
-				isYourTurn: true,
-				items: initGameItems(prevState.gameType)
-			};
-		});
-	};*/
-
 	private _handlerClickItem = (id: number): void => {
 		console.log(id);
-        const { actions, isOpponentPC, isPlaying, isMyTurn } = this.props;
-                
-        if(isMyTurn && isPlaying) {
-            console.log("Click Click Click");
-            actions.setChoice(id);
+		const { actions, choosedUser, isPlaying, isMyTurn } = this.props;
 
-            if (isOpponentPC && !isMyTurn === false) {
-                console.log("PC CHOICE");
-                this._timer = setTimeout(() => {
-                    this._madePCChoice();
-                }, 2000);
-            }
-        }        
+		if (isMyTurn && isPlaying) {
+			console.log("Click Click Click");
+			actions.setChoice(id);
+
+			if (choosedUser.isPC && !isMyTurn === false) {
+				console.log("PC CHOICE");
+				this._timer = setTimeout(() => {
+					this._madePCChoice();
+				}, 2000);
+			}
+		}
 	};
 
 	private _madePCChoice = () => {
-		const { actions, items, type, isWin, isDraw, isPlaying, choosedUser } = this.props;
+		const {
+			actions,
+			items,
+			type,
+			isWin,
+			isDraw,
+			isPlaying,
+			choosedUser
+		} = this.props;
 
 		if (!isWin && !isDraw && isPlaying) {
-			console.log("GET PC STEP ==> " + type);		
-			let pId: number = this._pcPlayer.getStepId(items, type, choosedUser);
+			console.log("GET PC STEP ==> " + type);
+			let pId: number = this._pcPlayer.getStepId(
+				items,
+				type,
+				choosedUser
+			);
 			actions.setChoice(pId);
 		}
 	};
@@ -100,21 +101,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	};
 
 	public render() {
-		const { isDraw, isWin, isMyTurn } = this.props;
-
-		return (
-			<>
-				{isDraw && <p>"ничья"</p>}
-				{!isDraw && isWin ? (
-					isMyTurn ? (
-						<p>You Win</p>
-					) : (
-						<p>Your opponent</p>
-					)
-				) : null}
-				<div className={Styles.TicTacToe}>{this._getGameArea()}</div>
-			</>
-		);
+		return <div className={Styles.TicTacToe}>{this._getGameArea()}</div>;
 	}
 }
 
@@ -127,7 +114,6 @@ const mapStateToProps = (state: any) => {
 		isMyTurn: state.game.get("isMyTurn"),
 		isStepsExist: state.game.get("isStepsExist"),
 		isPlaying: state.game.get("isPlaying"),
-		isOpponentPC: state.game.get("isOpponentPC"),
 		choosedUser: state.allUsers.get("choosedUser")
 	};
 };

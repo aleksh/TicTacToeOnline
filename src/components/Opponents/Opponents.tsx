@@ -23,7 +23,11 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	_handlerInviteForPlay = () => {
 		const { choosedUser, actions } = this.props;
 
-		actions.inviteToPlay(choosedUser);
+        if(choosedUser.isPC) {
+            actions.playWithPC();    
+        } else {
+            actions.inviteToPlay(choosedUser);
+        }	
 	};
 
 	_handlerSetOpponent = (pUser: VOUser) => {
@@ -32,17 +36,18 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	};
 
 	public render() {
-		const { choosedUser, allUsers } = this.props;
+		const { choosedUser, allUsers, isPlaying } = this.props;
 		return (
-			<div className="col-2 bd-highlight">
-				USER 2
+			<div className="col-2 bd-highlight">				
 				<UserCard
+                    isPlaying = {isPlaying}
 					displayName={choosedUser.displayName}
 					isOnline={choosedUser.isOnline}
 					avatarUrl={choosedUser.avatarUrl}
 					click={this._handlerInviteForPlay}
 				/>
 				<UsersList
+                    isPlaying = {isPlaying}
 					choosedUser={choosedUser}
 					allUsers={allUsers}
 					click={this._handlerSetOpponent}
