@@ -26,7 +26,7 @@ export default class UserItem extends React.Component<
         const { user, isActive } = this.props;
         const btnClass = cl({
             "list-group-item list-group-item-action": true,
-            active: isActive
+            "active": isActive
         });
 		return (
 			<button value={user.id} className={btnClass} onClick={this._handlerClick}>

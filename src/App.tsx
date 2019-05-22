@@ -3,6 +3,7 @@ import Styles from './App.module.scss';
 import TicTacToe from './components/TicTacToe/TicTacToe';
 import GameSettings from './components/GameSettings/GameSettings';
 import UsersList from './components/UsersList/UsersList';
+import UserCard from './components/UserCard/UserCard';
 
 
 const App: React.FC = () => {    
@@ -15,6 +16,7 @@ const App: React.FC = () => {
                 <TicTacToe />
             </div>
             <div className="col-2 bd-highlight">USER 2
+                <UserCard/>
                 <UsersList />
             </div>
         </div>

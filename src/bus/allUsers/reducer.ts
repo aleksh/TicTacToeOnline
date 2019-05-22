@@ -6,7 +6,7 @@ import VOUser from '../../VO/VOUser';
 
 const initialState = Map ({
     allUsers: PC_USERS,
-    choosedUser: {},
+    choosedUser: PC_USERS[0],
 });
 
 export const allUsersReducer = (state = initialState, action:any) => {
