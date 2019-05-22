@@ -13,6 +13,8 @@ import { connect } from "react-redux";
 //actions
 import { gameActions } from "../../bus/game/actions";
 import VOUser from "../../VO/VOUser";
+import ModalInfo from "../Modals/ModalInfo/ModalInfo";
+import { actionChannel } from "redux-saga/effects";
 
 export interface ITicTacToeProps {
 	isMyTurn: boolean;
@@ -100,8 +102,37 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		});
 	};
 
+    private _resetGame = () => {
+        const { actions } = this.props;
+        actions.resetGame();
+    }
+
+    
+    _getMessage = ():string => {
+        const { isMyTurn, isWin, isDraw } = this.props;
+        let message: string = "";
+        console.log("GET MESSAGE");
+        console.log("isDraw "+isDraw);
+        console.log("isWin "+isWin);
+
+		isDraw && (message = "DRAW !!!!");
+		isWin && isMyTurn
+			? (message = "YOU WIN !!!!")
+            : (message = "YOU LOSE !!!");
+            
+        return message;
+    }
+
 	public render() {
-		return <div className={Styles.TicTacToe}>{this._getGameArea()}</div>;
+        const { isWin, isDraw } = this.props;
+        const showPopup = isWin || isDraw;
+        console.log(showPopup);
+		return (
+			<>
+				{showPopup && <ModalInfo show={true} message={this._getMessage()} click={this._resetGame} />}
+				<div className={Styles.TicTacToe}>{this._getGameArea()}</div>;
+			</>
+		);
 	}
 }
 

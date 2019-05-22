@@ -1,23 +1,16 @@
 import * as React from "react";
 import $ from "jquery";
 
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-
-//actions
-import { gameActions } from "../../../bus/game/actions";
-
 interface IGameProps {
-	isMyTurn: boolean;
-	isWin: boolean;
-	isDraw: boolean;
-	actions: any;
+    message: string;
+    show: boolean;
+	click:Function;
 }
 
 interface IGameState {}
 
 class ModalInfo extends React.Component<IGameProps, IGameState> {
-	private _refModal!: JQuery<HTMLElement>;
+    private _refModal!: JQuery<HTMLElement>;
 
 	componentDidMount = () => {
 		this._refModal = $("#modalInfo");
@@ -27,39 +20,33 @@ class ModalInfo extends React.Component<IGameProps, IGameState> {
 	};
 
 	componentWillMount = () => {
-		if (this._refModal) {
+        console.log("modal UN MOUNT");
+		if (this._refModal) {            
 			this._refModal.off("hide.bs.modal");
 		}
 	};
-
-	_handlerClosedPopup = () => {
-		const { actions } = this.props;
-		actions.resetGame();
+    
+    _handlerClosedPopup = () => {
+		const { click } = this.props;
+		click();
 	};
 
     _showModal = () => {
-        const { isWin, isDraw } = this.props;
+        const { show } = this.props;
 
-        if(isWin || isDraw) {
-            this._refModal.modal('show');
+        if(show) {
+            console.log("TIMER in MODAL ");
+            setTimeout(() => {
+                this._refModal.modal('show');
+            }, 4000);
         }
     }
 
-    _getMessage = ():string => {
-        const { isMyTurn, isWin, isDraw } = this.props;
-		let message: string = "";
-		isDraw && (message = "DRAW !!!!");
-		isWin && isMyTurn
-			? (message = "YOU WIN !!!!")
-            : (message = "YOU LOSE !!!");
-            
-        return message;
-    }
-
 	public render() {		
-        let message: string = this._getMessage();
+        const { message } = this.props;
         this._showModal();
 
+        console.log("RenderModal")
 		return (
 			<div
 				className="modal fade"
@@ -97,22 +84,4 @@ class ModalInfo extends React.Component<IGameProps, IGameState> {
 		);
 	}
 }
-
-const mapStateToProps = (state: any) => {
-	return {
-		isWin: state.game.get("isWin"),
-		isDraw: state.game.get("isDraw"),
-		isMyTurn: state.game.get("isMyTurn")
-	};
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-	return {
-		actions: bindActionCreators({ ...gameActions }, dispatch)
-	};
-};
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(ModalInfo);
+export default ModalInfo;

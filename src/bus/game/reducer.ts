@@ -23,6 +23,7 @@ const initialState = Map({
     time: 30,
     isStepsExist: true,
     isDraw: false,
+    isWin: false,
     items: initGameItems(GAME_TYPES[1]),
     stepsCount: 0,
 });
@@ -47,6 +48,7 @@ export const gameReducer = (state = initialState, action: any) => {
                 time: 30,
                 isStepsExist: true,
                 isDraw: false,
+                isWin: false,
                 items: initGameItems(GAME_TYPES[1]),
                 stepsCount: 0,
             });
