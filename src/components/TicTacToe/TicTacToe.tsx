@@ -1,4 +1,5 @@
 import * as React from "react";
+import cl from "classnames";
 
 // Styles
 import Styles from "./TixTacToe.module.scss";
@@ -14,7 +15,6 @@ import { connect } from "react-redux";
 import { gameActions } from "../../bus/game/actions";
 import VOUser from "../../VO/VOUser";
 import ModalInfo from "../Modals/ModalInfo/ModalInfo";
-import { actionChannel } from "redux-saga/effects";
 
 export interface ITicTacToeProps {
 	isMyTurn: boolean;
@@ -82,24 +82,20 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	private _getGameArea = (): any => {
 		const { items, isMyTurn } = this.props;
 
-		return items.map((row, rowIndex) => {
-			return (
-				<div className={Styles.row} key={rowIndex}>
-					{row.map(item => {
-						return (
-							<TicItem
-								key={item.id}
-								id={item.id}
-								done={item.done}
-								click={this._handlerClickItem}
-								isEmpty={item.isEmpty}
-								isAcross={item.isAcross}
-								isMyTurn={isMyTurn}
-							/>
-						);
-					})}
-				</div>
-			);
+		return items.map(row => {
+			return row.map(item => {
+				return (
+					<TicItem
+						key={item.id}
+						id={item.id}
+						done={item.done}
+						click={this._handlerClickItem}
+						isEmpty={item.isEmpty}
+						isAcross={item.isAcross}
+						isMyTurn={isMyTurn}
+					/>
+				);
+			});
 		});
 	};
 
@@ -111,10 +107,6 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	_getMessage = (): string => {
 		const { isMyTurn, isWin, isDraw } = this.props;
 		let message: string = "";
-		console.log("GET MESSAGE");
-		console.log("isDraw " + isDraw);
-		console.log("isWin " + isWin);
-
 		isDraw
 			? (message = "DRAW !!!!")
 			: isWin && isMyTurn
@@ -125,9 +117,15 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	};
 
 	public render() {
-		const { isWin, isDraw } = this.props;
+		const { isWin, isDraw, type } = this.props;
 		const showPopup = isWin || isDraw;
-		console.log(showPopup);
+
+		const gameClass = cl({
+			[Styles.TicTacToe3]: type === 3,
+			[Styles.TicTacToe5]: type === 5,
+			[Styles.TicTacToe7]: type === 7,
+		});
+
 		return (
 			<>
 				{showPopup && (
@@ -137,7 +135,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 						click={this._resetGame}
 					/>
 				)}
-				<div className={Styles.TicTacToe}>{this._getGameArea()}</div>;
+				<div className={gameClass}>{this._getGameArea()}</div>
 			</>
 		);
 	}

@@ -5,10 +5,8 @@ import Game from "./components/Game/Game";
 const App: React.FC = () => {
 	return (
         <>            
-            <div className="container-fluid">
-            <div className="row">                
-                </div>
-                <div className="row">
+            <div className="container-fluid">            
+                <div className="row justify-content-center">
                     <div className="col-2 bd-highlight">USER 1</div>				
                     <Game />
                     <Opponents />                    

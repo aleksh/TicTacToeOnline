@@ -1,4 +1,5 @@
 import * as React from "react";
+import cl from "classnames";
 
 //Icons
 import  { ReactComponent as IconCross } from "../../assets/image/icons8-delete-filled.svg";
@@ -33,11 +34,17 @@ export default class TicItem extends React.Component<
     
 	public render() {
 		const { className, isEmpty, isAcross, done } = this.props;
-        const Icon = isAcross ? IconCross : IconZero;
-        const imgClass = done ? "green" : "";
+        const Icon = isAcross ? IconCross : IconZero;        
+
+        const imgClass = cl({
+            "green": done,
+            "invisible": isEmpty,
+        });
+
+
 		return (
-			<div className={className} onClick={this._handlerClick}>
-				{!isEmpty && <Icon  className={imgClass}/>}
+			<div className={className} onClick={this._handlerClick}>                
+				<Icon className={imgClass}/>
 			</div>
 		);
 	}

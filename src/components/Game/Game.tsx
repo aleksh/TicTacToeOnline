@@ -18,7 +18,7 @@ interface IGameState {}
 class Game extends React.Component<IGameProps, IGameState> {
 	public render() {		
 		return (
-			<div className="col-8 bd-highlight">
+			<div className="col-4 bd-highlight">
 				<GameSettings />
 			    <TicTacToe />
 			</div>
