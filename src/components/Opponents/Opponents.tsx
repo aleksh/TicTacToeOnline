@@ -1,14 +1,14 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { allUsersActions } from "../../bus/allUsers/actions";
+import { gameActions } from "../../bus/game/actions";
+import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
 import UsersList from "../UsersList/UsersList";
 
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
-import VOUser from "../../VO/VOUser";
 
-import { gameActions } from "../../bus/game/actions";
-import { allUsersActions } from "../../bus/allUsers/actions";
 
 interface IOpponentsProps {
 	choosedUser: VOUser;
@@ -44,7 +44,8 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 					displayName={choosedUser.displayName}
 					isOnline={choosedUser.isOnline}
 					avatarUrl={choosedUser.avatarUrl}
-					click={this._handlerInviteForPlay}
+                    click={this._handlerInviteForPlay}
+                    btnTitle={"Play with Me"}
 				/>
 				<UsersList
                     isPlaying = {isPlaying}

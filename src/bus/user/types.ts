@@ -1,8 +1,7 @@
 export const types = {
     // Sync
-    LOGIN:  'LOGIN',    
-    LOGOUT:  'LOGOUT',
-    
+    SET_USER: "SET_USER",    
+
     // Async    
-    LOGIN_ASYNC: 'LOGIN_ASYNC'
+    
 };

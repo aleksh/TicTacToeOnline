@@ -8,14 +8,14 @@ export default class PCPlayer {
     public getStepId = (pItems:VOTicItem[][], pGameType:number, pUser:VOUser):number => {
 
         let pId:number = 1;
-        switch (pUser.id) {
-            case 1:                
+        switch (pUser.uid) {
+            case "1":                
                 pId = this._getEasyStep(pItems);
                 break;
-            case 2:                
+            case "2":                
                 pId = this.getMiddleStep(pItems, pGameType);
                 break;
-            case 3:                
+            case "3":                
                 pId = this.getHardStep(pItems, pGameType);
                 break;            
         }

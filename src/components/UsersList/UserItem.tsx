@@ -30,7 +30,7 @@ export default class UserItem extends React.Component<
             "active": isActive
         });
 		return (
-			<button value={user.id} className={btnClass} onClick={this._handlerClick}>
+			<button value={user.uid} className={btnClass} onClick={this._handlerClick}>
 				{user.displayName}
 			</button>
 		);

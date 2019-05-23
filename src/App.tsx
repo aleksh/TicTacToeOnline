@@ -1,14 +1,14 @@
 import React from "react";
 import Opponents from "./components/Opponents/Opponents";
 import Game from "./components/Game/Game";
-import CurrentUser from "./components/CurrentUser/CurrentUser";
+import User from "./components/User/User";
 
 const App: React.FC = () => {
 	return (
         <>            
             <div className="container-fluid">            
                 <div className="row justify-content-center">
-                    <CurrentUser />                    
+                    <User />                 
                     <Game />
                     <Opponents />                    
                 </div>

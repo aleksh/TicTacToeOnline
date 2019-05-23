@@ -8,8 +8,9 @@ interface IUserCardProps {
     displayName:string,
     isOnline:boolean,
     avatarUrl:string,
+    btnTitle:string,
     click?:Function,
-    isPlaying: boolean,
+    isPlaying?: boolean,
 }
 
 interface IUserCardState {}
@@ -27,7 +28,7 @@ export default class UserCard extends React.Component<
     }
 
 	public render() {        
-        const { displayName, isOnline, avatarUrl, isPlaying } = this.props;   
+        const { displayName, isOnline, avatarUrl, isPlaying, btnTitle } = this.props;   
           
         const badgeClass = cl({
             "ml-2": true,
@@ -55,7 +56,7 @@ export default class UserCard extends React.Component<
                 </div>                
                 <div className="card-body">                                                            
                     <img src={avatarUrl} className={imgClass} alt={displayName} />
-                    <p><button type="button" disabled = {isOnline ? false : true } onClick={this._handlerClick} className={btnClass}>Play with Me</button></p>
+                    <p><button type="button" disabled = {isOnline ? false : true } onClick={this._handlerClick} className={btnClass}>{btnTitle}</button></p>
                 </div>
             </div>
 		);

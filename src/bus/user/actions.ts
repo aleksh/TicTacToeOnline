@@ -1,22 +1,15 @@
 // Types
 import { types } from './types';
+import VOUser from '../../VO/VOUser';
 
 export const userActions = {
     
     // Sync
-    login: (user:any) => {
+    setUser: (user:VOUser) => {
         return {
-            type:    types.LOGIN,
+            type:    types.SET_USER,
             payload: user,
         };
     },    
-
-    // Async
-    loginAsync: (data:any) => {
-        return {
-            type:       types.LOGIN_ASYNC,
-            payload:    data
-        }
-    },   
     
 }

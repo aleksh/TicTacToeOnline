@@ -19,13 +19,13 @@ export default class UsersList extends React.Component<
 		const { choosedUser, allUsers, click, isPlaying } = this.props;
 		let usersList = allUsers.map(user => {
 			const isActive: boolean = choosedUser
-				? choosedUser.id === user.id && true
+				? choosedUser.uid === user.uid && true
 				: false;
 			return (
 				<UserItem
                     disabled = {isPlaying}
 					user={user}
-					key={user.id}
+					key={user.uid}
 					click={click}
 					isActive={isActive}
 				/>
