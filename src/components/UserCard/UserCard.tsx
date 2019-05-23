@@ -1,12 +1,14 @@
 import * as React from "react";
 import cl from "classnames";
 
+import Styles from './UserCard.module.scss';
+
 
 interface IUserCardProps {
     displayName:string,
     isOnline:boolean,
     avatarUrl:string,
-    click:Function,
+    click?:Function,
     isPlaying: boolean,
 }
 
@@ -19,7 +21,9 @@ export default class UserCard extends React.Component<
 
     private _handlerClick = () => {
         const { click } = this.props;
-        click();
+        if(click) {
+            click();
+        }
     }
 
 	public render() {        
@@ -33,10 +37,15 @@ export default class UserCard extends React.Component<
         });
 
         const btnClass = cl({
-            "btn  mt-3": true,            
+            "btn mt-3": true,            
             "btn-success": isOnline && !isPlaying,
             "btn-secondary": !isOnline || (isOnline && isPlaying),
         });
+
+        const imgClass = cl({
+            "card-img-top rounded-circle": true,            
+            [Styles.userAvatar] : true,
+        });        
 
 		return (
 			<div className="card text-center">
@@ -45,7 +54,7 @@ export default class UserCard extends React.Component<
                     <span className={badgeClass}>&nbsp;</span>
                 </div>                
                 <div className="card-body">                                                            
-                    <img src={avatarUrl} className="card-img-top rounded-circle w-50" alt={displayName} />
+                    <img src={avatarUrl} className={imgClass} alt={displayName} />
                     <p><button type="button" disabled = {isOnline ? false : true } onClick={this._handlerClick} className={btnClass}>Play with Me</button></p>
                 </div>
             </div>
