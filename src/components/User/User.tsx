@@ -17,7 +17,26 @@ interface IUserProps {
 interface IUserState {}
 
 class User extends React.Component<IUserProps, IUserState> {
-	private _handlerLogin = () => {
+    
+    
+    componentDidMount = () => {
+        const { actions } = this.props;
+
+        auth.onAuthStateChanged((user:any) => {
+          if (user) {
+            const pUser: VOUser = new VOUser(
+                user.uid,
+                user.displayName,
+                user.photoURL
+            );
+
+            console.log("Check if user logged in");
+            actions.setUser(pUser);
+          } 
+        });
+    }
+    
+    _handlerLogin = () => {
 		const { actions } = this.props;
 		console.log("click Login");
 		auth.signInWithPopup(providerFacebook)
