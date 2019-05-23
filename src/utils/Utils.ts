@@ -1,6 +1,6 @@
 import VOTicItem from "../VO/VOTicItem";
 
-export const getRandomInt = (max:number) => {
+export const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
@@ -8,7 +8,8 @@ export const checkItemsForWin = (pItems: VOTicItem[], pByAcross: boolean, pGameT
     let pFilteredItems: VOTicItem[] = pItems.filter(item => !item.isEmpty && item.isAcross === pByAcross);
     let isWin: boolean = pFilteredItems.length === pGameType;
     if (isWin) {
-     //   console.log("Win By => " + pByAcross);
+        pFilteredItems.forEach((item) => { item.done = true; })
+        //   console.log("Win By => " + pByAcross);
     }
     return isWin;
 }
@@ -55,8 +56,8 @@ export const isWinGame = (pItems: VOTicItem[][], pGameType: number): boolean => 
                     pColumn.push(pItems[j][i]);
                 }
             }
-            
-            if (pColumn.length === pGameType) {                            
+
+            if (pColumn.length === pGameType) {
                 isWin = checkItemsForWin(pColumn, true, pGameType);
                 if (isWin) break;
 
@@ -102,28 +103,28 @@ export const isWinGame = (pItems: VOTicItem[][], pGameType: number): boolean => 
 }
 
 export const checkDraw = (pItems: VOTicItem[][], pGameType: number): boolean => {
-    let isDraw:boolean  = false;
+    let isDraw: boolean = false;
 
-    let rowsDraw:boolean[] = [];
-    let colsDraw:boolean[] = [];
+    let rowsDraw: boolean[] = [];
+    let colsDraw: boolean[] = [];
 
-    let rowDraw:boolean = false;
-    let colDraw:boolean = false;
-    let crossLeftDraw:boolean = false;
-    let crossRightDraw:boolean = false;
-    
+    let rowDraw: boolean = false;
+    let colDraw: boolean = false;
+    let crossLeftDraw: boolean = false;
+    let crossRightDraw: boolean = false;
+
     //check rows
-    for (let i:number = 0; i < pItems.length; i++){
-        let pRow:VOTicItem[] = pItems[i];
+    for (let i: number = 0; i < pItems.length; i++) {
+        let pRow: VOTicItem[] = pItems[i];
 
-        let pCrossRow:VOTicItem[] = pRow.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
-        let pCircleRow:VOTicItem[] = pRow.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
+        let pCrossRow: VOTicItem[] = pRow.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
+        let pCircleRow: VOTicItem[] = pRow.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
 
         if (pCrossRow.length > 0 && pCircleRow.length > 0) {
             rowsDraw.push(false);
         } else {
             rowsDraw.push(true);
-        }        
+        }
     }
     console.log("rowsDraw");
     console.log(rowsDraw);
@@ -132,13 +133,13 @@ export const checkDraw = (pItems: VOTicItem[][], pGameType: number): boolean => 
     //check cols
     for (let i: number = 0; i < pGameType; i++) {
         let pColumn: VOTicItem[] = [];
-        
-        for (let j: number = 0; j < pGameType; j++) {
-            pColumn.push(pItems[j][i]);  
-        }        
 
-        let pCrossCol:VOTicItem[] = pColumn.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
-        let pCircleCol:VOTicItem[] = pColumn.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
+        for (let j: number = 0; j < pGameType; j++) {
+            pColumn.push(pItems[j][i]);
+        }
+
+        let pCrossCol: VOTicItem[] = pColumn.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
+        let pCircleCol: VOTicItem[] = pColumn.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
 
         if (pCrossCol.length > 0 && pCircleCol.length > 0) {
             colsDraw.push(false);
@@ -156,15 +157,15 @@ export const checkDraw = (pItems: VOTicItem[][], pGameType: number): boolean => 
     let pLeftCross: VOTicItem[] = [];
     let pRightCross: VOTicItem[] = [];
 
-    for (let i: number = 0; i < pGameType; i++) {        
+    for (let i: number = 0; i < pGameType; i++) {
         pLeftCross.push(pItems[i][i]);
         pRightCross.push(pItems[pGameType - 1 - i][i]);
     }
 
     // left Cross
-    let pLeftCrossCheck:VOTicItem[] = pLeftCross.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
-    let pLeftCircleCheck:VOTicItem[] = pLeftCross.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
-    
+    let pLeftCrossCheck: VOTicItem[] = pLeftCross.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
+    let pLeftCircleCheck: VOTicItem[] = pLeftCross.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
+
     if (pLeftCrossCheck.length > 0 && pLeftCircleCheck.length > 0) {
         crossLeftDraw = true;
     } else {
@@ -172,26 +173,26 @@ export const checkDraw = (pItems: VOTicItem[][], pGameType: number): boolean => 
     }
 
     // right Cross
-    let pRightCrossCheck:VOTicItem[] = pRightCross.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
-    let pRightCircleCheck:VOTicItem[] = pRightCross.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
-    
+    let pRightCrossCheck: VOTicItem[] = pRightCross.filter((pItem) => !pItem.isEmpty && pItem.isAcross);
+    let pRightCircleCheck: VOTicItem[] = pRightCross.filter((pItem) => !pItem.isEmpty && !pItem.isAcross);
+
     if (pRightCrossCheck.length > 0 && pRightCircleCheck.length > 0) {
         crossRightDraw = true;
     } else {
         crossRightDraw = false;
     }
-        
+
     rowDraw = (rowsDraw.filter((item) => item === true).length > 0) ? false : true;
     colDraw = (colsDraw.filter((item) => item === true).length > 0) ? false : true;
 
-   /* console.log("rowDraw => "+rowDraw);
-    console.log("colDraw => "+colDraw);
-    console.log("crossRightDraw => "+crossRightDraw);
-    console.log("crossLeftDraw => "+crossLeftDraw);
-*/
+    /* console.log("rowDraw => "+rowDraw);
+     console.log("colDraw => "+colDraw);
+     console.log("crossRightDraw => "+crossRightDraw);
+     console.log("crossLeftDraw => "+crossLeftDraw);
+ */
     isDraw = crossRightDraw && crossLeftDraw && rowDraw && colDraw;
 
-  //  console.log("isDraw => "+isDraw);
+    //  console.log("isDraw => "+isDraw);
 
     return isDraw;
 }

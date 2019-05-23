@@ -90,6 +90,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 							<TicItem
 								key={item.id}
 								id={item.id}
+								done={item.done}
 								click={this._handlerClickItem}
 								isEmpty={item.isEmpty}
 								isAcross={item.isAcross}
@@ -102,34 +103,40 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		});
 	};
 
-    private _resetGame = () => {
-        const { actions } = this.props;
-        actions.resetGame();
-    }
+	private _resetGame = () => {
+		const { actions } = this.props;
+		actions.resetGame();
+	};
 
-    
-    _getMessage = ():string => {
-        const { isMyTurn, isWin, isDraw } = this.props;
-        let message: string = "";
-        console.log("GET MESSAGE");
-        console.log("isDraw "+isDraw);
-        console.log("isWin "+isWin);
+	_getMessage = (): string => {
+		const { isMyTurn, isWin, isDraw } = this.props;
+		let message: string = "";
+		console.log("GET MESSAGE");
+		console.log("isDraw " + isDraw);
+		console.log("isWin " + isWin);
 
-		isDraw && (message = "DRAW !!!!");
-		isWin && isMyTurn
+		isDraw
+			? (message = "DRAW !!!!")
+			: isWin && isMyTurn
 			? (message = "YOU WIN !!!!")
-            : (message = "YOU LOSE !!!");
-            
-        return message;
-    }
+			: (message = "YOU LOSE !!!");
+
+		return message;
+	};
 
 	public render() {
-        const { isWin, isDraw } = this.props;
-        const showPopup = isWin || isDraw;
-        console.log(showPopup);
+		const { isWin, isDraw } = this.props;
+		const showPopup = isWin || isDraw;
+		console.log(showPopup);
 		return (
 			<>
-				{showPopup && <ModalInfo show={true} message={this._getMessage()} click={this._resetGame} />}
+				{showPopup && (
+					<ModalInfo
+						show={true}
+						message={this._getMessage()}
+						click={this._resetGame}
+					/>
+				)}
 				<div className={Styles.TicTacToe}>{this._getGameArea()}</div>;
 			</>
 		);

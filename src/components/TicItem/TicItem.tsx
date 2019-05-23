@@ -1,16 +1,17 @@
 import * as React from "react";
 
 //Icons
-import IconCross from "../../assets/image/icons8-delete-filled.svg";
-import IconZero from "../../assets/image/icons8-round-filled.svg";
+import  { ReactComponent as IconCross } from "../../assets/image/icons8-delete-filled.svg";
+import { ReactComponent as IconZero} from "../../assets/image/icons8-round-filled.svg";
 
 interface ITicItemProps {
 	className?: string;
 	isAcross?: boolean;
 	isEmpty: boolean;
 	id: number;
-    click: Function;
-    isMyTurn: boolean;
+	click: Function;
+	isMyTurn: boolean;
+	done: boolean;
 }
 
 export interface ITicItemState {}
@@ -23,19 +24,20 @@ export default class TicItem extends React.Component<
 		super(props);
 	}
 
-	_handlerClick = ():void => {
-        const { click, id, isEmpty, isMyTurn } = this.props;
-        if (isEmpty && isMyTurn) {
-            click(id);
-        }
-	};
-
+	_handlerClick = (): void => {
+		const { click, id, isEmpty, isMyTurn } = this.props;
+		if (isEmpty && isMyTurn) {
+			click(id);
+		}
+    };
+    
 	public render() {
-        const { className, isEmpty, isAcross } = this.props;
+		const { className, isEmpty, isAcross, done } = this.props;
         const Icon = isAcross ? IconCross : IconZero;
+        const imgClass = done ? "green" : "";
 		return (
 			<div className={className} onClick={this._handlerClick}>
-				{!isEmpty && <img src={Icon} alt="" />}
+				{!isEmpty && <Icon  className={imgClass}/>}
 			</div>
 		);
 	}
