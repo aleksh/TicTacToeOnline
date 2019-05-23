@@ -23,4 +23,8 @@ code {
     color: green;
 }
 
+.userCol {   
+    min-width: 230px;    
+}
+
 

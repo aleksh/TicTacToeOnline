@@ -7,7 +7,7 @@ const App: React.FC = () => {
         <>            
             <div className="container-fluid">            
                 <div className="row justify-content-center">
-                    <div className="col-2 bd-highlight">USER 1</div>				
+                    <div className="bd-highlight">USER 1</div>				
                     <Game />
                     <Opponents />                    
                 </div>

@@ -38,7 +38,7 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	public render() {
 		const { choosedUser, allUsers, isPlaying } = this.props;
 		return (
-			<div className="col-2 bd-highlight">				
+			<div className="bd-highlight userCol">				
 				<UserCard
                     isPlaying = {isPlaying}
 					displayName={choosedUser.displayName}
