@@ -43,7 +43,7 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
                     isPlaying = {isPlaying}
 					displayName={choosedUser.displayName}
 					isOnline={choosedUser.isOnline}
-					avatarUrl={choosedUser.avatarUrl}
+					avatarUrl={choosedUser.photoURL}
                     click={this._handlerInviteForPlay}
                     btnTitle={"Play with Me"}
 				/>

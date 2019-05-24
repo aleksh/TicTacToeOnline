@@ -10,5 +10,13 @@ export const allUsersActions = {
             payload: pUser,
         };
     },
+
+
+    updateUsers: (pUsers:VOUser[]) => {
+        return {
+            type: types.UPDATE_USERS_LIST,
+            payload: pUsers,
+        }
+    },
     
 }

@@ -26,7 +26,7 @@ class User extends React.Component<IUserProps, IUserState> {
 					displayName={user.displayName}
 					isOnline={true}
 					btnTitle={"Login"}
-					avatarUrl={user.avatarUrl}
+					avatarUrl={user.photoURL}
 				/>
 			</div>
 		);

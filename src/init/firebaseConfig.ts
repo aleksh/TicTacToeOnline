@@ -1,6 +1,5 @@
 import firebase from 'firebase';
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyBApghjyCca6umqEEJ-rc_R41h92Ixuqp8",
     authDomain: "tic-tac-game-504c0.firebaseapp.com",
