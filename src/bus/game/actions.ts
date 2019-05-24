@@ -10,6 +10,13 @@ export const gameActions = {
         }
     },
 
+    playWithUser: (value:any) => {
+        return {
+            type: types.PLAY_WITH_USER,
+            payload: value,
+        }
+    },
+
     resetGame: () => {
         return {
             type: types.RESET_GAME,

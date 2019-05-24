@@ -6,12 +6,14 @@ import { auth, providerFacebook, fb } from "./init/firebaseConfig";
 
 import { userActions } from "./bus/user/actions";
 import { allUsersActions } from "./bus/allUsers/actions";
+import { gameActions } from "./bus/game/actions";
 import VOUser from "./VO/VOUser";
 import User from "./components/User/User";
 import Game from "./components/Game/Game";
 import Opponents from "./components/Opponents/Opponents";
 
 interface IAppProps {
+	isMyTurn: boolean;
 	user: VOUser;
 	actions: any;
 }
@@ -23,36 +25,101 @@ class App extends React.Component<IAppProps, IAppState> {
 		//auth.signOut();
 		// need add is Loading state for user global
 		auth.onAuthStateChanged((user: any) => {
-			console.log("Check if user logged in");
-			console.log(user);
+			//	console.log("Check if user logged in");
+			//	console.log(user);
 			if (user) {
 				this._checkIfUserExistIDB(user);
+				this._addListenersForGame();
 			}
 		});
+	};
 
+	_addListenersForGame = () => {
 		/// get all users for users List
 		var starCountRef = fb.database().ref("users");
 		starCountRef.on("value", snapshot => {
-			console.log("get Users List");
 			let usersList: VOUser[] = [];
 			if (snapshot.exists()) {
 				snapshot.forEach(child => {
 					usersList.push(child.val() as VOUser);
 				});
 
-				let userId: any = auth.currentUser!.uid;
+				const userId: any = auth.currentUser!.uid;
 				if (auth.currentUser && auth.currentUser.uid) {
 					usersList = usersList.filter(item => item.uid !== userId);
 				}
-				console.log(usersList);
 				this.props.actions.updateUsers(usersList);
+			}
+		});
+
+		let gameId: any = "";
+		//////////////////////////check for game invite
+		const gamesRef = fb.database().ref("games");
+		let isItFirstUser = false;
+
+		gamesRef.on("value", snapshot => {
+			if (snapshot.exists()) {
+				//check if user isnot playing
+				const userId: any = auth.currentUser!.uid;
+				let opponentUser: any;
+				console.log("check GAMES");
+				snapshot.forEach(child => {
+					if (child.val().player2.uid === userId) {
+						gameId = child.key;
+						opponentUser = child.val().player1;
+						//Accept Invite
+					} else if (child.val().player1.uid === userId) {
+						/// need refactro fro first user get game id from store
+						gameId = child.key;
+						isItFirstUser = true;
+					}
+				});
+
+				console.log(" GAME KEY ");
+				console.log(gameId);
+				if (String(gameId).length > 0) {
+					console.log(" ccccccccccccccccccccccccccc ");
+					//unsubscribe from games by the end of game
+					gamesRef.off();
+
+					if (!isItFirstUser) {
+						this.props.actions.setOpponent(opponentUser);
+						//console.log("invitedMe");
+						// console.log("DECLINE GAME");
+						//fb.database().ref(`games/${gameKey}`).remove();
+
+						console.log("APP START PlayGame");
+						fb.database()
+							.ref(`games/${gameId}`)
+							.child("isPlaying")
+							.set(true);
+
+						this.props.actions.playWithUser({
+							gameId,
+							isMyTurn: false,
+							amICross: false
+						});
+					}
+
+					fb.database()
+						.ref(`games/${gameId}`)
+						.child("stepId")
+						.on("value", snapshot => {
+							console.log("STEPID ");
+							console.log(this.props.isMyTurn);
+							console.log(snapshot.val());
+							if (!this.props.isMyTurn && snapshot.val() !== 0) {
+								this.props.actions.setChoice(snapshot.val());
+							}
+						});
+				}
 			}
 		});
 	};
 
 	_checkIfUserExistIDB = (user: any) => {
-		console.log("_checkIfUserExistIDB");
-		console.log(user);
+		//	console.log("_checkIfUserExistIDB");
+		//	console.log(user);
 
 		if (user) {
 			fb.database()
@@ -61,32 +128,20 @@ class App extends React.Component<IAppProps, IAppState> {
 				.then(snapshot => {
 					var pIsUser = snapshot.val();
 					if (pIsUser) {
-						console.log("_setUpUser 3333333333333333333");
 						this._setUpUser(pIsUser);
-						console.log("User exist");
 					} else {
-						console.log("User Null");
 						fb.database()
 							.ref("users/" + user.uid)
 							.set(
 								{
 									uid: user.uid,
 									displayName: user.displayName,
-                                    photoURL: user.photoURL,
-                                    isOnline: true
+									photoURL: user.photoURL,
+									isOnline: true
 								},
 								error => {
 									if (error) {
-										// The write failed...
-										console.log(
-											"error Save User Data" + error
-										);
 									} else {
-										// Data saved successfully!
-										console.log("data new User Data Saved");
-										console.log(
-											"_setUpUser 222222222222222"
-										);
 										this._setUpUser(user);
 									}
 								}
@@ -102,8 +157,8 @@ class App extends React.Component<IAppProps, IAppState> {
 		const pUser: VOUser = new VOUser(
 			user.uid,
 			user.displayName,
-            user.photoURL,
-            true,
+			user.photoURL,
+			true
 		);
 		actions.setUser(pUser);
 	};
@@ -130,14 +185,15 @@ class App extends React.Component<IAppProps, IAppState> {
 
 const mapStateToProps = (state: any) => {
 	return {
-		user: state.user.get("user")
+		user: state.user.get("user"),
+		isMyTurn: state.game.get("isMyTurn")
 	};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
 		actions: bindActionCreators(
-			{ ...userActions, ...allUsersActions },
+			{ ...userActions, ...allUsersActions, ...gameActions },
 			dispatch
 		)
 	};

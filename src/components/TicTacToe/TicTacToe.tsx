@@ -7,6 +7,7 @@ import TicItem from "../TicItem/TicItem";
 import VOTicItem from "../../VO/VOTicItem";
 
 import PCPlayer from "../../utils/PCPlayer";
+import { fb } from "../../init/firebaseConfig";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -17,6 +18,7 @@ import VOUser from "../../VO/VOUser";
 import ModalInfo from "../Modals/ModalInfo/ModalInfo";
 
 export interface ITicTacToeProps {
+    gameId: string;
 	isMyTurn: boolean;
 	choosedUser: VOUser;
 	type: number;
@@ -42,18 +44,30 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 
 	private _handlerClickItem = (id: number): void => {
 		console.log(id);
-		const { actions, choosedUser, isPlaying, isMyTurn } = this.props;
-
+		const { actions, choosedUser, isPlaying, isMyTurn, gameId } = this.props;
+        console.log("isMyTurn==> "+isMyTurn);
+        console.log("isPlaying==> "+isPlaying);
 		if (isMyTurn && isPlaying) {
-			console.log("Click Click Click");
-			actions.setChoice(id);
+			console.log("Click Click Click");            
+
+            if (!choosedUser.isPC) {
+                actions.setChoice(id);
+                fb.database()
+                    .ref(`games/${gameId}`)
+                    .child("stepId")
+                    .set(id).then((res) => {
+                        console.log("set Choice to DB");                       
+                    });         
+            } else {
+                actions.setChoice(id);
+            }
 
 			if (choosedUser.isPC && !isMyTurn === false) {
 				console.log("PC CHOICE");
 				this._timer = setTimeout(() => {
 					this._madePCChoice();
 				}, 2000);
-			}
+			} 
 		}
 	};
 
@@ -117,8 +131,12 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	};
 
 	public render() {
-		const { isWin, isDraw, type } = this.props;
+		const { isWin, isDraw, type, isMyTurn, isPlaying } = this.props;
 		const showPopup = isWin || isDraw;
+
+        console.log("==============================================");
+        console.log("isMyTurn "+ isMyTurn);
+        console.log("isPlaying "+ isPlaying);
 
 		const gameClass = cl({
 			[Styles.TicTacToe3]: type === 3,
@@ -144,7 +162,8 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 const mapStateToProps = (state: any) => {
 	return {
 		items: state.game.get("items"),
-		type: state.game.get("type"),
+        type: state.game.get("type"),
+        gameId: state.game.get("gameId"), 
 		isWin: state.game.get("isWin"),
 		isDraw: state.game.get("isDraw"),
 		isMyTurn: state.game.get("isMyTurn"),

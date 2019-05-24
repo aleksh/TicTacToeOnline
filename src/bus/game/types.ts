@@ -4,6 +4,11 @@ export const types = {
     CHANGE_GAME_TYPE: 'CHANGE_GAME_TYPE',
     PLAY_WITH_PC: 'PLAY_WITH_PC',
     RESET_GAME: 'RESET_GAME',
+    PLAY_WITH_USER: 'PLAY_WITH_USER',
+
+
+
+
 
     START_GAME:    'START_GAME',    
     WIN_GAME:      'WIN_GAME',
