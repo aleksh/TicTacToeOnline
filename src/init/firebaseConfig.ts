@@ -1,4 +1,6 @@
 import firebase from 'firebase';
+/*import { gameActions } from "../bus/game/actions";
+import { store } from "./store";*/
 
 const firebaseConfig = {
     apiKey: "AIzaSyBApghjyCca6umqEEJ-rc_R41h92Ixuqp8",
@@ -13,3 +15,12 @@ const firebaseConfig = {
 export const fb = firebase.initializeApp(firebaseConfig);
 export const providerFacebook = new firebase.auth.FacebookAuthProvider();
 export const auth = firebase.auth();
+
+
+/*
+export const runActionToTest =() => {
+    console.log(")))))))))))))))))))))))))))))))))))))))))))))))))");
+    
+
+    store.dispatch(gameActions.resetGame())
+}*/

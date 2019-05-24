@@ -21,13 +21,14 @@ interface IAppProps {
 interface IAppState {}
 
 class App extends React.Component<IAppProps, IAppState> {
-	componentDidMount = () => {
+	componentDidMount = () => {        
 		//auth.signOut();
 		// need add is Loading state for user global
 		auth.onAuthStateChanged((user: any) => {
 			//	console.log("Check if user logged in");
 			//	console.log(user);
 			if (user) {
+             //   runActionToTest();
 				this._checkIfUserExistIDB(user);
 				this._addListenersForGame();
 			}
