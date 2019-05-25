@@ -112,9 +112,13 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	};
 
 	private _resetGame = () => {
-        const { actions, gameId } = this.props;
-        removeGame(gameId);
-		actions.resetGame();
+        const { actions, choosedUser } = this.props;
+
+        if(!choosedUser.isPC) {
+            removeGame();
+        }        
+        
+        actions.resetGame();
 	};
 
 	_getMessage = (): string => {
@@ -131,11 +135,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 
 	public render() {
 		const { isWin, isDraw, type, isMyTurn, isPlaying } = this.props;
-		const showPopup = isWin || isDraw;
-
-		console.log("==============================================");
-		console.log("isMyTurn " + isMyTurn);
-		console.log("isPlaying " + isPlaying);
+		const showPopup = isWin || isDraw;		
 
 		const gameClass = cl({
 			[Styles.TicTacToe3]: type === 3,
