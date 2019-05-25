@@ -110,11 +110,9 @@ const addAllGamesListener = () => {
                     //console.log("invitedMe");
                     // console.log("DECLINE GAME");
                     //fb.database().ref(`games/${gameKey}`).remove();
-
+                    currentGameRef = fb.database().ref(`games/${gameId}`);
                     console.log("APP START PlayGame");
-                    fb.database()
-                        .ref(`games/${gameId}`)
-                        .child("isPlaying")
+                    currentGameRef.child("isPlaying")
                         .set(true).then((value) => {
                             console.log("start Game Play ===> " + value);
                             dispatch(actions.playWithUser({
@@ -124,9 +122,8 @@ const addAllGamesListener = () => {
                             }));
                         });
 
-                    currentGameRef = fb.database().ref(`games/${gameId}`);
+                   
                     currentGameRef.on("value", (snapshot) => {
-
                         if (snapshot.exists()) {
                             if (snapshot.val().isPlaying) {
                                 const stepId = snapshot.val().stepId;
@@ -143,6 +140,10 @@ const addAllGamesListener = () => {
         }
     });
 }
+
+
+/// need remove games if User disconected  ( need on serverside)
+
 
 export const _addListenersForGame = () => {
     console.log("GET STATE FROM STORE");
