@@ -6,11 +6,13 @@ import { allUsersActions } from "../bus/allUsers/actions";
 
 import { store } from "../init/store";
 import VOUser from '../VO/VOUser';
+import { Ref } from 'react';
 
 export const fb = firebase.initializeApp(firebaseConfig);
 export const providerFacebook = new firebase.auth.FacebookAuthProvider();
 export const auth = firebase.auth();
 
+let isMyTurn = false;
 
 export const inviteToPlay = (invite: object) => {
 
@@ -48,14 +50,10 @@ export const inviteToPlay = (invite: object) => {
     });
 }
 
+let starCountRef: firebase.database.Reference;
 
-
-export const _addListenersForGame = () => {
-
-    console.log("GET STATE FROM STORE");
-    console.log();
-    /// get all users for users List
-    var starCountRef = fb.database().ref("users");
+const addUsersListListener = () => {
+    starCountRef = fb.database().ref("users");
     starCountRef.on("value", snapshot => {
         let usersList: VOUser[] = [];
         if (snapshot.exists()) {
@@ -68,15 +66,22 @@ export const _addListenersForGame = () => {
                 usersList = usersList.filter(item => item.uid !== userId);
             }
 
-           dispatch(actions.updateUsers(usersList));
+            dispatch(actions.updateUsers(usersList));
         }
     });
+}
 
-    let gameId: any = "";
+let isItFirstPlayer: boolean = false;
+let gameId: any = "";
+let gamesRef: firebase.database.Reference;
+let currentGameRef: firebase.database.Reference;
+
+
+const addAllGamesListener = () => {
+
+    console.log("ADD addAllGamesListener");
+    gamesRef = fb.database().ref("games");
     //////////////////////////check for game invite
-    const gamesRef = fb.database().ref("games");
-    let isItFirstUser = false;
-
     gamesRef.on("value", snapshot => {
         if (snapshot.exists()) {
             //check if user isnot playing
@@ -87,11 +92,12 @@ export const _addListenersForGame = () => {
                 if (child.val().player2.uid === userId) {
                     gameId = child.key;
                     opponentUser = child.val().player1;
+                    isItFirstPlayer = false;
                     //Accept Invite
                 } else if (child.val().player1.uid === userId) {
                     /// need refactro fro first user get game id from store
                     gameId = child.key;
-                    isItFirstUser = true;
+                    isItFirstPlayer = true;
                 }
             });
 
@@ -101,8 +107,9 @@ export const _addListenersForGame = () => {
                 console.log(" ccccccccccccccccccccccccccc ");
                 //unsubscribe from games by the end of game
                 gamesRef.off();
+                console.log("REMOVE addAllGamesListener");
 
-                if (!isItFirstUser) {
+                if (!isItFirstPlayer) {
                     dispatch(actions.setOpponent(opponentUser));
                     //console.log("invitedMe");
                     // console.log("DECLINE GAME");
@@ -112,37 +119,60 @@ export const _addListenersForGame = () => {
                     fb.database()
                         .ref(`games/${gameId}`)
                         .child("isPlaying")
-                        .set(true);
+                        .set(true).then((value) => {
+                            console.log("start Game Play ===> " + value);
+                            dispatch(actions.playWithUser({
+                                gameId,
+                                isMyTurn: false,
+                                amICross: false
+                            }));
+                        });
 
-                    dispatch(actions.playWithUser({
-                        gameId,
-                        isMyTurn: false,
-                        amICross: false
-                    }));
+                    isMyTurn = false;
+                } else {
+                    isMyTurn = true;
                 }
 
-                fb.database()
-                    .ref(`games/${gameId}`)
-                    .child("stepId")
-                    .on("value", snapshot => {
-                        console.log("STEPID ");
-                        console.log("isMy Turn drom STORE" + store.getState().game.get("isMyTurn"));
-                        console.log(snapshot.val());
-                        if (!store.getState().game.get("isMyTurn") && snapshot.val() !== 0) {
-                            dispatch(actions.setChoice(snapshot.val()));
+                currentGameRef = fb.database().ref(`games/${gameId}`);
+                currentGameRef.child("stepId")
+                    .on("value", (snapshot) => {
+                        const stepId = snapshot.val();
+
+                        if (isMyTurn === false && stepId !== 0) {
+                            dispatch(actions.setChoice(stepId));
+                            isMyTurn = true;
                         }
-                    });
+                });
             }
         }
     });
+}
+
+export const _addListenersForGame = () => {
+    console.log("GET STATE FROM STORE");
+    console.log();
+    /// get all users for users List
+    addUsersListListener();
+    addAllGamesListener();
 };
 
+export const removeGame = (id: any) => {
+    if (currentGameRef) {
+        console.log("REMOVE GAME FROM DATABASE");
+        currentGameRef.off();
+        currentGameRef.remove();
+        gameId = "";        
+    }
+};
 
-
-
-
-
-
+export const setChoiceToDB = (gameId: any, stepId: any) => {
+    isMyTurn = true;
+    fb.database().ref(`games/${gameId}`)
+        .child("stepId")
+        .set(stepId).then((res) => {
+            isMyTurn = false;
+        });
+}
 
 
 

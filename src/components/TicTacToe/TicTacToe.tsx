@@ -7,7 +7,7 @@ import TicItem from "../TicItem/TicItem";
 import VOTicItem from "../../VO/VOTicItem";
 
 import PCPlayer from "../../utils/PCPlayer";
-import { fb } from "../../Firebase/firebase";
+import { setChoiceToDB, removeGame } from "../../Firebase/firebase";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -18,7 +18,7 @@ import VOUser from "../../VO/VOUser";
 import ModalInfo from "../Modals/ModalInfo/ModalInfo";
 
 export interface ITicTacToeProps {
-    gameId: string;
+	gameId: string;
 	isMyTurn: boolean;
 	choosedUser: VOUser;
 	type: number;
@@ -44,31 +44,28 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 
 	private _handlerClickItem = (id: number): void => {
 		console.log(id);
-		const { actions, choosedUser, isPlaying, isMyTurn, gameId } = this.props;
-        console.log("isMyTurn==> "+isMyTurn);
-        console.log("isPlaying==> "+isPlaying);
-		if (isMyTurn && isPlaying) {
-			console.log("Click Click Click");            
+		const {
+			actions,
+			choosedUser,
+			isPlaying,
+			isMyTurn,
+			gameId
+		} = this.props;
 
-            if (!choosedUser.isPC) {
-               
-                fb.database()
-                    .ref(`games/${gameId}`)
-                    .child("stepId")
-                    .set(id).then((res) => {
-                        actions.setChoice(id);
-                        console.log("set Choice to DB");                       
-                    });         
-            } else {
-                actions.setChoice(id);
-            }
+		if (isMyTurn && isPlaying) {
+			if (!choosedUser.isPC) {
+				actions.setChoice(id);
+				setChoiceToDB(gameId, id);
+			} else {
+				actions.setChoice(id);
+			}
 
 			if (choosedUser.isPC && !isMyTurn === false) {
 				console.log("PC CHOICE");
 				this._timer = setTimeout(() => {
 					this._madePCChoice();
 				}, 2000);
-			} 
+			}
 		}
 	};
 
@@ -115,7 +112,8 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	};
 
 	private _resetGame = () => {
-		const { actions } = this.props;
+        const { actions, gameId } = this.props;
+        removeGame(gameId);
 		actions.resetGame();
 	};
 
@@ -135,14 +133,14 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		const { isWin, isDraw, type, isMyTurn, isPlaying } = this.props;
 		const showPopup = isWin || isDraw;
 
-        console.log("==============================================");
-        console.log("isMyTurn "+ isMyTurn);
-        console.log("isPlaying "+ isPlaying);
+		console.log("==============================================");
+		console.log("isMyTurn " + isMyTurn);
+		console.log("isPlaying " + isPlaying);
 
 		const gameClass = cl({
 			[Styles.TicTacToe3]: type === 3,
 			[Styles.TicTacToe5]: type === 5,
-			[Styles.TicTacToe7]: type === 7,
+			[Styles.TicTacToe7]: type === 7
 		});
 
 		return (
@@ -163,8 +161,8 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 const mapStateToProps = (state: any) => {
 	return {
 		items: state.game.get("items"),
-        type: state.game.get("type"),
-        gameId: state.game.get("gameId"), 
+		type: state.game.get("type"),
+		gameId: state.game.get("gameId"),
 		isWin: state.game.get("isWin"),
 		isDraw: state.game.get("isDraw"),
 		isMyTurn: state.game.get("isMyTurn"),

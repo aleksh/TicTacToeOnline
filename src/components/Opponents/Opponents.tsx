@@ -33,7 +33,8 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 				player1: user,
 				player2: choosedUser,
 				stepId: 0,
-				isPlaying: false
+                isPlaying: false,
+                isFirstPlayerTurn: true,
 			};
 
 			// invite Opponent
