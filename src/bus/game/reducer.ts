@@ -87,7 +87,7 @@ export const gameReducer = (state = initialState, action: any) => {
             console.log("REDUCER");
             console.log("isCross "+isCross)
             console.log("amICross "+amICross)
-            console.log("isMyTurn "+isMyTurn)
+            console.log("isMyTurn 2222222222222222222 "+isMyTurn)
             let isStepsExist: boolean = setChoice(items, Number(action.payload), isCross);
             let isDraw: boolean = checkDraw(items, type);
             let isWin: boolean = false;

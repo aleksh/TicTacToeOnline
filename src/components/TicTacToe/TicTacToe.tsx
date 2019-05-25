@@ -7,7 +7,7 @@ import TicItem from "../TicItem/TicItem";
 import VOTicItem from "../../VO/VOTicItem";
 
 import PCPlayer from "../../utils/PCPlayer";
-import { fb } from "../../init/firebaseConfig";
+import { fb } from "../../Firebase/firebase";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -51,11 +51,12 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 			console.log("Click Click Click");            
 
             if (!choosedUser.isPC) {
-                actions.setChoice(id);
+               
                 fb.database()
                     .ref(`games/${gameId}`)
                     .child("stepId")
                     .set(id).then((res) => {
+                        actions.setChoice(id);
                         console.log("set Choice to DB");                       
                     });         
             } else {

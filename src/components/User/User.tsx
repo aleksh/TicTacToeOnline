@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { auth, providerFacebook } from "../../init/firebaseConfig";
 
 //actions
 import { userActions } from "../../bus/user/actions";

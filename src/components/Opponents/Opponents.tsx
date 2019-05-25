@@ -7,17 +7,14 @@ import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
 import UsersList from "../UsersList/UsersList";
 
-import { fb } from '../../init/firebaseConfig';
-import { userActions } from "../../bus/user/actions";
-
-
+import { inviteToPlay } from "../../Firebase/firebase";
 
 interface IOpponentsProps {
-    user: VOUser;
+	user: VOUser;
 	choosedUser: VOUser;
 	allUsers: VOUser[];
-    actions: any;
-    isPlaying:boolean;
+	actions: any;
+	isPlaying: boolean;
 }
 
 interface IOpponentsState {}
@@ -26,53 +23,22 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	_handlerInviteForPlay = () => {
 		const { choosedUser, actions, user } = this.props;
 
-        if(choosedUser.isPC) {
-            actions.playWithPC();    
-        } else {
-            //actions.inviteToPlay(choosedUser);
-            // need Refacvtor Later
-            
-            const newGame = {
-                player1: user,
-                player2: choosedUser,
-                stepId: 0 ,
-                isPlaying: false,                
-            }
-            
-            
-            fb.database().ref("games").push(newGame).then((response) =>{
-                const gameId = response.key;
-                console.log("KKKKKKKKKEEEYYY");
-                console.log(gameId);
-                const curGameRef = fb.database().ref(`games/${gameId}`);
-                    curGameRef.on('value', snapshot => {
-                    console.log("snaphott GAAAAME waiting for invite");
-                    console.log(snapshot.val());
+		if (choosedUser.isPC) {
+			actions.playWithPC();
+		} else {
+			//actions.inviteToPlay(choosedUser);
+			// need Refacvtor Later
 
-                    if(snapshot.exists()){
-                        console.log("OPPONENT COMP Play Game");
-                        console.log(snapshot.val());
-                        
-                        if(snapshot.val().isPlaying === true) {
-                            curGameRef.off();
+			const newGame = {
+				player1: user,
+				player2: choosedUser,
+				stepId: 0,
+				isPlaying: false
+			};
 
-                           // const reStepId = fb.database().ref(`games/${key}`)
-
-                           this.props.actions.playWithUser({                                
-                                gameId,
-                                isMyTurn: true,
-                                amICross: true,
-                            });
-
-                            console.log("Play Game");                         
-                        }
-                    } else {
-                        //Decline or Game End
-                    }
-                })
-            });
-
-        }	
+			// invite Opponent
+			inviteToPlay(newGame);
+		}
 	};
 
 	_handlerSetOpponent = (pUser: VOUser) => {
@@ -83,17 +49,17 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	public render() {
 		const { choosedUser, allUsers, isPlaying } = this.props;
 		return (
-			<div className="bd-highlight userCol">				
+			<div className="bd-highlight userCol">
 				<UserCard
-                    isPlaying = {isPlaying}
+					isPlaying={isPlaying}
 					displayName={choosedUser.displayName}
 					isOnline={choosedUser.isOnline}
 					avatarUrl={choosedUser.photoURL}
-                    click={this._handlerInviteForPlay}
-                    btnTitle={"Play with Me"}
+					click={this._handlerInviteForPlay}
+					btnTitle={"Play with Me"}
 				/>
 				<UsersList
-                    isPlaying = {isPlaying}
+					isPlaying={isPlaying}
 					choosedUser={choosedUser}
 					allUsers={allUsers}
 					click={this._handlerSetOpponent}
@@ -106,9 +72,9 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 const mapStateToProps = (state: any) => {
 	return {
 		choosedUser: state.allUsers.get("choosedUser"),
-        allUsers: state.allUsers.get("allUsers"),
-        isPlaying: state.game.get("isPlaying"),
-        user: state.user.get("user"),
+		allUsers: state.allUsers.get("allUsers"),
+		isPlaying: state.game.get("isPlaying"),
+		user: state.user.get("user")
 	};
 };
 
