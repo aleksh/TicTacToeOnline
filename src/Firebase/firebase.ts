@@ -122,7 +122,7 @@ const addAllGamesListener = () => {
                             }));
                         });
 
-                   
+
                     currentGameRef.on("value", (snapshot) => {
                         if (snapshot.exists()) {
                             if (snapshot.val().isPlaying) {
@@ -161,7 +161,7 @@ export const removeGame = () => {
         gameId = "";
         isItFirstPlayer = false;
 
-        addAllGamesListener();        
+        addAllGamesListener();
     }
 };
 
@@ -173,16 +173,25 @@ export const setChoiceToDB = (gameId: any, stepId: any) => {
 
 export const _checkIfUserExistIDB = (user: any) => {
     if (user) {
-        fb.database()
-            .ref("users/" + user.uid)
-            .once("value")
+        const userRef = fb.database().ref("users/" + user.uid);
+        
+        userRef.once("value")
             .then(snapshot => {
                 var pIsUser = snapshot.val();
                 if (pIsUser) {
-                    _setUpUser(pIsUser);
+                    pIsUser.isOnline = true;
+
+                    userRef.update(pIsUser,
+                        error => {
+                            if (error) {
+                            } else {
+                                _setUpUser(pIsUser);
+                            }
+                        }
+                    );
+
                 } else {
-                    fb.database()
-                        .ref("users/" + user.uid)
+                    userRef
                         .set(
                             {
                                 uid: user.uid,
@@ -196,9 +205,11 @@ export const _checkIfUserExistIDB = (user: any) => {
                                     _setUpUser(user);
                                 }
                             }
-                        );
+                    );
                 }
             });
+
+            userRef.onDisconnect().update({isOnline: false});
     }
 };
 

@@ -4,7 +4,7 @@ import Game from "./components/Game/Game";
 import Login from "./components/Login/Login";
 import Opponents from "./components/Opponents/Opponents";
 import User from "./components/User/User";
-import { auth, providerFacebook, _addListenersForGame, _checkIfUserExistIDB } from "./Firebase/firebase";
+import { auth, providerFacebook, _addListenersForGame, _checkIfUserExistIDB, fb } from "./Firebase/firebase";
 import VOUser from "./VO/VOUser";
 
 
@@ -16,14 +16,14 @@ interface IAppState {}
 
 class App extends React.Component<IAppProps, IAppState> {
 	componentDidMount = () => {
-		//auth.signOut();
+	    //auth.signOut();
 		// need add is Loading state for user global
 		auth.onAuthStateChanged((user: any) => {
 			//	console.log("Check if user logged in");
 			//	console.log(user);
 			if (user) {
 				_checkIfUserExistIDB(user);
-				_addListenersForGame();
+                _addListenersForGame();                                
 			}
 		});
 	};
