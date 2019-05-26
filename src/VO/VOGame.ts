@@ -1,7 +1,6 @@
-import VOUser from "./VOUser";
 import { GAME_TYPES } from "../utils/Constants";
-import { initGameItems } from "../utils/Utils";
 import VOTicItem from "./VOTicItem";
+import VOUser from "./VOUser";
 
 export default class VOGame {
     private _opponentUser: VOUser | undefined;
@@ -37,69 +36,69 @@ export default class VOGame {
         this._stepsCount = pStepsCount;
     }
 
-    public get opponentUser():VOUser | undefined { return this._opponentUser;}
-    public set opponentUser(value:VOUser | undefined) {
+    public get opponentUser(): VOUser | undefined { return this._opponentUser; }
+    public set opponentUser(value: VOUser | undefined) {
         this._opponentUser = value;
     }
 
-    public get isPlaying():boolean { return this._isPlaying;}
-    public set isPlaying(value:boolean) {
+    public get isPlaying(): boolean { return this._isPlaying; }
+    public set isPlaying(value: boolean) {
         this._isPlaying = value;
     }
 
-    public get amICross():boolean { return this._amICross;}
-    public set amICross(value:boolean) {
+    public get amICross(): boolean { return this._amICross; }
+    public set amICross(value: boolean) {
         this._amICross = value;
     }
 
-    public get type():number { return this._type;}
-    public set type(value:number) {
+    public get type(): number { return this._type; }
+    public set type(value: number) {
         this._type = value;
     }
 
-    public get isMyTurn():boolean { return this._isMyTurn;}
-    public set isMyTurn(value:boolean) {
+    public get isMyTurn(): boolean { return this._isMyTurn; }
+    public set isMyTurn(value: boolean) {
         this._isMyTurn = value;
     }
 
-    public get isOpponentTurn():boolean { return this._isOpponentTurn;}
-    public set isOpponentTurn(value:boolean) {
+    public get isOpponentTurn(): boolean { return this._isOpponentTurn; }
+    public set isOpponentTurn(value: boolean) {
         this._isOpponentTurn = value;
     }
 
-    public get time():number { return this._time;}
-    public set time(value:number) {
+    public get time(): number { return this._time; }
+    public set time(value: number) {
         this._time = value;
     }
 
-    public get isMeWin():boolean { return this._isMeWin;}
-    public set isMeWin(value:boolean) {
+    public get isMeWin(): boolean { return this._isMeWin; }
+    public set isMeWin(value: boolean) {
         this._isMeWin = value;
     }
 
-    public get isOponnentWin():boolean { return this._isOponnentWin;}
-    public set isOponnentWin(value:boolean) {
+    public get isOponnentWin(): boolean { return this._isOponnentWin; }
+    public set isOponnentWin(value: boolean) {
         this._isOponnentWin = value;
     }
 
-    public get isStepsExist():boolean { return this._isStepsExist;}
-    public set isStepsExist(value:boolean) {
+    public get isStepsExist(): boolean { return this._isStepsExist; }
+    public set isStepsExist(value: boolean) {
         this._isStepsExist = value;
     }
 
-    public get isDraw():boolean { return this._isDraw;}
-    public set isDraw(value:boolean) {
+    public get isDraw(): boolean { return this._isDraw; }
+    public set isDraw(value: boolean) {
         this._isDraw = value;
     }
 
-    public get items():VOTicItem[][] { return this._items;}
-    public set items(value:VOTicItem[][]) {
+    public get items(): VOTicItem[][] { return this._items; }
+    public set items(value: VOTicItem[][]) {
         this._items = value;
     }
 
 
-    public get stepsCount():number { return this._stepsCount;}
-    public set stepsCount(value:number) {
+    public get stepsCount(): number { return this._stepsCount; }
+    public set stepsCount(value: number) {
         this._stepsCount = value;
     }
 }

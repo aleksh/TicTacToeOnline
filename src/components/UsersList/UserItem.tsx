@@ -2,6 +2,9 @@ import * as React from "react";
 import VOUser from "../../VO/VOUser";
 import cl from "classnames";
 
+import Utils from "../../utils/Utils";
+import StatusIndicator from "../StatusIndIcator/StatusIndicator";
+
 interface ITicItemProps {
 	user: VOUser;
     isActive: boolean;
@@ -26,12 +29,12 @@ export default class UserItem extends React.Component<
 	public render() {
         const { user, isActive } = this.props;
         const btnClass = cl({
-            "list-group-item list-group-item-action": true,
+            "list-group-item list-group-item-action py-2 px-1": true,
             "active": isActive
         });
 		return (
 			<button value={user.uid} className={btnClass} onClick={this._handlerClick}>
-				{user.displayName}
+				<StatusIndicator isOnline={user.isOnline} /> {Utils.CutString(user.displayName)}
 			</button>
 		);
 	}

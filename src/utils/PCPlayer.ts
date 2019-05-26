@@ -1,6 +1,6 @@
 import VOTicItem from "../VO/VOTicItem";
 
-import { getRandomInt } from "../utils/Utils";
+import Utils from "../utils/Utils";
 import VOUser from "../VO/VOUser";
 
 export default class PCPlayer {    
@@ -29,13 +29,13 @@ export default class PCPlayer {
             pAvailableChoices.push(...row.filter((item) => item.isEmpty === true));
         });
            
-        let pRandomId:number = pAvailableChoices[getRandomInt(pAvailableChoices.length)].id;        
+        let pRandomId:number = pAvailableChoices[Utils.GetRandomInt(pAvailableChoices.length)].id;        
         return pRandomId;
     }
 
     private getMiddleStep = (pItems:VOTicItem[][], pGameType:number):number => {
     
-        let index:number = getRandomInt(2);
+        let index:number = Utils.GetRandomInt(2);
         
         if (index === 1) {            
             return this._getEasyStep(pItems);

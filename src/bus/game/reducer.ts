@@ -1,19 +1,13 @@
 // Core
 import { Map } from 'immutable';
-
-
+import { GAME_TYPES } from '../../utils/Constants';
 //Utils
-import {
-    initGameItems,
-    setChoice,
-    checkDraw,
-    isWinGame
-} from "../../utils/Utils";
-
+import GameUtils from "../../utils/GameUtils";
+import VOTicItem from '../../VO/VOTicItem';
 // Types
 import { types } from './types';
-import VOTicItem from '../../VO/VOTicItem';
-import { GAME_TYPES, PC_USERS } from '../../utils/Constants';
+
+
 
 const initialState = Map({
     gameId: null,
@@ -25,7 +19,7 @@ const initialState = Map({
     isStepsExist: true,
     isDraw: false,
     isWin: false,
-    items: initGameItems(GAME_TYPES[1]),
+    items: GameUtils.InitGameItems(GAME_TYPES[1]),
     stepsCount: 0,
 });
 
@@ -40,7 +34,7 @@ export const gameReducer = (state = initialState, action: any) => {
         case types.DRAW_GAME:
             return state.set('isDraw', true);*/
         case types.PLAY_WITH_USER:
-            
+
             return state.merge({
                 isPlaying: true,
                 gameId: action.payload.gameId,
@@ -59,7 +53,7 @@ export const gameReducer = (state = initialState, action: any) => {
                 isStepsExist: true,
                 isDraw: false,
                 isWin: false,
-                items: initGameItems(GAME_TYPES[1]),
+                items: GameUtils.InitGameItems(GAME_TYPES[1]),
                 stepsCount: 0,
             });
 
@@ -69,7 +63,7 @@ export const gameReducer = (state = initialState, action: any) => {
                 isMyTurn: true,
             });
         case types.CHANGE_GAME_TYPE:
-            items = initGameItems(action.payload) as VOTicItem[][];
+            items = GameUtils.InitGameItems(action.payload) as VOTicItem[][];
 
             return state.merge({
                 items,
@@ -82,18 +76,18 @@ export const gameReducer = (state = initialState, action: any) => {
             let isPlaying: boolean = Boolean(state.get('isPlaying'));
             let type: number = Number(state.get('type'));
             let stepsCount: number = Number(state.get('stepsCount'));
-            const amICross:boolean = Boolean(state.get('amICross'));
-            let isCross:boolean = amICross === isMyTurn ? true : false;
+            const amICross: boolean = Boolean(state.get('amICross'));
+            let isCross: boolean = amICross === isMyTurn ? true : false;
             console.log("REDUCER");
-            console.log("isCross "+isCross)
-            console.log("amICross "+amICross)
-            console.log("isMyTurn 2222222222222222222 "+isMyTurn)
-            let isStepsExist: boolean = setChoice(items, Number(action.payload), isCross);
-            let isDraw: boolean = checkDraw(items, type);
+            console.log("isCross " + isCross)
+            console.log("amICross " + amICross)
+            console.log("isMyTurn 2222222222222222222 " + isMyTurn)
+            let isStepsExist: boolean = GameUtils.SetChoice(items, Number(action.payload), isCross);
+            let isDraw: boolean = GameUtils.CheckDraw(items, type);
             let isWin: boolean = false;
 
             if (!isDraw && (stepsCount + 1) >= type && isStepsExist) {
-                isWin = isWinGame(items, type);
+                isWin = GameUtils.IsWinGame(items, type);
                 console.log("isWin ======> " + isWin);
             }
 
