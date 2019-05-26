@@ -14,14 +14,15 @@ interface IOpponentsProps {
 	choosedUser: VOUser;
 	allUsers: VOUser[];
 	actions: any;
-	isPlaying: boolean;
+    isPlaying: boolean;
+    type:number;
 }
 
 interface IOpponentsState {}
 
 class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	_handlerInviteForPlay = () => {
-		const { choosedUser, actions, user } = this.props;
+		const { choosedUser, actions, user, type } = this.props;
 
 		if (choosedUser.isPC) {
 			actions.playWithPC();
@@ -35,6 +36,7 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 				stepId: 0,
                 isPlaying: false,
                 isFirstPlayerTurn: true,
+                type,
 			};
 
 			// invite Opponent
@@ -75,7 +77,8 @@ const mapStateToProps = (state: any) => {
 		choosedUser: state.allUsers.get("choosedUser"),
 		allUsers: state.allUsers.get("allUsers"),
 		isPlaying: state.game.get("isPlaying"),
-		user: state.user.get("user")
+        user: state.user.get("user"),
+        type: state.game.get("type")
 	};
 };
 

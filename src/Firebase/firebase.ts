@@ -37,7 +37,7 @@ const addUsersListListener = () => {
 }
 
 
-export const inviteToPlay = (invite: object) => {
+export const inviteToPlay = (invite: any) => {
     fb.database().ref("games").push(invite).then((response) => {
         const gameId = response.key;
         currentGameRef = fb.database().ref(`games/${gameId}`);
@@ -48,12 +48,12 @@ export const inviteToPlay = (invite: object) => {
                 const stepId = snapshot.val().stepId;
 
                 if (snapshot.val().isPlaying === true && stepId === 0) {
-                    // const reStepId = fb.database().ref(`games/${key}`)
-
+                    // const reStepId = fb.database().ref(`games/${key}`)                    
                     dispatch(actions.playWithUser({
                         gameId,
                         isMyTurn: true,
                         amICross: true,
+                        type:snapshot.val().type,                   
                     }));
 
                     console.log("inviteToPlay");
@@ -72,7 +72,7 @@ export const inviteToPlay = (invite: object) => {
     });
 }
 
-
+let type = 3;
 const addAllGamesListener = () => {
 
     console.log("ADD addAllGamesListener");
@@ -85,7 +85,9 @@ const addAllGamesListener = () => {
             let opponentUser: any;
             console.log("check GAMES");
             snapshot.forEach(child => {
-                if (child.val().player2.uid === userId) {
+                
+                if (child.val().player2.uid === userId) {    
+                    type = Number(child.val().type);                
                     gameId = child.key;
                     opponentUser = child.val().player1;
                     isItFirstPlayer = false;
@@ -93,7 +95,7 @@ const addAllGamesListener = () => {
                 } else if (child.val().player1.uid === userId) {
                     /// need refactro fro first user get game id from store
                     gameId = child.key;
-                    isItFirstPlayer = true;
+                    isItFirstPlayer = true;                    
                 }
             });
 
@@ -114,11 +116,12 @@ const addAllGamesListener = () => {
                     console.log("APP START PlayGame");
                     currentGameRef.child("isPlaying")
                         .set(true).then((value) => {
-                            console.log("start Game Play ===> " + value);
+                            console.log("start Game Play ===> " + value);                            
                             dispatch(actions.playWithUser({
                                 gameId,
                                 isMyTurn: false,
-                                amICross: false
+                                amICross: false,
+                                type
                             }));
                         });
 

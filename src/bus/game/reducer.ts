@@ -34,12 +34,13 @@ export const gameReducer = (state = initialState, action: any) => {
         case types.DRAW_GAME:
             return state.set('isDraw', true);*/
         case types.PLAY_WITH_USER:
-
             return state.merge({
+                type: action.payload.type,
+                items: GameUtils.InitGameItems(action.payload.type),
                 isPlaying: true,
                 gameId: action.payload.gameId,
                 isMyTurn: action.payload.isMyTurn,
-                amICross: action.payload.amICross,
+                amICross: action.payload.amICross,                
             });
 
         case types.RESET_GAME:
