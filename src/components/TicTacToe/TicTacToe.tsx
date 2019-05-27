@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { gameActions } from "../../bus/game/actions";
 import VOUser from "../../VO/VOUser";
 import ModalInfo from "../Modals/ModalInfo/ModalInfo";
+import ModalInvite from "../Modals/ModalInvite/ModalInvite";
 
 export interface ITicTacToeProps {
 	gameId: string;
@@ -64,7 +65,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 				console.log("PC CHOICE");
 				this._timer = setTimeout(() => {
 					this._madePCChoice();
-				}, 2000);
+				}, 1000);
 			}
 		}
 	};
@@ -119,23 +120,10 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
         }        
         
         actions.resetGame();
-	};
-
-	_getMessage = (): string => {
-		const { isMyTurn, isWin, isDraw } = this.props;
-		let message: string = "";
-		isDraw
-			? (message = "DRAW !!!!")
-			: isWin && isMyTurn
-			? (message = "YOU WIN !!!!")
-			: (message = "YOU LOSE !!!");
-
-		return message;
-	};
+	};	
 
 	public render() {
-		const { isWin, isDraw, type, isMyTurn, isPlaying } = this.props;
-		const showPopup = isWin || isDraw;		
+		const { type } = this.props;				
 
 		const gameClass = cl({
 			[Styles.TicTacToe3]: type === 3,
@@ -143,17 +131,8 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 			[Styles.TicTacToe7]: type === 7
 		});
 
-		return (
-			<>
-				{showPopup && (
-					<ModalInfo
-						show={true}
-						message={this._getMessage()}
-						click={this._resetGame}
-					/>
-				)}
-				<div className={gameClass}>{this._getGameArea()}</div>
-			</>
+		return (			  				
+			<div className={gameClass}>{this._getGameArea()}</div>			
 		);
 	}
 }

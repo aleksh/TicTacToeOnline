@@ -36,3 +36,7 @@ code {
 .container-fluid{
     height:100vh;
 }
+
+.modal {
+   display: block;
+}

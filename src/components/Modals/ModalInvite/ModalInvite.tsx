@@ -1,19 +1,25 @@
 import * as React from "react";
 import $ from "jquery";
 
-interface IModalInfoProps {
+interface IModalInviteProps {
 	show: boolean;
 	message: string;
-	click: Function;
+    clickCancel: Function;
+    clickOk: Function;
 }
 
-interface IModalInfoState {}
+interface IModalInviteState {}
 
-class ModalInfo extends React.Component<IModalInfoProps, IModalInfoState> {
+class ModalInvite extends React.Component<IModalInviteProps, IModalInviteState> {
 	_handlerClosedPopup = () => {
-		const { click } = this.props;
-		click();
-	};
+		const { clickCancel } = this.props;
+		clickCancel();
+    };
+    
+    _handlerOk = () => {
+        const { clickOk } = this.props;
+		clickOk();
+    }
 
 	public render() {
 		const { message } = this.props;
@@ -38,8 +44,15 @@ class ModalInfo extends React.Component<IModalInfoProps, IModalInfoState> {
 							<div className="modal-footer justify-content-center">
 								<button
 									type="button"
-									className="btn btn-success"
+									className="btn btn-secondary"
 									onClick={this._handlerClosedPopup}
+								>
+									Cancel
+								</button>
+                                <button
+									type="button"
+									className="btn btn-success"
+									onClick={this._handlerOk}
 								>
 									Ok
 								</button>
@@ -55,4 +68,4 @@ class ModalInfo extends React.Component<IModalInfoProps, IModalInfoState> {
 		);
 	}
 }
-export default ModalInfo;
+export default ModalInvite;

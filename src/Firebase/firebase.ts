@@ -58,7 +58,7 @@ export const inviteToPlay = (invite: any) => {
 
                     console.log("inviteToPlay");
                 } else if (stepId !== 0) {
-                    console.log("FIRST USER GET ID " + stepId);
+                    console.log("FIRST USER GET STEP ID " + stepId);
                     if (snapshot.val().isFirstPlayerTurn) {
                         dispatch(actions.setChoice(stepId));
                     }
@@ -107,13 +107,17 @@ const addAllGamesListener = () => {
                 gamesRef.off();
                 console.log("REMOVE addAllGamesListener");
 
-                if (!isItFirstPlayer) {
+                if (!isItFirstPlayer) { ////////////////////////////////////////////////////// HERE POPUP FOR GAME INVITE
                     dispatch(actions.setOpponent(opponentUser));
                     //console.log("invitedMe");
+
+                    ////////////////////////////////// DECLINE GAME
                     // console.log("DECLINE GAME");
                     //fb.database().ref(`games/${gameKey}`).remove();
+
                     currentGameRef = fb.database().ref(`games/${gameId}`);
                     console.log("APP START PlayGame");
+                    
                     currentGameRef.child("isPlaying")
                         .set(true).then((value) => {
                             console.log("start Game Play ===> " + value);                            

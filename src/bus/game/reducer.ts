@@ -10,6 +10,7 @@ import { types } from './types';
 
 
 const initialState = Map({
+    isInviteMe: false,
     gameId: null,
     isPlaying: false,
     amICross: true,
@@ -35,6 +36,7 @@ export const gameReducer = (state = initialState, action: any) => {
             return state.set('isDraw', true);*/
         case types.PLAY_WITH_USER:
             return state.merge({
+                isInviteMe: false,
                 type: action.payload.type,
                 items: GameUtils.InitGameItems(action.payload.type),
                 isPlaying: true,
@@ -45,6 +47,7 @@ export const gameReducer = (state = initialState, action: any) => {
 
         case types.RESET_GAME:
             return state.merge({
+                isInviteMe: false,
                 gameId: null,
                 isPlaying: false,
                 amICross: true,
