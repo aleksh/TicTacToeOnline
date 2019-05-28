@@ -17,8 +17,6 @@ export const allUsersReducer = (state = initialState, action: any) => {
             let choosedUser = state.get("choosedUser") as VOUser;
             let users: VOUser[] = action.payload;
 
-
-
             if (choosedUser) {
                 let getUpdatedUser = users.filter((user) => user.uid === choosedUser.uid)
                 if (getUpdatedUser.length > 0) {

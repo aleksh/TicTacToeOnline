@@ -1,41 +1,46 @@
 import React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import Game from "./components/Game/Game";
 import Login from "./components/Login/Login";
+import Modals from "./components/Modals/Modals";
 import Opponents from "./components/Opponents/Opponents";
 import User from "./components/User/User";
+import { userActions } from "./bus/user/actions";
 import {
-	auth,
-	providerFacebook,
-	_addListenersForGame,
-	_checkIfUserExistIDB,
-	fb
+	_addListenersForGame
 } from "./Firebase/firebase";
 import VOUser from "./VO/VOUser";
-import Modals from "./components/Modals/Modals";
 
 interface IAppProps {
 	user: VOUser;
+	actions: any;
 }
 
 interface IAppState {}
 
 class App extends React.Component<IAppProps, IAppState> {
-	componentDidMount = () => {
-		//auth.signOut();
-		// need add is Loading state for user global
-		auth.onAuthStateChanged((user: any) => {
+	componentDidMount = () => {		
+        
+        this.props.actions.authChangedAsync();        
+
+     /*   auth.onAuthStateChanged((user: any) => {
 			//	console.log("Check if user logged in");
 			//	console.log(user);
 			if (user) {
 				_checkIfUserExistIDB(user);
 				_addListenersForGame();
+				console.log("USER  LOGIN  OUT");
+			} else {
+				console.log("USER Sign OUT");
+				this.props.actions.logout();
 			}
-		});
+        });    */
 	};
 
 	_handlerLogin = () => {
-		auth.signInWithPopup(providerFacebook);
+		const { actions } = this.props;
+		actions.loginAsync();
 	};
 
 	public render() {
@@ -63,7 +68,13 @@ const mapStateToProps = (state: any) => {
 	};
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		actions: bindActionCreators({ ...userActions }, dispatch)
+	};
+};
+
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(App);

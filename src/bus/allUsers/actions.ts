@@ -12,11 +12,19 @@ export const allUsersActions = {
     },
 
 
-    updateUsers: (pUsers:VOUser[]) => {
+    updateUsers: (pUsers:VOUser[]) => {        
         return {
             type: types.UPDATE_USERS_LIST,
             payload: pUsers,
-        }
+        };
+    },
+
+
+    //get Users Async
+    getUsersAsync: () => {
+        return {
+            type: types.GET_USERS_ASYNC,
+        };
     },
     
 }

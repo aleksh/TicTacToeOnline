@@ -21,6 +21,17 @@ interface IOpponentsProps {
 interface IOpponentsState {}
 
 class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
+
+
+    componentDidMount = () => {
+        const { actions } = this.props;
+        actions.getUsersAsync();
+    }
+
+    componentWillUnmount = () => {
+        console.log("Opponents componentWillUnmount");
+    }
+
 	_handlerInviteForPlay = () => {
 		const { choosedUser, actions, user, type } = this.props;
 

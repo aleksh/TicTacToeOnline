@@ -3,22 +3,21 @@ import { call, put, apply, all } from 'redux-saga/effects';
 
 // Instruments
 import {
-	auth,
-	providerFacebook
+	auth,	
 } from "../../../../Firebase/firebase";
 
-export function* login () {
+export function* logout () {
     try {
-        console.log("Login Saga");
+        console.log("logout Saga");
         //yield put(userActions.startUserFetching());
-        yield apply(auth, auth.signInWithPopup, [providerFacebook]);
+        yield apply(auth, auth.signOut, []);
         //auth.signInWithPopup(providerFacebook)
        // yield put(userActions.login(categories));
     } catch (error) {
-        console.log("login saga Error");
+        console.log("logout saga Error");
         //yield put(userActions.emitUserError(error, 'login'));
     } finally {
-        console.log("login saga completed");
+        console.log("logout saga completed");
         //yield put(userActions.stopUserFetching());
     }
 }

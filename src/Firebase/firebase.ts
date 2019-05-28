@@ -1,11 +1,10 @@
 import firebase from 'firebase';
-import { firebaseConfig } from "../init/firebaseConfig";
+import { allUsersActions } from "../bus/allUsers/actions";
 import { gameActions } from "../bus/game/actions";
 import { userActions } from "../bus/user/actions";
-import { allUsersActions } from "../bus/allUsers/actions";
-
+import { firebaseConfig } from "../init/firebaseConfig";
 import { store } from "../init/store";
-import VOUser from '../VO/VOUser';
+
 
 export const fb = firebase.initializeApp(firebaseConfig);
 export const providerFacebook = new firebase.auth.FacebookAuthProvider();
@@ -16,26 +15,6 @@ let isItFirstPlayer: boolean = false;
 let gameId: any = "";
 let gamesRef: firebase.database.Reference;
 let currentGameRef: firebase.database.Reference;
-
-const addUsersListListener = () => {
-    starCountRef = fb.database().ref("users");
-    starCountRef.on("value", snapshot => {
-        let usersList: VOUser[] = [];
-        if (snapshot.exists()) {
-            snapshot.forEach(child => {
-                usersList.push(child.val() as VOUser);
-            });
-
-            const userId: any = auth.currentUser!.uid;
-            if (auth.currentUser && auth.currentUser.uid) {
-                usersList = usersList.filter(item => item.uid !== userId);
-            }
-
-            dispatch(actions.updateUsers(usersList));
-        }
-    });
-}
-
 
 export const inviteToPlay = (invite: any) => {
     fb.database().ref("games").push(invite).then((response) => {
@@ -53,7 +32,7 @@ export const inviteToPlay = (invite: any) => {
                         gameId,
                         isMyTurn: true,
                         amICross: true,
-                        type:snapshot.val().type,                   
+                        type: snapshot.val().type,
                     }));
 
                     console.log("inviteToPlay");
@@ -85,9 +64,9 @@ const addAllGamesListener = () => {
             let opponentUser: any;
             console.log("check GAMES");
             snapshot.forEach(child => {
-                
-                if (child.val().player2.uid === userId) {    
-                    type = Number(child.val().type);                
+
+                if (child.val().player2.uid === userId) {
+                    type = Number(child.val().type);
                     gameId = child.key;
                     opponentUser = child.val().player1;
                     isItFirstPlayer = false;
@@ -95,7 +74,7 @@ const addAllGamesListener = () => {
                 } else if (child.val().player1.uid === userId) {
                     /// need refactro fro first user get game id from store
                     gameId = child.key;
-                    isItFirstPlayer = true;                    
+                    isItFirstPlayer = true;
                 }
             });
 
@@ -117,10 +96,10 @@ const addAllGamesListener = () => {
 
                     currentGameRef = fb.database().ref(`games/${gameId}`);
                     console.log("APP START PlayGame");
-                    
+
                     currentGameRef.child("isPlaying")
                         .set(true).then((value) => {
-                            console.log("start Game Play ===> " + value);                            
+                            console.log("start Game Play ===> " + value);
                             dispatch(actions.playWithUser({
                                 gameId,
                                 isMyTurn: false,
@@ -150,13 +129,9 @@ const addAllGamesListener = () => {
 
 
 /// need remove games if User disconected  ( need on serverside)
-
-
 export const _addListenersForGame = () => {
     console.log("GET STATE FROM STORE");
-    console.log();
-    /// get all users for users List
-    addUsersListListener();
+    /// get all users for users List    
     addAllGamesListener();
 };
 
@@ -176,60 +151,6 @@ export const setChoiceToDB = (gameId: any, stepId: any) => {
     fb.database().ref(`games/${gameId}`)
         .update({ stepId, isFirstPlayerTurn: !isItFirstPlayer })
 }
-
-
-export const _checkIfUserExistIDB = (user: any) => {
-    if (user) {
-        const userRef = fb.database().ref("users/" + user.uid);
-        
-        userRef.once("value")
-            .then(snapshot => {
-                var pIsUser = snapshot.val();
-                if (pIsUser) {
-                    pIsUser.isOnline = true;
-
-                    userRef.update(pIsUser,
-                        error => {
-                            if (error) {
-                            } else {
-                                _setUpUser(pIsUser);
-                            }
-                        }
-                    );
-
-                } else {
-                    userRef
-                        .set(
-                            {
-                                uid: user.uid,
-                                displayName: user.displayName,
-                                photoURL: user.photoURL,
-                                isOnline: true
-                            },
-                            error => {
-                                if (error) {
-                                } else {
-                                    _setUpUser(user);
-                                }
-                            }
-                    );
-                }
-            });
-
-            userRef.onDisconnect().update({isOnline: false});
-    }
-};
-
-const _setUpUser = (user: any) => {
-    const pUser: VOUser = new VOUser(
-        user.uid,
-        user.displayName,
-        user.photoURL,
-        true
-    );
-    dispatch(actions.setUser(pUser));
-};
-
 
 const actions = { ...gameActions, ...userActions, ...allUsersActions };
 

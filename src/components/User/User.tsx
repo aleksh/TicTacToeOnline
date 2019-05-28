@@ -17,6 +17,12 @@ interface IUserState {}
 
 class User extends React.Component<IUserProps, IUserState> {
 
+
+    private _handlerLogout = () => {
+        const { actions } = this.props;
+        actions.logoutAsync();
+    }
+
 	public render() {
 		const { user } = this.props;
 		return (
@@ -24,7 +30,8 @@ class User extends React.Component<IUserProps, IUserState> {
 				<UserCard
 					displayName={user.displayName}
 					isOnline={true}
-					btnTitle={"Login"}
+                    btnTitle={"Login"}
+                    click={this._handlerLogout}
 					avatarUrl={user.photoURL}
 				/>
 			</div>
