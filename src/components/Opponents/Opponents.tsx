@@ -7,30 +7,26 @@ import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
 import UsersList from "../UsersList/UsersList";
 
-import { inviteToPlay } from "../../Firebase/firebase";
-
 interface IOpponentsProps {
 	user: VOUser;
 	choosedUser: VOUser;
 	allUsers: VOUser[];
 	actions: any;
-    isPlaying: boolean;
-    type:number;
+	isPlaying: boolean;
+	type: number;
 }
 
 interface IOpponentsState {}
 
 class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
+	componentDidMount = () => {
+		const { actions } = this.props;
+		actions.getUsersAsync();
+	};
 
-
-    componentDidMount = () => {
-        const { actions } = this.props;
-        actions.getUsersAsync();
-    }
-
-    componentWillUnmount = () => {
-        console.log("Opponents componentWillUnmount");
-    }
+	componentWillUnmount = () => {
+		console.log("Opponents componentWillUnmount");
+	};
 
 	_handlerInviteForPlay = () => {
 		const { choosedUser, actions, user, type } = this.props;
@@ -45,13 +41,14 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 				player1: user,
 				player2: choosedUser,
 				stepId: 0,
-                isPlaying: false,
-                isFirstPlayerTurn: true,
-                type,
+				isPlaying: false,
+				isFirstPlayerTurn: true,
+				type
 			};
 
 			// invite Opponent
-			inviteToPlay(newGame);
+			//inviteToPlay(newGame);
+			this.props.actions.inviteToGameAsync(newGame);
 		}
 	};
 
@@ -88,8 +85,8 @@ const mapStateToProps = (state: any) => {
 		choosedUser: state.allUsers.get("choosedUser"),
 		allUsers: state.allUsers.get("allUsers"),
 		isPlaying: state.game.get("isPlaying"),
-        user: state.user.get("user"),
-        type: state.game.get("type")
+		user: state.user.get("user"),
+		type: state.game.get("type")
 	};
 };
 

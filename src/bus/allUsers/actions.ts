@@ -11,6 +11,12 @@ export const allUsersActions = {
         };
     },
 
+    test: () => {
+        return {
+            type: "test",           
+        };
+    },
+
 
     updateUsers: (pUsers:VOUser[]) => {        
         return {

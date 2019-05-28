@@ -3,31 +3,28 @@ import { eventChannel } from "redux-saga";
 import { call, put, take } from 'redux-saga/effects';
 // Instruments
 import { auth, fb } from "../../../../Firebase/firebase";
-import { userActions } from "../../actions";
 import VOUser from "../../../../VO/VOUser";
+import { userActions } from "../../actions";
 
 
 export function* authChanged() {
     try {
-        console.log("authChanged Saga");
         const channel = yield call(_createAuthChannel);
 
         while (true) {
-            try {                
+            try {
                 const { user } = yield take(channel);
 
                 if (user) {
-                    console.log("authChanged SET USER");
-                    console.log(user)
-                    const userDB = yield call(_checkIfUserExistIDB, user);                    
+                    const userDB = yield call(_checkIfUserExistIDB, user);
+                    yield call(_setOnDisconnect, userDB.uid);
                     yield put(userActions.setUser(userDB));
                 } else {
-                    console.log("authChanged REMOVE USER")
                     yield put(userActions.logout());
                 }
 
             } catch (err) {
-                console.error('authChanged socket error:', err)                
+                console.error('authChanged socket error:', err)
             }
         }
 
@@ -60,52 +57,53 @@ const _createAuthChannel = () => {
     });
 }
 
-const _checkIfUserExistIDB = (user:any) => {
+const _checkIfUserExistIDB = (user: any) => {
     return new Promise((resolve, reject) => {
-     
         const userRef = fb.database().ref("users/" + user.uid);
 
-         userRef.onDisconnect().update({ isOnline: false });
-     
-         userRef.once("value")
-             .then(snapshot => {
-                 var pIsUser = snapshot.val();                 
-                 if (pIsUser) {
-                     pIsUser.isOnline = true;
-     
-                     userRef.update(pIsUser,
-                         error => {
-                             if (error) {
+        userRef.once("value")
+            .then(snapshot => {
+                var pIsUser = snapshot.val();
+                if (pIsUser) {
+                    pIsUser.isOnline = true;
+
+                    userRef.update(pIsUser,
+                        error => {
+                            if (error) {
                                 reject(error);
-                             } else {
+                            } else {
                                 resolve(pIsUser);
-                             }
-                         }
-                     );
-     
-                 } else {
-                     userRef
-                         .set(
-                             {
-                                 uid: user.uid,
-                                 displayName: user.displayName,
-                                 photoURL: user.photoURL,
-                                 isOnline: true
-                             },
-                             error => {
-                                 if (error) {
+                            }
+                        }
+                    );
+
+                } else {
+                    userRef
+                        .set(
+                            {
+                                uid: user.uid,
+                                displayName: user.displayName,
+                                photoURL: user.photoURL,
+                                isOnline: true
+                            },
+                            error => {
+                                if (error) {
                                     reject(error);
-                                 } else {
+                                } else {
                                     resolve(_getVOUser(user));
-                                 }
-                             }
-                         );
-                 }
-             });           
+                                }
+                            }
+                        );
+                }
+            });
     });
-  }
-  
-  const _getVOUser = (user: any):VOUser => {
+}
+
+const _setOnDisconnect = (userId: string) => {
+    fb.database().ref("users/" + userId).onDisconnect().update({ isOnline: false });
+}
+
+const _getVOUser = (user: any): VOUser => {
     const pUser: VOUser = new VOUser(
         user.uid,
         user.displayName,
@@ -114,3 +112,5 @@ const _checkIfUserExistIDB = (user:any) => {
     );
     return pUser;
 };
+
+

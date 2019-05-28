@@ -13,4 +13,8 @@ export const types = {
     START_GAME:    'START_GAME',    
     WIN_GAME:      'WIN_GAME',
     DRAW_GAME:      'DRAW_GAME',    
+
+
+    INVITE_OPPONENT_TO_GAME_ASYNC: 'INVITE_OPPONENT_TO_GAME_ASYNC',
+    REMOVE_GAME_ASYNC: 'REMOVE_GAME_ASYNC',
 };

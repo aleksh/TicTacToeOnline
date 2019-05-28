@@ -36,6 +36,7 @@ class App extends React.Component<IAppProps, IAppState> {
 				this.props.actions.logout();
 			}
         });    */
+        _addListenersForGame();
 	};
 
 	_handlerLogin = () => {

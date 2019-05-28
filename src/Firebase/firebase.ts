@@ -10,46 +10,10 @@ export const fb = firebase.initializeApp(firebaseConfig);
 export const providerFacebook = new firebase.auth.FacebookAuthProvider();
 export const auth = firebase.auth();
 
-let starCountRef: firebase.database.Reference;
 let isItFirstPlayer: boolean = false;
 let gameId: any = "";
 let gamesRef: firebase.database.Reference;
 let currentGameRef: firebase.database.Reference;
-
-export const inviteToPlay = (invite: any) => {
-    fb.database().ref("games").push(invite).then((response) => {
-        const gameId = response.key;
-        currentGameRef = fb.database().ref(`games/${gameId}`);
-        currentGameRef.on('value', snapshot => {
-
-            if (snapshot.exists()) {
-                console.log("OPPONENT COMP Play Game");
-                const stepId = snapshot.val().stepId;
-
-                if (snapshot.val().isPlaying === true && stepId === 0) {
-                    // const reStepId = fb.database().ref(`games/${key}`)                    
-                    dispatch(actions.playWithUser({
-                        gameId,
-                        isMyTurn: true,
-                        amICross: true,
-                        type: snapshot.val().type,
-                    }));
-
-                    console.log("inviteToPlay");
-                } else if (stepId !== 0) {
-                    console.log("FIRST USER GET STEP ID " + stepId);
-                    if (snapshot.val().isFirstPlayerTurn) {
-                        dispatch(actions.setChoice(stepId));
-                    }
-                }
-
-            } else {
-                //Decline or Game End
-                removeGame();
-            }
-        })
-    });
-}
 
 let type = 3;
 const addAllGamesListener = () => {

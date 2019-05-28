@@ -13,7 +13,8 @@ interface IModalsProps {
 	isMyTurn: boolean;
 	isDraw: boolean;
 	isWin: boolean;
-	user: VOUser;
+    user: VOUser;
+    gameId:string;
 	actions: any;
 }
 interface IModalsState {}
@@ -36,8 +37,10 @@ class Modals extends React.Component<IModalsProps, IModalsState> {
 	_handlerInviteCancel = () => {};
 
 	_resetGame = () => {
-		const { actions } = this.props;
-		actions.resetGame();
+        const { actions, gameId } = this.props;
+        console.log("gameId from popup")
+        console.log(gameId)
+        actions.removeGameAsync(gameId);		
 	};
 
 	public render() {
@@ -71,7 +74,8 @@ const mapStateToProps = (state: any) => {
 		isInviteMe: state.game.get("isInviteMe"),
 		isMyTurn: state.game.get("isMyTurn"),
 		isDraw: state.game.get("isDraw"),
-		isWin: state.game.get("isWin"),
+        isWin: state.game.get("isWin"),
+        gameId: state.game.get("gameId"),
 		user: state.user.get("user")
 	};
 };
