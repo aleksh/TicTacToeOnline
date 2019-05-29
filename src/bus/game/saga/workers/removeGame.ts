@@ -3,7 +3,7 @@ import { call, put, apply, all } from 'redux-saga/effects';
 // Instruments
 import {
     fb
-} from "../../../../Firebase/firebase";
+} from "../../../../init/firebaseConfig";
 import {gameActions} from "../../actions";
 
 export function* removeGame({ payload }:any) {

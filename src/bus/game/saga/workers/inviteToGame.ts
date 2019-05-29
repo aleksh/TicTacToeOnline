@@ -1,7 +1,7 @@
 import { eventChannel } from "redux-saga";
 import { call, put, take } from 'redux-saga/effects';
 // Instruments
-import { fb } from "../../../../Firebase/firebase";
+import { fb } from "../../../../init/firebaseConfig";
 import { gameActions } from "../../../game/actions";
 
 
@@ -30,14 +30,15 @@ export function* inviteToGame({ payload }: any) {
                         isItFirstPlayer: true,
                     }));
                     console.log("inviteToPlay");
+                    isListening = false;
+                    channel.close();
 
-                } else if (snap.val().isFirstPlayerTurn && stepId !== 0) {
-                    yield put(gameActions.setChoice(stepId));
+                    yield put(gameActions.subscribeForCurrentGameAsync({gameId, isItFirstPlayer:true}));
                 }
             } else {
                 isListening = false;
-                // means user decline accept
                 channel.close();
+                // means user decline accept               
                 console.log("CLOSE Channel and Remove Game from IviteToGame");
                 yield put(gameActions.removeGameAsync(gameId));
             }

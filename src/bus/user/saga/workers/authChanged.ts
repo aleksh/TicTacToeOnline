@@ -1,10 +1,10 @@
 
-import { eventChannel } from "redux-saga";
+import { eventChannel } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 // Instruments
-import { auth, fb } from "../../../../Firebase/firebase";
-import VOUser from "../../../../VO/VOUser";
-import { userActions } from "../../actions";
+import { auth, fb } from '../../../../init/firebaseConfig';
+import VOUser from '../../../../VO/VOUser';
+import { userActions } from '../../actions';
 
 
 export function* authChanged() {

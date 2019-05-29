@@ -36,6 +36,7 @@ export const gameReducer = (state = initialState, action: any) => {
         case types.DRAW_GAME:
             return state.set('isDraw', true);*/
         case types.PLAY_WITH_USER:
+            console.log("PLAY_WITH_USER")
             return state.merge({
                 isInviteMe: false,
                 type: action.payload.type,

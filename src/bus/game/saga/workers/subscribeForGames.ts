@@ -4,7 +4,7 @@ import { eventChannel } from 'redux-saga';
 // Instruments
 import {
     fb, auth
-} from "../../../../Firebase/firebase";
+} from '../../../../init/firebaseConfig';
 import { gameActions } from "../../actions";
 import { allUsersActions } from "../../../allUsers/actions";
 
@@ -30,6 +30,9 @@ export function* subscribeForGames() {
                         game.gameId = child.key;
                         game.opponentUser = child.val().player1;
                         //Accept Invite
+                    } else if (child.val().player1.uid === userId) {
+                        isGameNotFound = false;
+                        channel.close();
                     }
                 });
 
@@ -58,22 +61,23 @@ export function* subscribeForGames() {
             console.log("Accept Game Data");
             console.log(data);
             if (data) {
-                gameActions.playWithUser({
+                yield put(gameActions.playWithUser({
                     gameId: game.gameId,
                     isMyTurn: false,
                     amICross: false,
                     type: game.type,
                     isItFirstPlayer: false,
-                })
-            }
+                }));
 
+                yield put(gameActions.subscribeForCurrentGameAsync({ gameId: game.gameId, isItFirstPlayer: false }));
+            }
 
             console.log("subscribeForGames saga Close Chanel Game Found");
         }
 
 
     } catch (error) {
-        console.log("subscribeForGames saga Error");
+        console.log("subscribeForGames saga Error" + error);
         channel.close();
         //yield put(userActions.emitUserError(error, 'login'));
     } finally {

@@ -60,6 +60,13 @@ export const gameActions = {
         };
     },
 
+    subscribeForCurrentGameAsync: (game:any) => {
+        return {
+            type: types.SUBSCRIBE_FOR_CURRENT_GAME,        
+            payload: game,    
+        };
+    },
+
     setChoiceToDBAsync: (pChoice:any) => {
         return {
             type: types.SET_CHOICE_TO_DB_ASYNC,

@@ -5,7 +5,7 @@ import { call, put, apply, all } from 'redux-saga/effects';
 import {
 	auth,
 	providerFacebook
-} from "../../../../Firebase/firebase";
+} from '../../../../init/firebaseConfig';
 
 export function* login () {
     try {

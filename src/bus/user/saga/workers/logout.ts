@@ -4,7 +4,7 @@ import { call, put, apply, all } from 'redux-saga/effects';
 // Instruments
 import {
 	auth,	
-} from "../../../../Firebase/firebase";
+} from '../../../../init/firebaseConfig';
 
 export function* logout () {
     try {
