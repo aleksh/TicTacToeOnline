@@ -27,6 +27,7 @@ export function* inviteToGame({ payload }: any) {
                         isMyTurn: true,
                         amICross: true,
                         type: snap.val().type,
+                        isItFirstPlayer: true,
                     }));
                     console.log("inviteToPlay");
 

@@ -68,7 +68,8 @@ const addAllGamesListener = () => {
                                 gameId,
                                 isMyTurn: false,
                                 amICross: false,
-                                type
+                                type,
+                                isItFirstPlayer: false,                                
                             }));
                         });
 
@@ -110,11 +111,6 @@ export const removeGame = () => {
         addAllGamesListener();
     }
 };
-
-export const setChoiceToDB = (gameId: any, stepId: any) => {
-    fb.database().ref(`games/${gameId}`)
-        .update({ stepId, isFirstPlayerTurn: !isItFirstPlayer })
-}
 
 const actions = { ...gameActions, ...userActions, ...allUsersActions };
 

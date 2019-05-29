@@ -49,7 +49,9 @@ const _createUsersChannel = () => {
             emit(snap);
         })
 
-        const unsubscribe = ref.off
+        const unsubscribe = () => {
+            ref.off();
+        }
         return unsubscribe
     });
 }

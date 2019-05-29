@@ -6,13 +6,11 @@ import {
 } from "../../../../Firebase/firebase";
 import {gameActions} from "../../actions";
 
-export function* removeGame({ payload }:any) {
+export function* subscribeForGames({ payload }:any) {
     try {
         console.log("removeGame Saga" + payload);
-        if(payload) {
-            yield call(removeGameFromDB, payload);
-        }
-        yield put(gameActions.resetGame());        
+        yield call(removeGameFromDB, payload);
+    //    yield put(gameActions.resetGame());        
     } catch (error) {
         console.log("removeGame saga Error");
         //yield put(userActions.emitUserError(error, 'login'));
@@ -24,5 +22,5 @@ export function* removeGame({ payload }:any) {
 
 
 const removeGameFromDB = (gameId: string) => {
-    fb.database().ref(`games/${gameId}`).remove();
+  //  fb.database().ref(`games/${gameId}`).remove();
 }

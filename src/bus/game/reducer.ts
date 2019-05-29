@@ -10,6 +10,7 @@ import { types } from './types';
 
 
 const initialState = Map({
+    isItFirstPlayer: false,
     isInviteMe: false,
     gameId: null,
     isPlaying: false,
@@ -42,11 +43,13 @@ export const gameReducer = (state = initialState, action: any) => {
                 isPlaying: true,
                 gameId: action.payload.gameId,
                 isMyTurn: action.payload.isMyTurn,
-                amICross: action.payload.amICross,                
+                amICross: action.payload.amICross,    
+                isItFirstPlayer: action.payload.isItFirstPlayer,    
             });
 
         case types.RESET_GAME:
             return state.merge({
+                isItFirstPlayer: false,
                 isInviteMe: false,
                 gameId: null,
                 isPlaying: false,

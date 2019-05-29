@@ -54,6 +54,13 @@ export const gameActions = {
         };
     },
 
+    setChoiceToDBAsync: (pChoice:any) => {
+        return {
+            type: types.SET_CHOICE_TO_DB_ASYNC,
+            payload: pChoice,
+        };
+    },
+
     removeGameAsync: (gameId: string) => {        
         return {
             type: types.REMOVE_GAME_ASYNC,
