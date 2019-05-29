@@ -1,28 +1,29 @@
 import * as React from "react";
-import $ from "jquery";
 
-interface IModalInviteProps {
-	show: boolean;
-	message: string;
-    clickCancel: Function;
-    clickOk: Function;
+interface IModalConfirmProps {
+	modalProps: any;
 }
 
-interface IModalInviteState {}
+interface IModalConfirmState {}
 
-class ModalInvite extends React.Component<IModalInviteProps, IModalInviteState> {
-	_handlerClosedPopup = () => {
-		const { clickCancel } = this.props;
-		clickCancel();
-    };
-    
-    _handlerOk = () => {
-        const { clickOk } = this.props;
-		clickOk();
-    }
+export default class ModalConfirm extends React.Component<
+	IModalConfirmProps,
+	IModalConfirmState
+> {
+	_handlerCancel = () => {
+		const { clickCancel, hideModal } = this.props.modalProps;
+		//	clickCancel();
+		hideModal();
+	};
+
+	_handlerOk = () => {
+		const { clickOk, hideModal } = this.props.modalProps;
+		//	clickOk();
+		hideModal();
+	};
 
 	public render() {
-		const { message } = this.props;
+		const { message } = this.props.modalProps;
 
 		return (
 			<>
@@ -33,7 +34,7 @@ class ModalInvite extends React.Component<IModalInviteProps, IModalInviteState> 
 								<button
 									type="button"
 									className="close"
-									onClick={this._handlerClosedPopup}
+									onClick={this._handlerCancel}
 								>
 									<span>&times;</span>
 								</button>
@@ -45,11 +46,11 @@ class ModalInvite extends React.Component<IModalInviteProps, IModalInviteState> 
 								<button
 									type="button"
 									className="btn btn-secondary"
-									onClick={this._handlerClosedPopup}
+									onClick={this._handlerCancel}
 								>
 									Cancel
 								</button>
-                                <button
+								<button
 									type="button"
 									className="btn btn-success"
 									onClick={this._handlerOk}
@@ -62,10 +63,9 @@ class ModalInvite extends React.Component<IModalInviteProps, IModalInviteState> 
 				</div>
 				<div
 					className="modal-backdrop show"
-					onClick={this._handlerClosedPopup}
+					onClick={this._handlerCancel}
 				/>
 			</>
 		);
 	}
 }
-export default ModalInvite;

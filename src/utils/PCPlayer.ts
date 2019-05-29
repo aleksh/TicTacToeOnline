@@ -28,8 +28,12 @@ export default class PCPlayer {
         pItems.forEach((row) => {
             pAvailableChoices.push(...row.filter((item) => item.isEmpty === true));
         });
-           
-        let pRandomId:number = pAvailableChoices[Utils.GetRandomInt(pAvailableChoices.length)].id;        
+        
+        let pRandomId:number = 0;
+        if(pAvailableChoices.length > 0) {
+            pRandomId = pAvailableChoices[Utils.GetRandomInt(pAvailableChoices.length)].id;
+        }
+
         return pRandomId;
     }
 

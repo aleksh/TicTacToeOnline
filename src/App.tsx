@@ -18,25 +18,11 @@ interface IAppProps {
 interface IAppState {}
 
 class App extends React.Component<IAppProps, IAppState> {
-	componentDidMount = () => {		
-        
+	componentDidMount = () => {		    
         this.props.actions.authChangedAsync();        
-        this.props.actions.subscribeForGamesAsync(); 
 
-     /*   auth.onAuthStateChanged((user: any) => {
-			//	console.log("Check if user logged in");
-			//	console.log(user);
-			if (user) {
-				_checkIfUserExistIDB(user);
-				_addListenersForGame();
-				console.log("USER  LOGIN  OUT");
-			} else {
-				console.log("USER Sign OUT");
-				this.props.actions.logout();
-			}
-        });    */
-      //  _addListenersForGame();
-
+        // move this when user LogedIn
+        this.props.actions.subscribeForGamesAsync();   
 	};
 
 	_handlerLogin = () => {

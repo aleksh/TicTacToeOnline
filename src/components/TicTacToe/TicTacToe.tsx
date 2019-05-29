@@ -4,9 +4,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 //actions
 import { gameActions } from "../../bus/game/actions";
+import { modalActions } from "../../bus/modal/actions";
+import GameUtils from "../../utils/GameUtils";
 import PCPlayer from "../../utils/PCPlayer";
 import VOTicItem from "../../VO/VOTicItem";
 import VOUser from "../../VO/VOUser";
+import { MODAL_TYPES } from "../Modals/Modals";
 import TicItem from "../TicItem/TicItem";
 // Styles
 import Styles from "./TixTacToe.module.scss";
@@ -18,7 +21,6 @@ export interface ITicTacToeProps {
 	choosedUser: VOUser;
 	type: number;
 	items: VOTicItem[][];
-	isStepsExist: boolean;
 	isWin: boolean;
 	isDraw: boolean;
 	isPlaying: boolean;
@@ -81,6 +83,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 				type,
 				choosedUser
 			);
+
 			actions.setChoice(pId);
 		}
 	};
@@ -105,10 +108,25 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		});
 	};
 
-	private _resetGame = () => {
-		const { actions, gameId } = this.props;
+	private _showWinModal = () => {
+		const { actions, isWin, isDraw, gameId, isMyTurn } = this.props;
+		const isShow: boolean = isWin || isDraw;
 
-		actions.removeGameAsync(gameId);
+		if (isShow) {
+			actions.showModal({
+				modalType: MODAL_TYPES.INFO,
+				modalProps: {
+					message: GameUtils.GetEndGameMessage(
+						isDraw,
+						isWin,
+						isMyTurn
+					),
+					click: actions.removeGameAsync,
+					clickParams: gameId,
+					hideModal: actions.hideModal
+				}
+			});
+		}
 	};
 
 	public render() {
@@ -120,6 +138,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 			[Styles.TicTacToe7]: type === 7
 		});
 
+		this._showWinModal();
 		return <div className={gameClass}>{this._getGameArea()}</div>;
 	}
 }
@@ -133,7 +152,6 @@ const mapStateToProps = (state: any) => {
 		isWin: state.game.get("isWin"),
 		isDraw: state.game.get("isDraw"),
 		isMyTurn: state.game.get("isMyTurn"),
-		isStepsExist: state.game.get("isStepsExist"),
 		isPlaying: state.game.get("isPlaying"),
 		choosedUser: state.allUsers.get("choosedUser")
 	};
@@ -141,7 +159,10 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		actions: bindActionCreators({ ...gameActions }, dispatch)
+		actions: bindActionCreators(
+			{ ...gameActions, ...modalActions },
+			dispatch
+		)
 	};
 };
 

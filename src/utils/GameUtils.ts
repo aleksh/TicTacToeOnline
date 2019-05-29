@@ -215,4 +215,15 @@ export default class GameUtils {
         return items;
     }
 
+    static GetEndGameMessage = ( isDraw:boolean, isWin:boolean, isMyTurn:boolean): string => {
+        let message: string = "";
+		isDraw
+			? (message = "DRAW !!!!")
+			: isWin && isMyTurn
+			? (message = "YOU WIN !!!!")
+			: (message = "YOU LOSE !!!");
+
+		return message;        
+    }
+
 }

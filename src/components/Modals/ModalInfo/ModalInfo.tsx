@@ -1,23 +1,24 @@
 import * as React from "react";
-import $ from "jquery";
 
 interface IModalInfoProps {
-	show: boolean;
-	message: string;
-	click: Function;
+	modalProps: any;
 }
 
 interface IModalInfoState {}
 
-class ModalInfo extends React.Component<IModalInfoProps, IModalInfoState> {
+export default class ModalInfo extends React.Component<
+	IModalInfoProps,
+	IModalInfoState
+> {
 	_handlerClosedPopup = () => {
-		const { click } = this.props;
-		click();
+		const { click, clickParams, hideModal } = this.props.modalProps;
+		click(clickParams);
+		hideModal();
 	};
 
 	public render() {
-		const { message } = this.props;
-
+		const { message } = this.props.modalProps;
+		console.log("Modal Info");
 		return (
 			<>
 				<div className="modal show">
@@ -55,4 +56,3 @@ class ModalInfo extends React.Component<IModalInfoProps, IModalInfoState> {
 		);
 	}
 }
-export default ModalInfo;
