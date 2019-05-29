@@ -38,8 +38,8 @@ export function* inviteToGame({ payload }: any) {
                 isListening = false;
                 // means user decline accept
                 channel.close();
-                console.log("CLOSE Channel and Remove Game ");
-                //yield put(gameActions.removeGameAsync(gameId));
+                console.log("CLOSE Channel and Remove Game from IviteToGame");
+                yield put(gameActions.removeGameAsync(gameId));
             }
         }
     } catch (error) {
@@ -70,7 +70,6 @@ const _createFirstUserGameChannel = (gameId: string) => {
         ref.on('value', snap => {
             emit(snap);
         })
-
 
         const unsubscribe = () => {
             ref.off();

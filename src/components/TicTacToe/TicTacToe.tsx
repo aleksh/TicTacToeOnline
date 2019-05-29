@@ -1,22 +1,15 @@
-import * as React from "react";
 import cl from "classnames";
-
-// Styles
-import Styles from "./TixTacToe.module.scss";
-import TicItem from "../TicItem/TicItem";
-import VOTicItem from "../../VO/VOTicItem";
-
-import PCPlayer from "../../utils/PCPlayer";
-import { removeGame } from "../../Firebase/firebase";
-
-import { bindActionCreators } from "redux";
+import * as React from "react";
 import { connect } from "react-redux";
-
+import { bindActionCreators } from "redux";
 //actions
 import { gameActions } from "../../bus/game/actions";
+import PCPlayer from "../../utils/PCPlayer";
+import VOTicItem from "../../VO/VOTicItem";
 import VOUser from "../../VO/VOUser";
-import ModalInfo from "../Modals/ModalInfo/ModalInfo";
-import ModalInvite from "../Modals/ModalInvite/ModalInvite";
+import TicItem from "../TicItem/TicItem";
+// Styles
+import Styles from "./TixTacToe.module.scss";
 
 export interface ITicTacToeProps {
 	gameId: string;
@@ -57,8 +50,8 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 
 		if (isMyTurn && isPlaying) {
 			actions.setChoice(stepId);
-			if (!choosedUser.isPC) {                
-				actions.setChoiceToDBAsync({gameId, stepId, isItFirstPlayer});
+			if (!choosedUser.isPC) {
+				actions.setChoiceToDBAsync({ gameId, stepId, isItFirstPlayer });
 			}
 
 			if (choosedUser.isPC && !isMyTurn === false) {

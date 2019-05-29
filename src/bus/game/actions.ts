@@ -54,6 +54,12 @@ export const gameActions = {
         };
     },
 
+    subscribeForGamesAsync: () => {
+        return {
+            type: types.SUBSCRIBE_FOR_GAMES,            
+        };
+    },
+
     setChoiceToDBAsync: (pChoice:any) => {
         return {
             type: types.SET_CHOICE_TO_DB_ASYNC,

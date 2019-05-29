@@ -12,6 +12,10 @@ const initialState = Map({
 export const allUsersReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case types.CHOOSE_OPPONENT:
+
+            console.log("Choose Opponent");
+            console.log(action.payload);
+
             return state.set("choosedUser", action.payload);
         case types.UPDATE_USERS_LIST:
             let choosedUser = state.get("choosedUser") as VOUser;

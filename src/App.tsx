@@ -7,9 +7,7 @@ import Modals from "./components/Modals/Modals";
 import Opponents from "./components/Opponents/Opponents";
 import User from "./components/User/User";
 import { userActions } from "./bus/user/actions";
-import {
-	_addListenersForGame
-} from "./Firebase/firebase";
+import { gameActions } from "./bus/game/actions";
 import VOUser from "./VO/VOUser";
 
 interface IAppProps {
@@ -23,6 +21,7 @@ class App extends React.Component<IAppProps, IAppState> {
 	componentDidMount = () => {		
         
         this.props.actions.authChangedAsync();        
+        this.props.actions.subscribeForGamesAsync(); 
 
      /*   auth.onAuthStateChanged((user: any) => {
 			//	console.log("Check if user logged in");
@@ -36,7 +35,8 @@ class App extends React.Component<IAppProps, IAppState> {
 				this.props.actions.logout();
 			}
         });    */
-        _addListenersForGame();
+      //  _addListenersForGame();
+
 	};
 
 	_handlerLogin = () => {
@@ -71,7 +71,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		actions: bindActionCreators({ ...userActions }, dispatch)
+		actions: bindActionCreators({ ...userActions, ...gameActions }, dispatch)
 	};
 };
 

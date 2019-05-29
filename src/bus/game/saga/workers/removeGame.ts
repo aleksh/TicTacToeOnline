@@ -10,6 +10,7 @@ export function* removeGame({ payload }:any) {
     try {
         console.log("removeGame Saga" + payload);
         if(payload) {
+            console.log("remove from db");
             yield call(removeGameFromDB, payload);
         }
         yield put(gameActions.resetGame());        

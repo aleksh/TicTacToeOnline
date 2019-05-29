@@ -15,6 +15,7 @@ let gameId: any = "";
 let gamesRef: firebase.database.Reference;
 let currentGameRef: firebase.database.Reference;
 
+/*
 let type = 3;
 const addAllGamesListener = () => {
 
@@ -90,27 +91,22 @@ const addAllGamesListener = () => {
             }
         }
     });
-}
+}*/
 
 
 /// need remove games if User disconected  ( need on serverside)
 export const _addListenersForGame = () => {
     console.log("GET STATE FROM STORE");
     /// get all users for users List    
-    addAllGamesListener();
+  //  addAllGamesListener();
 };
 
+/*
 export const removeGame = () => {
-    if (currentGameRef) {
-        console.log("REMOVE GAME FROM DATABASE");
-        currentGameRef.off();
-        currentGameRef.remove();
-        gameId = "";
-        isItFirstPlayer = false;
-
+    if (currentGameRef) {                
         addAllGamesListener();
     }
-};
+};*/
 
 const actions = { ...gameActions, ...userActions, ...allUsersActions };
 
