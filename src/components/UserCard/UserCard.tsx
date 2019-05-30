@@ -1,10 +1,8 @@
-import * as React from "react";
 import cl from "classnames";
-
+import * as React from "react";
 import Utils from "../../utils/Utils";
-
-import Styles from "./UserCard.module.scss";
 import StatusIndicator from "../StatusIndIcator/StatusIndicator";
+import Styles from "./UserCard.module.scss";
 
 interface IUserCardProps {
 	displayName: string;

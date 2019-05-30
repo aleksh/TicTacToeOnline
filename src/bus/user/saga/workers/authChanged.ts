@@ -12,43 +12,22 @@ export function* authChanged() {
         const channel = yield call(_createAuthChannel);
 
         while (true) {
-            try {
-                const { user } = yield take(channel);
+            const { user } = yield take(channel);
 
-                if (user) {
-                    const userDB = yield call(_checkIfUserExistIDB, user);
-                    yield call(_setOnDisconnect, userDB.uid);
-                    yield put(userActions.setUser(userDB));
-                } else {
-                    yield put(userActions.logout());
-                }
-
-            } catch (err) {
-                console.error('authChanged socket error:', err)
+            if (user) {
+                const userDB = yield call(_checkIfUserExistIDB, user);
+                yield call(_setOnDisconnect, userDB.uid);
+                yield put(userActions.setUser(userDB));
+            } else {
+                yield put(userActions.logout());
             }
+
         }
 
     } catch (error) {
         console.log("authChanged saga Error");
-        //yield put(userActions.emitUserError(error, 'login'));
-    } finally {
-        console.log("authChanged saga completed");
-        //yield put(userActions.stopUserFetching());
     }
 }
-
-/*
-const createUserChannel = userId =>
-  eventChannel(emit => {
-    const ref = firebaseDatabase().ref(`/users/${userId}`)
-    ref.on('value', snap => {
-      emit(snap.val())
-    })
-
-    const unsubscribe = ref.off()
-    return unsubscribe
-  })
-*/
 
 const _createAuthChannel = () => {
     return eventChannel(emit => {

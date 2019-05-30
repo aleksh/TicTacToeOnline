@@ -1,9 +1,9 @@
 // Types
-import { types } from './types';
 import VOUser from '../../VO/VOUser';
+import { types } from './types';
 
 export const allUsersActions = {
-    
+
     setOpponent: (pUser: VOUser) => {
         return {
             type: types.CHOOSE_OPPONENT,
@@ -13,12 +13,12 @@ export const allUsersActions = {
 
     test: () => {
         return {
-            type: "test",           
+            type: "test",
         };
     },
 
 
-    updateUsers: (pUsers:VOUser[]) => {        
+    updateUsers: (pUsers: VOUser[]) => {
         return {
             type: types.UPDATE_USERS_LIST,
             payload: pUsers,
@@ -32,5 +32,5 @@ export const allUsersActions = {
             type: types.GET_USERS_ASYNC,
         };
     },
-    
+
 }

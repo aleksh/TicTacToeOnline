@@ -34,9 +34,6 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 		if (choosedUser.isPC) {
 			actions.playWithPC();
 		} else {
-			//actions.inviteToPlay(choosedUser);
-			// need Refacvtor Later
-
 			const newGame = {
 				player1: user,
 				player2: choosedUser,
@@ -47,7 +44,6 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 			};
 
 			// invite Opponent
-			//inviteToPlay(newGame);
 			this.props.actions.inviteToGameAsync(newGame);
 		}
 	};

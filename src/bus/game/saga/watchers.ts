@@ -1,11 +1,11 @@
 // Core
-import { takeEvery, all, call } from 'redux-saga/effects';
-
+import { all, call, takeEvery } from 'redux-saga/effects';
 // Types
 import { types } from '../types';
-
 // Workers
-import { inviteToGame, removeGame, setChoiceToDB, subscribeForGames, subscribeForCurrentGame } from './workers';
+import { inviteToGame, removeGame, setChoiceToDB, subscribeForCurrentGame, subscribeForGames } from './workers';
+
+
 
 function* watchInviteToGame() {
     yield takeEvery(types.INVITE_OPPONENT_TO_GAME_ASYNC, inviteToGame);

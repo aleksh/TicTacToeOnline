@@ -1,14 +1,14 @@
 // Core
 import { Map } from 'immutable';
-
 // Types
 import { types } from './types';
+
 
 const initialState = Map({
     isFetching: false,
 });
 
-export const uiReducer = (state = initialState, action:any) => {
+export const uiReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case types.START_FETCHING:
             return state.set('isFetching', true);

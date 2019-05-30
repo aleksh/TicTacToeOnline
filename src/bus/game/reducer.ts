@@ -8,7 +8,6 @@ import VOTicItem from '../../VO/VOTicItem';
 import { types } from './types';
 
 
-
 const initialState = Map({
     isItFirstPlayer: false,
     isInviteMe: false,
@@ -29,14 +28,7 @@ export const gameReducer = (state = initialState, action: any) => {
     let items: VOTicItem[][];
 
     switch (action.type) {
-
-        /*case types.START_GAME:
-            return state.set('isPlaying', true);
-
-        case types.DRAW_GAME:
-            return state.set('isDraw', true);*/
         case types.PLAY_WITH_USER:
-            console.log("PLAY_WITH_USER")
             return state.merge({
                 isInviteMe: false,
                 type: action.payload.type,
@@ -44,8 +36,8 @@ export const gameReducer = (state = initialState, action: any) => {
                 isPlaying: true,
                 gameId: action.payload.gameId,
                 isMyTurn: action.payload.isMyTurn,
-                amICross: action.payload.amICross,    
-                isItFirstPlayer: action.payload.isItFirstPlayer,    
+                amICross: action.payload.amICross,
+                isItFirstPlayer: action.payload.isItFirstPlayer,
             });
 
         case types.RESET_GAME:
@@ -86,22 +78,17 @@ export const gameReducer = (state = initialState, action: any) => {
             let stepsCount: number = Number(state.get('stepsCount'));
             const amICross: boolean = Boolean(state.get('amICross'));
             let isCross: boolean = amICross === isMyTurn ? true : false;
-            console.log("REDUCER");
-            console.log("isCross " + isCross)
-            console.log("amICross " + amICross)
-            console.log("isMyTurn 2222222222222222222 " + isMyTurn)
+
             let isStepsExist: boolean = GameUtils.SetChoice(items, Number(action.payload), isCross);
             let isDraw: boolean = GameUtils.CheckDraw(items, type);
             let isWin: boolean = false;
 
             if (!isDraw && (stepsCount + 1) >= type && isStepsExist) {
                 isWin = GameUtils.IsWinGame(items, type);
-                console.log("isWin ======> " + isWin);
             }
 
             if (isWin || isDraw) {
                 isPlaying = false;
-                console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
             } else {
                 isMyTurn = !isMyTurn;
             }

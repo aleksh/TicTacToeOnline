@@ -12,11 +12,11 @@ export const uiActions = {
             type: types.STOP_FETCHING,
         };
     },
-    emitError: (error:string, meta = null) => {
+    emitError: (error: string, meta = null) => {
         return {
-            type:    types.EMIT_ERROR,
+            type: types.EMIT_ERROR,
             payload: error,
-            error:   true,
+            error: true,
             meta,
         };
     },

@@ -1,6 +1,6 @@
 // Types
-import { types } from './types';
 import VOUser from '../../VO/VOUser';
+import { types } from './types';
 
 export const gameActions = {
 
@@ -29,7 +29,7 @@ export const gameActions = {
             payload: userOpponent,
         };
     },
-    
+
     setChoice: (id: number) => {
         return {
             type: types.SET_CHOICE,
@@ -56,25 +56,25 @@ export const gameActions = {
 
     subscribeForGamesAsync: () => {
         return {
-            type: types.SUBSCRIBE_FOR_GAMES,            
+            type: types.SUBSCRIBE_FOR_GAMES,
         };
     },
 
-    subscribeForCurrentGameAsync: (game:any) => {
+    subscribeForCurrentGameAsync: (game: any) => {
         return {
-            type: types.SUBSCRIBE_FOR_CURRENT_GAME,        
-            payload: game,    
+            type: types.SUBSCRIBE_FOR_CURRENT_GAME,
+            payload: game,
         };
     },
 
-    setChoiceToDBAsync: (pChoice:any) => {
+    setChoiceToDBAsync: (pChoice: any) => {
         return {
             type: types.SET_CHOICE_TO_DB_ASYNC,
             payload: pChoice,
         };
     },
 
-    removeGameAsync: (gameId: string) => {        
+    removeGameAsync: (gameId: string) => {
         return {
             type: types.REMOVE_GAME_ASYNC,
             payload: gameId,

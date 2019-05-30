@@ -31,7 +31,6 @@ export interface ITicTacToeAppState {}
 
 class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	private _pcPlayer: PCPlayer;
-	private _timer: NodeJS.Timeout | undefined;
 
 	constructor(props: ITicTacToeProps) {
 		super(props);
@@ -57,8 +56,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 			}
 
 			if (choosedUser.isPC && !isMyTurn === false) {
-				console.log("PC CHOICE");
-				this._timer = setTimeout(() => {
+				setTimeout(() => {
 					this._madePCChoice();
 				}, 1000);
 			}
@@ -122,8 +120,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 						isMyTurn
 					),
 					click: actions.removeGameAsync,
-					clickParams: gameId,
-					hideModal: actions.hideModal
+					clickParams: gameId
 				}
 			});
 		}

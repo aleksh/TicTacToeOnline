@@ -1,8 +1,6 @@
 import * as React from "react";
-
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-
+import { bindActionCreators } from "redux";
 //actions
 import { gameActions } from "../../bus/game/actions";
 import GameSettings from "../GameSettings/GameSettings";
@@ -16,11 +14,11 @@ interface IGameProps {
 interface IGameState {}
 
 class Game extends React.Component<IGameProps, IGameState> {
-	public render() {		
+	public render() {
 		return (
 			<div className="col-4 bd-highlight">
 				<GameSettings />
-			    <TicTacToe />
+				<TicTacToe />
 			</div>
 		);
 	}

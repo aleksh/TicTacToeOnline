@@ -15,12 +15,10 @@ export function* subscribeForGames() {
     let game: any = {};
 
     try {
-        console.log("subscribeForGames Saga");
 
         while (isGameNotFound) {
             const snap = yield take(channel);
-            console.log("inviteToGame ONNNN")
-            //console.log(snap.val());            
+
             if (snap.exists()) {
                 const userId: any = auth.currentUser!.uid;
 
@@ -37,30 +35,23 @@ export function* subscribeForGames() {
                 });
 
                 if (game.gameId !== undefined && String(game.gameId).length > 0) {
-                    console.log(game)
                     isGameNotFound = false;
                     channel.close();
-                    console.log("subscribeForGames saga Close Chanel Game Found");
                 }
             }
         }
 
         if (game.gameId !== undefined && String(game.gameId).length > 0) {
-            console.log(game);
             channel.close();
-            console.log("subscribeForGames saga Close Chanel Game Found ==========================");
-            //set Second player
 
-            console.log("SHOW CONFIRM")
             const confirmed = yield call(confirmSaga, GameUtils.GetInviteMessage(game.opponentUser));
-            console.log("AFTER CONFIRM")
-            console.log(confirmed);
+            const isGameStillExist = yield call(_checkIfGameStillExist, game.gameId);
 
-            if (confirmed) {
+            if (confirmed && isGameStillExist) {
+
                 yield put(allUsersActions.setOpponent(game.opponentUser));
                 const data = yield call(_acceptGame, game);
-                console.log("Accept Game Data");
-                //  console.log(data);
+
                 if (data) {
                     yield put(gameActions.playWithUser({
                         gameId: game.gameId,
@@ -75,22 +66,13 @@ export function* subscribeForGames() {
             } else {
                 yield put(gameActions.removeGameAsync(game.gameId));
                 yield put(gameActions.subscribeForGamesAsync());
-                //remove Game  and subscribe for Games again
-                console.log("remove Game  and subscribe for Games again==============");
             }
-
-            console.log("subscribeForGames saga Close Chanel Game Found");
         }
 
-
     } catch (error) {
-        console.log("subscribeForGames saga Error" + error);
         channel.close();
-        //yield put(userActions.emitUserError(error, 'login'));
     } finally {
         channel.close();
-        console.log("subscribeForGames saga completed");
-        //yield put(userActions.stopUserFetching());
     }
 }
 
@@ -117,5 +99,19 @@ const _acceptGame = (game: any) => {
             }).catch((error) => {
                 reject(false)
             });
+    });
+}
+
+const _checkIfGameStillExist = (gameId: string) => {
+    return new Promise((resolve, reject) => {
+        fb.database().ref('games').child(`${gameId}`).once('value', snap => {
+            if (snap.exists()) {
+                resolve(true)
+            } else {
+                resolve(false);
+            }
+        }).catch((error) => {
+            resolve(false);
+        });
     });
 }

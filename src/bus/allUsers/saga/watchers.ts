@@ -1,11 +1,11 @@
 // Core
-import { takeEvery, all, call } from 'redux-saga/effects';
-
+import { all, call, takeEvery } from 'redux-saga/effects';
 // Types
 import { types } from '../types';
-
 // Workers
 import { getUsers } from './workers';
+
+
 
 function* watchGetUsers() {
     yield takeEvery(types.GET_USERS_ASYNC, getUsers);

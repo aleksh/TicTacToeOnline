@@ -1,11 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
 //actions
 import { userActions } from "../../bus/user/actions";
-import UserCard from "../UserCard/UserCard";
 import VOUser from "../../VO/VOUser";
+import UserCard from "../UserCard/UserCard";
 
 interface IUserProps {
 	type: number;
@@ -16,12 +15,10 @@ interface IUserProps {
 interface IUserState {}
 
 class User extends React.Component<IUserProps, IUserState> {
-
-
-    private _handlerLogout = () => {
-        const { actions } = this.props;
-        actions.logoutAsync();
-    }
+	private _handlerLogout = () => {
+		const { actions } = this.props;
+		actions.logoutAsync();
+	};
 
 	public render() {
 		const { user } = this.props;
@@ -30,8 +27,8 @@ class User extends React.Component<IUserProps, IUserState> {
 				<UserCard
 					displayName={user.displayName}
 					isOnline={true}
-                    btnTitle={"Login"}
-                    click={this._handlerLogout}
+					btnTitle={"Login"}
+					click={this._handlerLogout}
 					avatarUrl={user.photoURL}
 				/>
 			</div>

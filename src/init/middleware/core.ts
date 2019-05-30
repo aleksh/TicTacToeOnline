@@ -1,29 +1,27 @@
-// Core
-import { applyMiddleware, compose } from 'redux';
-import { createBrowserHistory } from "history";
-
-// Middleware
 import { routerMiddleware as createRouterMiddleware } from 'connected-react-router';
-import createSagaMiddleware from 'redux-saga';
+import { createBrowserHistory } from "history";
+import { applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
+
 
 
 const logger = createLogger({
-    duration:  true,
+    duration: true,
     collapsed: true,
-    colors:    {
-        title:     () => '#139BFE',
+    colors: {
+        title: () => '#139BFE',
         prevState: () => '#1C5FAF',
-        action:    () => '#149945',
+        action: () => '#149945',
         nextState: () => '#A47104',
-        error:     () => '#ff0005',
+        error: () => '#ff0005',
     },
 });
 
 const history = createBrowserHistory();
 const routerMiddleware = createRouterMiddleware(history);
 const sagaMiddleware = createSagaMiddleware();
-const devtools =  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const devtools = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let composeEnhancers = compose;
 
 const middleware = [sagaMiddleware, routerMiddleware];
@@ -38,3 +36,4 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 const enhancedStore = composeEnhancers(applyMiddleware(...middleware));
 
 export { enhancedStore, sagaMiddleware, history };
+

@@ -1,24 +1,31 @@
 import { eventChannel } from "redux-saga";
 import { call, put, take } from 'redux-saga/effects';
+import { MODAL_TYPES } from "../../../../components/Modals/Modals";
 // Instruments
 import { fb } from "../../../../init/firebaseConfig";
+import GameUtils from "../../../../utils/GameUtils";
 import { gameActions } from "../../../game/actions";
+import { modalActions } from "../../../modal/actions";
 
 
 export function* inviteToGame({ payload }: any) {
-    console.log("inviteToGame");
-
     const { gameId } = yield call(_sendInvite, payload);
     const channel = yield call(_createFirstUserGameChannel, gameId);
     let isListening = true;
 
+    yield put(modalActions.showModal({
+        modalType: MODAL_TYPES.WAITING_FOR_OPPONENT,
+        modalProps: {
+            message: GameUtils.GetWaitOpponentMessage(payload.player2),
+            gameId,
+        }
+    }))
+
     try {
         while (isListening) {
             const snap = yield take(channel);
-            console.log("inviteToGame ONNNN")
-            //console.log(snap.val());            
+
             if (snap.exists()) {
-                console.log("OPPONENT COMP Play Game");
                 const stepId = snap.val().stepId;
 
                 if (snap.val().isPlaying === true && stepId === 0) {
@@ -29,27 +36,25 @@ export function* inviteToGame({ payload }: any) {
                         type: snap.val().type,
                         isItFirstPlayer: true,
                     }));
-                    console.log("inviteToPlay");
                     isListening = false;
                     channel.close();
 
-                    yield put(gameActions.subscribeForCurrentGameAsync({gameId, isItFirstPlayer:true}));
+                    yield put(modalActions.hideModal());
+                    yield put(gameActions.subscribeForCurrentGameAsync({ gameId, isItFirstPlayer: true }));
                 }
             } else {
                 isListening = false;
                 channel.close();
-                // means user decline accept               
-                console.log("CLOSE Channel and Remove Game from IviteToGame");
+
                 yield put(gameActions.removeGameAsync(gameId));
+                yield put(modalActions.hideModal());
+                yield put(gameActions.subscribeForGamesAsync());
             }
         }
     } catch (error) {
-        console.log("inviteToGame saga Error");
         channel.close();
-        //yield put(userActions.emitUserError(error, 'login'));
     } finally {
         channel.close();
-        console.log('inviteToGame CLOSE CHANELL');
     }
 }
 
@@ -63,7 +68,6 @@ const _sendInvite = (invite: any) => {
         });
     });
 }
-
 
 const _createFirstUserGameChannel = (gameId: string) => {
     return eventChannel((emit): any => {

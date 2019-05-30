@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { gameActions } from "./bus/game/actions";
+import { userActions } from "./bus/user/actions";
 import Game from "./components/Game/Game";
 import Login from "./components/Login/Login";
 import Modals from "./components/Modals/Modals";
 import Opponents from "./components/Opponents/Opponents";
 import User from "./components/User/User";
-import { userActions } from "./bus/user/actions";
-import { gameActions } from "./bus/game/actions";
 import VOUser from "./VO/VOUser";
 
 interface IAppProps {
@@ -18,11 +18,11 @@ interface IAppProps {
 interface IAppState {}
 
 class App extends React.Component<IAppProps, IAppState> {
-	componentDidMount = () => {		    
-        this.props.actions.authChangedAsync();        
+	componentDidMount = () => {
+		this.props.actions.authChangedAsync();
 
-        // move this when user LogedIn
-        this.props.actions.subscribeForGamesAsync();   
+		// move this when user LogedIn
+		this.props.actions.subscribeForGamesAsync();
 	};
 
 	_handlerLogin = () => {
@@ -57,7 +57,10 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		actions: bindActionCreators({ ...userActions, ...gameActions }, dispatch)
+		actions: bindActionCreators(
+			{ ...userActions, ...gameActions },
+			dispatch
+		)
 	};
 };
 

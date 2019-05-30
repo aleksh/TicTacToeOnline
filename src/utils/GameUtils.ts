@@ -2,7 +2,7 @@ import VOTicItem from "../VO/VOTicItem";
 import VOUser from "../VO/VOUser";
 
 export default class GameUtils {
-   
+
 
     static CheckItemsForWin = (pItems: VOTicItem[], pByAcross: boolean, pGameType: number): boolean => {
         let pFilteredItems: VOTicItem[] = pItems.filter(item => !item.isEmpty && item.isAcross === pByAcross);
@@ -216,20 +216,25 @@ export default class GameUtils {
         return items;
     }
 
-    static GetEndGameMessage = ( isDraw:boolean, isWin:boolean, isMyTurn:boolean): string => {
+    static GetEndGameMessage = (isDraw: boolean, isWin: boolean, isMyTurn: boolean): string => {
         let message: string = "";
-		isDraw
-			? (message = "DRAW !!!!")
-			: isWin && isMyTurn
-			? (message = "YOU WIN !!!!")
-			: (message = "YOU LOSE !!!");
+        isDraw
+            ? (message = "DRAW !!!!")
+            : isWin && isMyTurn
+                ? (message = "YOU WIN !!!!")
+                : (message = "YOU LOSE !!!");
 
-		return message;        
+        return message;
     }
 
-    static GetInviteMessage = ( pUser:VOUser): string => {
-        let message: string = `Do you want to play with ${pUser.displayName}`;		
-		return message;        
+    static GetInviteMessage = (pUser: VOUser): string => {
+        let message: string = `Do you want to play with ${pUser.displayName}`;
+        return message;
+    }
+
+    static GetWaitOpponentMessage = (pUser: VOUser): string => {
+        let message: string = `Waiting for  ${pUser.displayName}`;
+        return message;
     }
 
 }

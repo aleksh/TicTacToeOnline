@@ -1,9 +1,9 @@
-import { call, put, apply, all, take, race } from 'redux-saga/effects';
-import { modalActions } from '../../actions';
+import { put, race, take } from 'redux-saga/effects';
 import { MODAL_TYPES } from '../../../../components/Modals/Modals';
+import { modalActions } from '../../actions';
 import { types } from '../../types';
 
-export function* confirmSaga(message: string = "AAAA") {
+export function* confirmSaga(message: string) {
     yield put(modalActions.showModal(
         {
             modalType: MODAL_TYPES.CONFIRM_INVITE,

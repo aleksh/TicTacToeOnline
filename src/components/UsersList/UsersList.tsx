@@ -5,8 +5,8 @@ import UserItem from "./UserItem";
 interface ITicItemProps {
 	click: Function;
 	choosedUser: VOUser;
-    allUsers: VOUser[];
-    isPlaying: boolean;
+	allUsers: VOUser[];
+	isPlaying: boolean;
 }
 
 export interface ITicItemState {}
@@ -23,7 +23,7 @@ export default class UsersList extends React.Component<
 				: false;
 			return (
 				<UserItem
-                    disabled = {isPlaying}
+					disabled={isPlaying}
 					user={user}
 					key={user.uid}
 					click={click}

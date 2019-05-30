@@ -1,32 +1,30 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { gameActions } from "../../../bus/game/actions";
 import { modalActions } from "../../../bus/modal/actions";
 
-interface IModalConfirmProps {
+interface IModalWaitOpponentProps {
 	modalProps: any;
 	actions: any;
 }
 
-interface IModalConfirmState {}
+interface IModalWaitOpponentState {}
 
-class ModalConfirm extends React.Component<
-	IModalConfirmProps,
-	IModalConfirmState
+class ModalWaitOpponent extends React.Component<
+	IModalWaitOpponentProps,
+	IModalWaitOpponentState
 > {
-	_handlerCancel = () => {
+	_handlerCancelPopup = () => {
+		const { gameId } = this.props.modalProps;
 		const { actions } = this.props;
-		actions.confirmNo();
-	};
 
-	_handlerOk = () => {
-		const { actions } = this.props;
-		actions.confirmYes();
+		actions.removeGameAsync(gameId);
+		actions.hideModal();
 	};
 
 	public render() {
 		const { message } = this.props.modalProps;
-
 		return (
 			<>
 				<div className="modal show">
@@ -36,7 +34,7 @@ class ModalConfirm extends React.Component<
 								<button
 									type="button"
 									className="close"
-									onClick={this._handlerCancel}
+									onClick={this._handlerCancelPopup}
 								>
 									<span>&times;</span>
 								</button>
@@ -47,17 +45,10 @@ class ModalConfirm extends React.Component<
 							<div className="modal-footer justify-content-center">
 								<button
 									type="button"
-									className="btn btn-secondary"
-									onClick={this._handlerCancel}
-								>
-									Cancel
-								</button>
-								<button
-									type="button"
 									className="btn btn-success"
-									onClick={this._handlerOk}
+									onClick={this._handlerCancelPopup}
 								>
-									Ok
+									Cancel Game
 								</button>
 							</div>
 						</div>
@@ -65,7 +56,7 @@ class ModalConfirm extends React.Component<
 				</div>
 				<div
 					className="modal-backdrop show"
-					onClick={this._handlerCancel}
+					onClick={this._handlerCancelPopup}
 				/>
 			</>
 		);
@@ -74,11 +65,14 @@ class ModalConfirm extends React.Component<
 
 const mapDispatchToProps = (dispatch: any) => {
 	return {
-		actions: bindActionCreators({ ...modalActions }, dispatch)
+		actions: bindActionCreators(
+			{ ...modalActions, ...gameActions },
+			dispatch
+		)
 	};
 };
 
 export default connect(
 	null,
 	mapDispatchToProps
-)(ModalConfirm);
+)(ModalWaitOpponent);

@@ -1,9 +1,8 @@
-import * as React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Styles from "./Login.module.scss";
-
 //actions
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as React from "react";
+import Styles from "./Login.module.scss";
 
 interface ILoginProps {
 	click: Function;

@@ -1,14 +1,13 @@
+import "bootstrap/dist/css/bootstrap.css";
+import { ConnectedRouter as Router } from "connected-react-router";
 import React from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
-import { ConnectedRouter as Router } from 'connected-react-router'
-
-import { store } from "./init/store";
+import App from "./App";
+import "./index.css";
 import { history } from "./init/middleware/core";
+import { store } from "./init/store";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
 	<Provider store={store}>

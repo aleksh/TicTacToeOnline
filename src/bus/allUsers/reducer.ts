@@ -1,8 +1,8 @@
 // Types
-import { types } from './types';
 import { Map } from 'immutable';
 import { PC_USERS } from '../../utils/Constants';
 import VOUser from '../../VO/VOUser';
+import { types } from './types';
 
 const initialState = Map({
     allUsers: PC_USERS,
@@ -12,9 +12,6 @@ const initialState = Map({
 export const allUsersReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case types.CHOOSE_OPPONENT:
-
-            console.log("Choose Opponent");
-            console.log(action.payload);
 
             return state.set("choosedUser", action.payload);
         case types.UPDATE_USERS_LIST:

@@ -3,29 +3,29 @@ import { types } from './types';
 
 export const modalActions = {
 
-    showModal: (props:any) => {
+    showModal: (props: any) => {
         return {
             type: types.SHOW_MODAL,
-            payload:props, 
+            payload: props,
         };
     },
 
-    hideModal: () => {        
+    hideModal: () => {
         return {
             type: types.HIDE_MODAL,
         };
     },
 
-    confirmYes: () => {        
+    confirmYes: () => {
         return {
             type: types.CONFIRM_YES,
         };
     },
 
-    confirmNo: () => {        
+    confirmNo: () => {
         return {
             type: types.CONFIRM_NO,
         };
     },
-   
+
 };
