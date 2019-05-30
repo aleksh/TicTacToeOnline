@@ -1,25 +1,27 @@
 import * as React from "react";
-
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { modalActions } from "../../../bus/modal/actions";
+ 
 interface IModalConfirmProps {
-	modalProps: any;
+    modalProps: any;
+    actions:any;
 }
 
 interface IModalConfirmState {}
 
-export default class ModalConfirm extends React.Component<
+class ModalConfirm extends React.Component<
 	IModalConfirmProps,
 	IModalConfirmState
 > {
 	_handlerCancel = () => {
-		const { clickCancel, hideModal } = this.props.modalProps;
-		//	clickCancel();
-		hideModal();
+        const { actions } = this.props;        
+        actions.confirmNo();        
 	};
 
 	_handlerOk = () => {
-		const { clickOk, hideModal } = this.props.modalProps;
-		//	clickOk();
-		hideModal();
+        const { actions } = this.props;        
+        actions.confirmYes();		
 	};
 
 	public render() {
@@ -69,3 +71,14 @@ export default class ModalConfirm extends React.Component<
 		);
 	}
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		actions: bindActionCreators({ ...modalActions }, dispatch)
+	};
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(ModalConfirm);

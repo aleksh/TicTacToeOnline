@@ -1,12 +1,12 @@
-import { call, put, apply, all, take } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
-
+import { call, put, take } from 'redux-saga/effects';
 // Instruments
-import {
-    fb, auth
-} from '../../../../init/firebaseConfig';
-import { gameActions } from "../../actions";
+import { auth, fb } from '../../../../init/firebaseConfig';
+import GameUtils from '../../../../utils/GameUtils';
 import { allUsersActions } from "../../../allUsers/actions";
+import { confirmSaga } from '../../../modal/saga/workers/index';
+import { gameActions } from "../../actions";
+
 
 export function* subscribeForGames() {
 
@@ -48,28 +48,35 @@ export function* subscribeForGames() {
         if (game.gameId !== undefined && String(game.gameId).length > 0) {
             console.log(game);
             channel.close();
+            console.log("subscribeForGames saga Close Chanel Game Found ==========================");
             //set Second player
 
-            ////////////////////////////////// DECLINE GAME
-            // console.log("DECLINE GAME");
-            //fb.database().ref(`games/${gameKey}`).remove();
+            console.log("SHOW CONFIRM")
+            const confirmed = yield call(confirmSaga, GameUtils.GetInviteMessage(game.opponentUser));
+            console.log("AFTER CONFIRM")
+            console.log(confirmed);
 
-            // AcceptGame
-            yield put(allUsersActions.setOpponent(game.opponentUser));
-            // AcceptGame
-            const data = yield call(_acceptGame, game);
-            console.log("Accept Game Data");
-            console.log(data);
-            if (data) {
-                yield put(gameActions.playWithUser({
-                    gameId: game.gameId,
-                    isMyTurn: false,
-                    amICross: false,
-                    type: game.type,
-                    isItFirstPlayer: false,
-                }));
+            if (confirmed) {
+                yield put(allUsersActions.setOpponent(game.opponentUser));
+                const data = yield call(_acceptGame, game);
+                console.log("Accept Game Data");
+                //  console.log(data);
+                if (data) {
+                    yield put(gameActions.playWithUser({
+                        gameId: game.gameId,
+                        isMyTurn: false,
+                        amICross: false,
+                        type: game.type,
+                        isItFirstPlayer: false,
+                    }));
 
-                yield put(gameActions.subscribeForCurrentGameAsync({ gameId: game.gameId, isItFirstPlayer: false }));
+                    yield put(gameActions.subscribeForCurrentGameAsync({ gameId: game.gameId, isItFirstPlayer: false }));
+                }
+            } else {
+                yield put(gameActions.removeGameAsync(game.gameId));
+                yield put(gameActions.subscribeForGamesAsync());
+                //remove Game  and subscribe for Games again
+                console.log("remove Game  and subscribe for Games again==============");
             }
 
             console.log("subscribeForGames saga Close Chanel Game Found");

@@ -10,10 +10,21 @@ export const modalActions = {
         };
     },
 
-    hideModal: () => {
-        console.log("hide Modal Action");
+    hideModal: () => {        
         return {
             type: types.HIDE_MODAL,
+        };
+    },
+
+    confirmYes: () => {        
+        return {
+            type: types.CONFIRM_YES,
+        };
+    },
+
+    confirmNo: () => {        
+        return {
+            type: types.CONFIRM_NO,
         };
     },
    

@@ -1,4 +1,5 @@
 import VOTicItem from "../VO/VOTicItem";
+import VOUser from "../VO/VOUser";
 
 export default class GameUtils {
    
@@ -223,6 +224,11 @@ export default class GameUtils {
 			? (message = "YOU WIN !!!!")
 			: (message = "YOU LOSE !!!");
 
+		return message;        
+    }
+
+    static GetInviteMessage = ( pUser:VOUser): string => {
+        let message: string = `Do you want to play with ${pUser.displayName}`;		
 		return message;        
     }
 

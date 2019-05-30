@@ -29,7 +29,7 @@ export const gameActions = {
             payload: userOpponent,
         };
     },
-
+    
     setChoice: (id: number) => {
         return {
             type: types.SET_CHOICE,
