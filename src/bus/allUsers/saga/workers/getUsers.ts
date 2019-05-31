@@ -5,27 +5,29 @@ import { call, put, take } from 'redux-saga/effects';
 import { auth, fb } from '../../../../init/firebaseConfig';
 import VOUser from "../../../../VO/VOUser";
 import { allUsersActions } from "../../../allUsers/actions";
-
+import { modalActions } from '../../../modal/actions';
 
 export function* getUsers() {
+    try {
+        const channel = yield call(_createUsersChannel);
 
-    const channel = yield call(_createUsersChannel);
+        while (true) {
 
-    while (true) {
-
-        const snap = yield take(channel);
-        if (snap.exists()) {
-            let usersList: VOUser[] = [];
-            const userId: any = auth.currentUser!.uid;
-            snap.forEach((child: any) => {
-                if (userId !== child.val().uid) {
-                    usersList.push(child.val() as VOUser);
-                }
-            });
-            yield put(allUsersActions.updateUsers(usersList));
+            const snap = yield take(channel);
+            if (snap.exists()) {
+                let usersList: VOUser[] = [];
+                const userId: any = auth.currentUser!.uid;
+                snap.forEach((child: any) => {
+                    if (userId !== child.val().uid) {
+                        usersList.push(child.val() as VOUser);
+                    }
+                });
+                yield put(allUsersActions.updateUsers(usersList));
+            }
         }
+    } catch (error) {
+        yield put(modalActions.showError('Error getUsers saga'));
     }
-
 }
 
 

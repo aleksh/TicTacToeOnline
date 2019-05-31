@@ -4,8 +4,8 @@ import { call, put, take } from 'redux-saga/effects';
 // Instruments
 import { auth, fb } from '../../../../init/firebaseConfig';
 import VOUser from '../../../../VO/VOUser';
+import { modalActions } from "../../../modal/actions";
 import { userActions } from '../../actions';
-
 
 export function* authChanged() {
     try {
@@ -25,7 +25,7 @@ export function* authChanged() {
         }
 
     } catch (error) {
-        console.log("authChanged saga Error");
+        yield put(modalActions.showError('Error authChanged saga'));
     }
 }
 

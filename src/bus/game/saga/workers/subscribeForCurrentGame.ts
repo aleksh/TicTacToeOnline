@@ -2,6 +2,7 @@ import { eventChannel } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 // Instruments
 import { fb } from "../../../../init/firebaseConfig";
+import { modalActions } from "../../../modal/actions";
 import { gameActions } from "../../actions";
 
 
@@ -32,6 +33,7 @@ export function* subscribeForCurrentGame({ payload: { gameId, isItFirstPlayer } 
 
     } catch (error) {
         channel.close();
+        yield put(modalActions.showError('Error subscribeForCurrentGame saga'));
     } finally {
         channel.close();
     }

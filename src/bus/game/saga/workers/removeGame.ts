@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 // Instruments
 import { fb } from "../../../../init/firebaseConfig";
+import { modalActions } from "../../../modal/actions";
 import { gameActions } from "../../actions";
 
 
@@ -11,7 +12,7 @@ export function* removeGame({ payload }: any) {
         }
         yield put(gameActions.resetGame());
     } catch (error) {
-        console.log("removeGame saga Error");
+        yield put(modalActions.showError('Error removeGame saga'));
     }
 }
 

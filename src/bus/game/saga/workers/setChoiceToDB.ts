@@ -1,14 +1,14 @@
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 // Instruments
 import { fb } from '../../../../init/firebaseConfig';
+import { modalActions } from "../../../modal/actions";
 
 
 export function* setChoiceToDB({ payload: { gameId, stepId, isItFirstPlayer } }: any) {
     try {
         yield call(setChoiceToBDFirebase, gameId, stepId, isItFirstPlayer);
     } catch (error) {
-        console.log("setChoiceToDB saga Error");
-        // CHECK fOR eRROR
+        yield put(modalActions.showError('Error setChoiceToDB saga'));
     }
 }
 

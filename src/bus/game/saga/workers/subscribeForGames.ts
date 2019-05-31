@@ -4,6 +4,7 @@ import { call, put, take } from 'redux-saga/effects';
 import { auth, fb } from '../../../../init/firebaseConfig';
 import GameUtils from '../../../../utils/GameUtils';
 import { allUsersActions } from "../../../allUsers/actions";
+import { modalActions } from "../../../modal/actions";
 import { confirmSaga } from '../../../modal/saga/workers/index';
 import { gameActions } from "../../actions";
 
@@ -71,6 +72,7 @@ export function* subscribeForGames() {
 
     } catch (error) {
         channel.close();
+        yield put(modalActions.showError('Error subscribeForGames saga'));
     } finally {
         channel.close();
     }

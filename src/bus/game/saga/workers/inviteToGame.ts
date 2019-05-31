@@ -53,6 +53,7 @@ export function* inviteToGame({ payload }: any) {
         }
     } catch (error) {
         channel.close();
+        yield put(modalActions.showError('Error inviteToGame saga'));
     } finally {
         channel.close();
     }

@@ -1,4 +1,5 @@
 // Types
+import { MODAL_TYPES } from '../../components/Modals/Modals';
 import { types } from './types';
 
 export const modalActions = {
@@ -13,6 +14,16 @@ export const modalActions = {
     hideModal: () => {
         return {
             type: types.HIDE_MODAL,
+        };
+    },
+
+    showError: (message: string) => {
+        return {
+            type: types.SHOW_MODAL,
+            payload: {
+                modalType: MODAL_TYPES.INFO,
+                modalProps: { message }
+            },
         };
     },
 
