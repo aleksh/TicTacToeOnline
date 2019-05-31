@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { allUsersActions } from "../../bus/allUsers/actions";
 import { gameActions } from "../../bus/game/actions";
+import { PC_USERS_COUNT } from "../../utils/Constants";
 import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
 import UsersList from "../UsersList/UsersList";
@@ -20,12 +21,11 @@ interface IOpponentsState {}
 
 class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	componentDidMount = () => {
-		const { actions } = this.props;
-		actions.getUsersAsync();
-	};
+		const { actions, allUsers } = this.props;
 
-	componentWillUnmount = () => {
-		console.log("Opponents componentWillUnmount");
+		if (allUsers.length <= PC_USERS_COUNT) {
+			actions.getUsersAsync();
+		}
 	};
 
 	_handlerInviteForPlay = () => {

@@ -1,9 +1,9 @@
 // Core
-import { createStore } from 'redux';
-import { enhancedStore, history, sagaMiddleware } from './middleware/core';
+import { createStore } from "redux";
+import { enhancedStore, history, sagaMiddleware } from "./middleware/core";
 // Roots
-import { rootReducer } from './rootReducer';
-import { rootSaga } from './rootSaga';
+import { rootReducer } from "./rootReducer";
+import { rootSaga } from "./rootSaga";
 
 
 

@@ -1,9 +1,9 @@
 // Core
-import { all, call } from 'redux-saga/effects';
-import { watchAllUsers } from '../bus/allUsers/saga/watchers';
-import { watchGame } from '../bus/game/saga/watchers';
+import { all, call } from "redux-saga/effects";
+import { watchAllUsers } from "../bus/allUsers/saga/watchers";
+import { watchGame } from "../bus/game/saga/watchers";
 // Watchers
-import { watchUser } from '../bus/user/saga/watchers';
+import { watchUser } from "../bus/user/saga/watchers";
 
 
 export function* rootSaga() {

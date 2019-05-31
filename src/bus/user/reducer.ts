@@ -1,6 +1,6 @@
 // Types
-import { Map } from 'immutable';
-import { types } from './types';
+import { Map } from "immutable";
+import { types } from "./types";
 
 const initialState = Map({
     user: null,

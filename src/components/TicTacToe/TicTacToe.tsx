@@ -1,8 +1,6 @@
-import cl from "classnames";
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-//actions
 import { gameActions } from "../../bus/game/actions";
 import { modalActions } from "../../bus/modal/actions";
 import GameUtils from "../../utils/GameUtils";
@@ -10,10 +8,8 @@ import PCPlayer from "../../utils/PCPlayer";
 import VOTicItem from "../../VO/VOTicItem";
 import VOUser from "../../VO/VOUser";
 import Catcher from "../Catcher/Catcher";
+import Grid from "../Grid/Grid";
 import { MODAL_TYPES } from "../Modals/Modals";
-import TicItem from "../TicItem/TicItem";
-// Styles
-import Styles from "./TixTacToe.module.scss";
 
 export interface ITicTacToeProps {
 	gameId: string;
@@ -40,7 +36,6 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	}
 
 	private _handlerClickItem = (stepId: number): void => {
-		console.log(stepId);
 		const {
 			actions,
 			choosedUser,
@@ -76,7 +71,6 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		} = this.props;
 
 		if (!isWin && !isDraw && isPlaying) {
-			console.log("GET PC STEP ==> " + type);
 			let pId: number = this._pcPlayer.getStepId(
 				items,
 				type,
@@ -85,26 +79,6 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 
 			actions.setChoice(pId);
 		}
-	};
-
-	private _getGameArea = (): any => {
-		const { items, isMyTurn } = this.props;
-
-		return items.map(row => {
-			return row.map(item => {
-				return (
-					<TicItem
-						key={item.id}
-						id={item.id}
-						done={item.done}
-						click={this._handlerClickItem}
-						isEmpty={item.isEmpty}
-						isAcross={item.isAcross}
-						isMyTurn={isMyTurn}
-					/>
-				);
-			});
-		});
 	};
 
 	private _showWinModal = () => {
@@ -128,18 +102,16 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 	};
 
 	public render() {
-		const { type } = this.props;
-
-		const gameClass = cl({
-			[Styles.TicTacToe3]: type === 3,
-			[Styles.TicTacToe5]: type === 5,
-			[Styles.TicTacToe7]: type === 7
-		});
-
+		const { type, items, isMyTurn } = this.props;
 		this._showWinModal();
 		return (
 			<Catcher>
-				<div className={gameClass}>{this._getGameArea()}</div>
+				<Grid
+					type={type}
+					items={items}
+					isMyTurn={isMyTurn}
+					click={this._handlerClickItem}
+				/>
 			</Catcher>
 		);
 	}

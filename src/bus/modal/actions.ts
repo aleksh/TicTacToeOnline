@@ -1,6 +1,6 @@
 // Types
-import { MODAL_TYPES } from '../../components/Modals/Modals';
-import { types } from './types';
+import { MODAL_TYPES } from "../../components/Modals/Modals";
+import { types } from "./types";
 
 export const modalActions = {
 

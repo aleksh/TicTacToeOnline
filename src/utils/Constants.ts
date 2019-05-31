@@ -10,3 +10,5 @@ export const PC_USERS: VOUser[] = [
     new VOUser("2", "Medium PC", IconMedium, true, true),
     new VOUser("3", "Hard PC", IconHard, true, true)
 ];
+
+export const PC_USERS_COUNT:number = PC_USERS.length;

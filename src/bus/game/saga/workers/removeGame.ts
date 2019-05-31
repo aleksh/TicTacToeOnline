@@ -1,9 +1,7 @@
-import { call, put } from 'redux-saga/effects';
-// Instruments
+import { call, put } from "redux-saga/effects";
 import { fb } from "../../../../init/firebaseConfig";
 import { modalActions } from "../../../modal/actions";
 import { gameActions } from "../../actions";
-
 
 export function* removeGame({ payload }: any) {
     try {

@@ -1,7 +1,6 @@
 import { eventChannel } from "redux-saga";
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, take } from "redux-saga/effects";
 import { MODAL_TYPES } from "../../../../components/Modals/Modals";
-// Instruments
 import { fb } from "../../../../init/firebaseConfig";
 import GameUtils from "../../../../utils/GameUtils";
 import { gameActions } from "../../../game/actions";

@@ -1,11 +1,11 @@
 // Core
-import { Map } from 'immutable';
-import { GAME_TYPES } from '../../utils/Constants';
+import { Map } from "immutable";
+import { GAME_TYPES } from "../../utils/Constants";
 //Utils
 import GameUtils from "../../utils/GameUtils";
-import VOTicItem from '../../VO/VOTicItem';
+import VOTicItem from "../../VO/VOTicItem";
 // Types
-import { types } from './types';
+import { types } from "./types";
 
 
 const initialState = Map({

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-//actions
 import { userActions } from "../../bus/user/actions";
 import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
@@ -27,7 +26,7 @@ class User extends React.Component<IUserProps, IUserState> {
 				<UserCard
 					displayName={user.displayName}
 					isOnline={true}
-					btnTitle={"Login"}
+					btnTitle={"Log Out"}
 					click={this._handlerLogout}
 					avatarUrl={user.photoURL}
 				/>

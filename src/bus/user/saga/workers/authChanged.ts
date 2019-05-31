@@ -1,11 +1,11 @@
 
-import { eventChannel } from 'redux-saga';
-import { call, put, take } from 'redux-saga/effects';
-// Instruments
-import { auth, fb } from '../../../../init/firebaseConfig';
-import VOUser from '../../../../VO/VOUser';
+import { eventChannel } from "redux-saga";
+import { call, put, take } from "redux-saga/effects";
+import { auth, fb } from "../../../../init/firebaseConfig";
+import VOUser from "../../../../VO/VOUser";
 import { modalActions } from "../../../modal/actions";
-import { userActions } from '../../actions';
+import { userActions } from "../../actions";
+
 
 export function* authChanged() {
     try {

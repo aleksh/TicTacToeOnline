@@ -1,7 +1,6 @@
 
-import { apply, put } from 'redux-saga/effects';
-// Instruments
-import { auth, providerFacebook } from '../../../../init/firebaseConfig';
+import { apply, put } from "redux-saga/effects";
+import { auth, providerFacebook } from "../../../../init/firebaseConfig";
 import { modalActions } from "../../../modal/actions";
 
 

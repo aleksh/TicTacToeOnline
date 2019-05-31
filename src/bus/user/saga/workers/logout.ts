@@ -1,8 +1,8 @@
 
-import { apply, put } from 'redux-saga/effects';
-// Instruments
-import { auth } from '../../../../init/firebaseConfig';
+import { apply, put } from "redux-saga/effects";
+import { auth } from "../../../../init/firebaseConfig";
 import { modalActions } from "../../../modal/actions";
+
 
 
 export function* logout() {

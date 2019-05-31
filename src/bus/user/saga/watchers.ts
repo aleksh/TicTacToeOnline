@@ -1,9 +1,9 @@
 // Core
-import { all, call, takeEvery } from 'redux-saga/effects';
+import { all, call, takeEvery } from "redux-saga/effects";
 // Types
-import { types } from '../types';
+import { types } from "../types";
 // Workers
-import { authChanged, login, logout } from './workers';
+import { authChanged, login, logout } from "./workers";
 
 
 

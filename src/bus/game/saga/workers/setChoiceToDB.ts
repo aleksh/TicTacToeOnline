@@ -1,8 +1,6 @@
-import { call, put } from 'redux-saga/effects';
-// Instruments
-import { fb } from '../../../../init/firebaseConfig';
+import { call, put } from "redux-saga/effects";
+import { fb } from "../../../../init/firebaseConfig";
 import { modalActions } from "../../../modal/actions";
-
 
 export function* setChoiceToDB({ payload: { gameId, stepId, isItFirstPlayer } }: any) {
     try {

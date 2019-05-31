@@ -1,8 +1,8 @@
-import { routerMiddleware as createRouterMiddleware } from 'connected-react-router';
+import { routerMiddleware as createRouterMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
-import { applyMiddleware, compose } from 'redux';
-import { createLogger } from 'redux-logger';
-import createSagaMiddleware from 'redux-saga';
+import { applyMiddleware, compose } from "redux";
+import { createLogger } from "redux-logger";
+import createSagaMiddleware from "redux-saga";
 
 
 

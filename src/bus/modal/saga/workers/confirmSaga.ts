@@ -1,7 +1,7 @@
-import { put, race, take } from 'redux-saga/effects';
-import { MODAL_TYPES } from '../../../../components/Modals/Modals';
-import { modalActions } from '../../actions';
-import { types } from '../../types';
+import { put, race, take } from "redux-saga/effects";
+import { MODAL_TYPES } from "../../../../components/Modals/Modals";
+import { modalActions } from "../../actions";
+import { types } from "../../types";
 
 export function* confirmSaga(message: string) {
     yield put(modalActions.showModal(

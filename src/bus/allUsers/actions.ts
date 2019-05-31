@@ -1,6 +1,5 @@
-// Types
-import VOUser from '../../VO/VOUser';
-import { types } from './types';
+import VOUser from "../../VO/VOUser";
+import { types } from "./types";
 
 export const allUsersActions = {
 
