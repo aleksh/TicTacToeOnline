@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { gameActions } from "./bus/game/actions";
 import { userActions } from "./bus/user/actions";
+import Catcher from "./components/Catcher/Catcher";
 import Game from "./components/Game/Game";
 import Login from "./components/Login/Login";
 import Modals from "./components/Modals/Modals";
@@ -35,7 +36,7 @@ class App extends React.Component<IAppProps, IAppState> {
 		return !user ? (
 			<Login click={this._handlerLogin} />
 		) : (
-			<>
+			<Catcher>
 				<div className="container-fluid">
 					<div className="row justify-content-center">
 						<User />
@@ -44,7 +45,7 @@ class App extends React.Component<IAppProps, IAppState> {
 					</div>
 				</div>
 				<Modals />
-			</>
+			</Catcher>
 		);
 	}
 }

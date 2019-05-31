@@ -1,5 +1,6 @@
 import * as React from "react";
 import VOUser from "../../VO/VOUser";
+import Catcher from "../Catcher/Catcher";
 import UserItem from "./UserItem";
 
 interface ITicItemProps {
@@ -36,6 +37,10 @@ export default class UsersList extends React.Component<
 	};
 
 	public render() {
-		return <div className="list-group">{this._getUsersList()}</div>;
+		return (
+			<Catcher>
+				<div className="list-group">{this._getUsersList()}</div>
+			</Catcher>
+		);
 	}
 }

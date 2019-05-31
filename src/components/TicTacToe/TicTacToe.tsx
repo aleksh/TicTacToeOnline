@@ -9,6 +9,7 @@ import GameUtils from "../../utils/GameUtils";
 import PCPlayer from "../../utils/PCPlayer";
 import VOTicItem from "../../VO/VOTicItem";
 import VOUser from "../../VO/VOUser";
+import Catcher from "../Catcher/Catcher";
 import { MODAL_TYPES } from "../Modals/Modals";
 import TicItem from "../TicItem/TicItem";
 // Styles
@@ -136,7 +137,11 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 		});
 
 		this._showWinModal();
-		return <div className={gameClass}>{this._getGameArea()}</div>;
+		return (
+			<Catcher>
+				<div className={gameClass}>{this._getGameArea()}</div>
+			</Catcher>
+		);
 	}
 }
 
