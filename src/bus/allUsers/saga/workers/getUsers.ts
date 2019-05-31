@@ -24,13 +24,13 @@ export function* getUsers() {
                 });
                 yield put(allUsersActions.updateUsers(usersList));
             }
+
         }
+
     } catch (error) {
         yield put(modalActions.showError('Error getUsers saga'));
     }
 }
-
-
 
 
 const _createUsersChannel = () => {

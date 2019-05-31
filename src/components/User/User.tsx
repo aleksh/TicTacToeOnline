@@ -7,6 +7,7 @@ import UserCard from "../UserCard/UserCard";
 
 interface IUserProps {
 	type: number;
+	isPlaying: boolean;
 	user: VOUser;
 	actions: any;
 }
@@ -20,10 +21,11 @@ class User extends React.Component<IUserProps, IUserState> {
 	};
 
 	public render() {
-		const { user } = this.props;
+		const { user, isPlaying } = this.props;
 		return (
 			<div className="bd-highlight userCol">
 				<UserCard
+					isPlaying={isPlaying}
 					displayName={user.displayName}
 					isOnline={true}
 					btnTitle={"Log Out"}
@@ -37,6 +39,7 @@ class User extends React.Component<IUserProps, IUserState> {
 
 const mapStateToProps = (state: any) => {
 	return {
+		isPlaying: state.game.get("isPlaying"),
 		type: state.game.get("type"),
 		user: state.user.get("user")
 	};

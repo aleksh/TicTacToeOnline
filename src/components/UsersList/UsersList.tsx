@@ -2,6 +2,7 @@ import * as React from "react";
 import VOUser from "../../VO/VOUser";
 import Catcher from "../Catcher/Catcher";
 import UserItem from "./UserItem";
+import Styles from "./UserList.module.scss";
 
 interface ITicItemProps {
 	click: Function;
@@ -36,10 +37,14 @@ export default class UsersList extends React.Component<
 		return usersList;
 	};
 
+
+
 	public render() {
+        const classes = "list-group "+Styles.ScrollStyle;
+
 		return (
 			<Catcher>
-				<div className="list-group">{this._getUsersList()}</div>
+				<div className={classes}>{this._getUsersList()}</div>
 			</Catcher>
 		);
 	}

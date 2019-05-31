@@ -10,13 +10,6 @@ export const allUsersActions = {
         };
     },
 
-    test: () => {
-        return {
-            type: "test",
-        };
-    },
-
-
     updateUsers: (pUsers: VOUser[]) => {
         return {
             type: types.UPDATE_USERS_LIST,
