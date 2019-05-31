@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import { allUsersActions } from "../../bus/allUsers/actions";
 import { gameActions } from "../../bus/game/actions";
 import { PC_USERS_COUNT } from "../../utils/Constants";
+import GameUtils from "../../utils/GameUtils";
 import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
 import UsersList from "../UsersList/UsersList";
@@ -63,7 +64,7 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 					isOnline={choosedUser.isOnline}
 					avatarUrl={choosedUser.photoURL}
 					click={this._handlerInviteForPlay}
-					btnTitle={"Play with Me"}
+					btnTitle={GameUtils.GetInviteButtonLabel(choosedUser.isPC)}
 				/>
 				<UsersList
 					isPlaying={isPlaying}

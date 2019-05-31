@@ -228,12 +228,18 @@ export default class GameUtils {
     }
 
     static GetInviteMessage = (pUser: VOUser): string => {
-        let message: string = `Do you want to play with ${pUser.displayName}`;
+        const message: string = `Do you want to play with ${pUser.displayName}`;
         return message;
     }
 
     static GetWaitOpponentMessage = (pUser: VOUser): string => {
-        let message: string = `Waiting for  ${pUser.displayName}`;
+        const message: string = `Waiting for  ${pUser.displayName}`;
+        return message;
+    }
+
+
+    static GetInviteButtonLabel = (pIsPC:boolean): string => {
+        const message: string = pIsPC ? "Play With Me" : "Invite Me to Play";
         return message;
     }
 
