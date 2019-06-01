@@ -54,9 +54,12 @@ class GameSettings extends React.Component<
 		const { type, isPlaying } = this.props;
 
 		return (
-			<div className="d-flex justify-content-between align-items-center flex-sm-column flex-md-column flex-lg-row">
-				<div className="p-3">
-					<strong>Game Status:&nbsp;</strong> <span className="text-primary">{this._getGameStatus()}</span>
+			<div className="d-flex justify-content-around align-items-center flex-sm-column flex-md-column flex-lg-row flex-wrap">
+				<div className="p-3 text-nowrap">
+					<strong>Game Status:&nbsp;</strong>{" "}
+					<span className="text-primary">
+						{this._getGameStatus()}
+					</span>
 				</div>
 				<form className="form-inline pl-0 pr-3 py-3">
 					<div className="form-group">
