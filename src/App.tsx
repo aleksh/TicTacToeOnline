@@ -38,7 +38,7 @@ class App extends React.Component<IAppProps, IAppState> {
 		) : (
 			<Catcher>
 				<div className="container-fluid">
-					<div className="row justify-content-center">
+					<div className="row justify-content-center flex-nowrap">
 						<User />
 						<Game />
 						<Opponents />

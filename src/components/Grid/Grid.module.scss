@@ -1,6 +1,7 @@
 .TicTacToe3, .TicTacToe5, .TicTacToe7 {
     display: grid;
     justify-content: center;
+    min-width: 330px;
 
     div {
 		width: 100%;
