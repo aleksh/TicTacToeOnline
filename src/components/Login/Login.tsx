@@ -18,7 +18,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
 	public render() {
 		return (
-			<div className="d-flex h-100 justify-content-center align-items-center bd-highlight">
+			<div className="d-flex h-100 justify-content-center align-items-center">
 				<button
 					type="button"
 					className={"btn btn-lg " + Styles.btnFacebook}

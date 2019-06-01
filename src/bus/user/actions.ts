@@ -5,6 +5,12 @@ import { types } from "./types";
 export const userActions = {
 
     // Sync
+    initialized: () => {
+        return {
+            type: types.INITIALIZED,
+        };
+    },
+
     setUser: (user: VOUser) => {
         return {
             type: types.SET_USER,

@@ -5,14 +5,15 @@ import { gameActions } from "./bus/game/actions";
 import { userActions } from "./bus/user/actions";
 import Catcher from "./components/Catcher/Catcher";
 import Game from "./components/Game/Game";
+import Loading from "./components/Loading/Loading";
 import Login from "./components/Login/Login";
 import Modals from "./components/Modals/Modals";
 import Opponents from "./components/Opponents/Opponents";
 import User from "./components/User/User";
-import VOUser from "./VO/VOUser";
 
 interface IAppProps {
-	user: VOUser;
+	isInitialized: boolean;
+	isLoggedIn: boolean;
 	actions: any;
 }
 
@@ -24,7 +25,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
 		// move this when user LogedIn
 		this.props.actions.subscribeForGamesAsync();
-	};
+    };    
 
 	_handlerLogin = () => {
 		const { actions } = this.props;
@@ -32,8 +33,13 @@ class App extends React.Component<IAppProps, IAppState> {
 	};
 
 	public render() {
-		const { user } = this.props;
-		return !user ? (
+		const { isInitialized, isLoggedIn } = this.props;
+
+		if (!isInitialized) {
+			return <Loading />;
+		}
+
+		return !isLoggedIn ? (
 			<Login click={this._handlerLogin} />
 		) : (
 			<Catcher>
@@ -52,7 +58,8 @@ class App extends React.Component<IAppProps, IAppState> {
 
 const mapStateToProps = (state: any) => {
 	return {
-		user: state.user.get("user")
+		isInitialized: state.user.get("isInitialized"),
+		isLoggedIn: state.user.get("isLoggedIn")
 	};
 };
 

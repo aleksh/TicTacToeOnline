@@ -20,8 +20,9 @@ export function* authChanged() {
                 yield put(userActions.setUser(userDB));
             } else {
                 yield put(userActions.logout());
+                yield put(userActions.initialized());
             }
-
+            
         }
 
     } catch (error) {
