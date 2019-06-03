@@ -23,7 +23,6 @@ export function* authChanged() {
                 // subscribe for Games/ get all Users (if not subscribed)
                 const isSubscribe = yield select(isSubscribed);
                 if (!isSubscribe) {
-                    console.log("Subscribe When LOGin");
                     yield put(gameActions.subscribeForGamesAsync());
                     yield put(allUsersActions.getUsersAsync());
                 }

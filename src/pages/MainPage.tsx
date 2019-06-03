@@ -5,23 +5,23 @@ import Modals from "../components/Modals/Modals";
 import Opponents from "../components/Opponents/Opponents";
 import User from "../components/User/User";
 
-interface IMainProps {}
+interface IMainPageProps {}
 
-interface IMainState {}
-
-export default class MainPage extends React.Component<IMainProps, IMainState> {
-	public render() {
-		return (
-			<Catcher>
-				<div className="container-fluid">
-					<div className="row justify-content-center flex-nowrap">
-						<User />
-						<Game />
-						<Opponents />
-					</div>
+const MainPage: React.FunctionComponent<IMainPageProps> = (
+	props: IMainPageProps
+) => {
+	return (
+		<Catcher>
+			<div className="container-fluid">
+				<div className="row m-0 justify-content-center flex-nowrap">
+					<User />
+					<Game />
+					<Opponents />
 				</div>
-				<Modals />
-			</Catcher>
-		);
-	}
-}
+			</div>
+			<Modals />
+		</Catcher>
+	);
+};
+
+export default MainPage;

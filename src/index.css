@@ -38,6 +38,7 @@ code {
 .container-fluid{
     height:100vh;
     min-width: 860px;
+    padding:0;
 }
 
 .modal {

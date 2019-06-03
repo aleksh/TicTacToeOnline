@@ -2,18 +2,21 @@
 import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { userActions } from "../../bus/user/actions";
 import Styles from "./Login.module.scss";
 
 interface ILoginProps {
-	click: Function;
+	actions: any;
 }
 
 interface ILoginState {}
 
-export default class Login extends React.Component<ILoginProps, ILoginState> {
+class Login extends React.Component<ILoginProps, ILoginState> {
 	private _handlerClick = () => {
-		const { click } = this.props;
-		click();
+		const { actions } = this.props;
+		actions.loginAsync();
 	};
 
 	public render() {
@@ -31,3 +34,14 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 		);
 	}
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+	return {
+		actions: bindActionCreators({ ...userActions }, dispatch)
+	};
+};
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(Login);

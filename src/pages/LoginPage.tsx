@@ -1,38 +1,19 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { userActions } from "../bus/user/actions";
 import Catcher from "../components/Catcher/Catcher";
 import Login from "../components/Login/Login";
+import Modals from "../components/Modals/Modals";
 
-interface ILoginPageProps {
-	actions: any;
-}
+interface ILoginPageProps {}
 
-interface ILoginPageState {}
-
-class LoginPage extends React.Component<ILoginPageProps, ILoginPageState> {
-	_handlerLogin = () => {
-		const { actions } = this.props;
-		actions.loginAsync();
-	};
-
-	public render() {
-		return (
-			<Catcher>
-				<Login click={this._handlerLogin} />
-			</Catcher>
-		);
-	}
-}
-
-const mapDispatchToProps = (dispatch: any) => {
-	return {
-		actions: bindActionCreators({ ...userActions }, dispatch)
-	};
+const LoginPage: React.FunctionComponent<ILoginPageProps> = (
+	props: ILoginPageProps
+) => {
+	return (
+		<Catcher>
+			<Login />
+			<Modals />
+		</Catcher>
+	);
 };
 
-export default connect(
-	null,
-	mapDispatchToProps
-)(LoginPage);
+export default LoginPage;
