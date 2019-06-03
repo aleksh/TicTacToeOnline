@@ -27,7 +27,7 @@ export default class UserItem extends React.Component<
 	public render() {
 		const { user, isActive } = this.props;
 		const btnClass = cl({
-			"list-group-item list-group-item-action py-2 px-1": true,
+			"list-group-item bg-grey list-group-item-action py-2 px-1": true,
 			active: isActive
 		});
 		return (

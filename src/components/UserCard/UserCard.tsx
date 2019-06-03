@@ -47,7 +47,7 @@ export default class UserCard extends React.Component<
 		});
 
 		return (
-			<div className="card text-center">
+			<div className="card text-center bg-grey mt-3">
 				<div className="card-header">
 					<strong>{Utils.CutString(displayName)}</strong>
 					<StatusIndicator isOnline={isOnline} />

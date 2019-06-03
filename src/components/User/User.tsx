@@ -23,7 +23,7 @@ class User extends React.Component<IUserProps, IUserState> {
 	public render() {
 		const { user, isPlaying } = this.props;
 		return (
-			<div className="bd-highlight userCol">
+			<div className="userCol">
 				<UserCard
 					isPlaying={isPlaying}
 					displayName={user.displayName}

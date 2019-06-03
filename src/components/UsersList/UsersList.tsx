@@ -37,10 +37,8 @@ export default class UsersList extends React.Component<
 		return usersList;
 	};
 
-
-
 	public render() {
-        const classes = "list-group "+Styles.ScrollStyle;
+		const classes = "list-group mt-3 rounded " + Styles.ScrollStyle;
 
 		return (
 			<Catcher>

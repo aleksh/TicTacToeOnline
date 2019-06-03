@@ -41,6 +41,10 @@ code {
     padding:0;
 }
 
+.bg-grey {
+    background-color: #e9ebee;
+}
+
 .modal {
    display: block;
 }
