@@ -83,6 +83,7 @@ const _setOnDisconnect = (userId: string) => {
     fb.database().ref("users/" + userId).onDisconnect().update({ isOnline: false });
 }
 
+
 const _getVOUser = (user: any): VOUser => {
     const pUser: VOUser = new VOUser(
         user.uid,

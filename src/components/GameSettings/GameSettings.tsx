@@ -55,7 +55,7 @@ class GameSettings extends React.Component<
 
 		return (
 			<div className="d-flex justify-content-around align-items-center flex-sm-column flex-md-column flex-lg-row flex-wrap">
-				<div className="p-3 text-nowrap">
+				<div className="p-3 text-nowrap col-8">
 					<strong>Game Status:&nbsp;</strong>{" "}
 					<span className="text-primary">
 						{this._getGameStatus()}
