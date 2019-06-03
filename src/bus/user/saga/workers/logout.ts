@@ -5,10 +5,8 @@ import { modalActions } from "../../../modal/actions";
 import { fb } from "../../../../init/firebaseConfig";
 
 
-
 export function* logout() {
-    try {
-        
+    try {        
         yield call(_setUserOffline, auth.currentUser!.uid);
         yield apply(auth, auth.signOut, []);
     } catch (error) {
@@ -19,6 +17,6 @@ export function* logout() {
 
 const _setUserOffline = (userId: string = ""):void => {
     if(userId.length > 0) {
-        fb.database().ref("users/" + userId).update({ isOnline: false });
+        fb.database().ref("users/" + userId).update({ isOnline: false });        
     }
 }

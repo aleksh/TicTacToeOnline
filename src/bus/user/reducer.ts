@@ -5,6 +5,7 @@ import { types } from "./types";
 const initialState = Map({
     isLoggedIn: false,
     isInitialized: false,
+    isSubscribed: false,
     user: null,
 });
 
@@ -15,13 +16,17 @@ export const userReducer = (state = initialState, action: any) => {
                 user: action.payload,
                 isLoggedIn: true,
                 isInitialized: true,
+                isSubscribed: true,
             });
 
         case types.INITIALIZED:
             return state.set("isInitialized", true);
 
         case types.LOGOUT:
-            return state.clear();
+            return state.merge({
+                user: null,
+                isLoggedIn: false,
+            });
 
         default:
             return state;

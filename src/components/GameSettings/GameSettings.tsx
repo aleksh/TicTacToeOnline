@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import { gameActions } from "../../bus/game/actions";
 import { GAME_TYPES } from "../../utils/Constants";
 import VOUser from "../../VO/VOUser";
+import Utils from "../../utils/Utils";
 
 interface IGameSettingsProps {
 	type: number;
@@ -39,12 +40,12 @@ class GameSettings extends React.Component<
 	_getGameStatus = (): string => {
 		const { isPlaying, isMyTurn, choosedUser } = this.props;
 
-		let message: string = "Invite a friend into a Game";
+		let message: string = "Invite to Game";
 
 		if (isPlaying) {
 			isMyTurn
 				? (message = "My Turn")
-				: (message = `${choosedUser.displayName} Turn`);
+				: (message = `${Utils.CutString(choosedUser.displayName)} Turn`);
 		}
 
 		return message;
@@ -54,14 +55,14 @@ class GameSettings extends React.Component<
 		const { type, isPlaying } = this.props;
 
 		return (
-			<div className="d-flex justify-content-around align-items-center flex-sm-column flex-md-column flex-lg-row flex-wrap">
-				<div className="p-3 text-nowrap col-8">
+			<div className="d-flex align-items-center flex-wrap">
+				<div className="p-3 text-nowrap flex-grow-1">
 					<strong>Game Status:&nbsp;</strong>{" "}
 					<span className="text-primary">
 						{this._getGameStatus()}
 					</span>
 				</div>
-				<form className="form-inline pl-0 pr-3 py-3">
+				<form className="form-inline p-3">
 					<div className="form-group">
 						<label htmlFor="type" className="form-label pr-3">
 							<strong>Game Type</strong>

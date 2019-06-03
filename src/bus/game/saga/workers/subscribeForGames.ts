@@ -9,7 +9,6 @@ import { gameActions } from "../../actions";
 
 
 export function* subscribeForGames() {
-
     const channel = yield call(_createGamesChannel);
     let isGameNotFound = true;
     let game: any = {};
@@ -21,7 +20,7 @@ export function* subscribeForGames() {
 
             if (snap.exists()) {
                 const userId: any = auth.currentUser!.uid;
-                
+
                 // eslint-disable-next-line
                 snap.forEach((child: any) => {
                     if (child.val().player2.uid === userId) {
@@ -77,6 +76,7 @@ export function* subscribeForGames() {
         channel.close();
     }
 }
+
 
 const _createGamesChannel = () => {
     return eventChannel((emit): any => {

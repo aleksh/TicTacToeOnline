@@ -1,8 +1,10 @@
 
 import { eventChannel } from "redux-saga";
-import { call, put, take } from "redux-saga/effects";
+import { call, put, select, take } from "redux-saga/effects";
 import { auth, fb } from "../../../../init/firebaseConfig";
 import VOUser from "../../../../VO/VOUser";
+import { allUsersActions } from "../../../allUsers/actions";
+import { gameActions } from "../../../game/actions";
 import { modalActions } from "../../../modal/actions";
 import { userActions } from "../../actions";
 
@@ -17,18 +19,29 @@ export function* authChanged() {
             if (user) {
                 const userDB = yield call(_checkIfUserExistIDB, user);
                 yield call(_setOnDisconnect, userDB.uid);
+
+                // subscribe for Games/ get all Users (if not subscribed)
+                const isSubscribe = yield select(isSubscribed);
+                if (!isSubscribe) {
+                    console.log("Subscribe When LOGin");
+                    yield put(gameActions.subscribeForGamesAsync());
+                    yield put(allUsersActions.getUsersAsync());
+                }
+
                 yield put(userActions.setUser(userDB));
+
             } else {
                 yield put(userActions.logout());
                 yield put(userActions.initialized());
             }
-            
+
         }
 
     } catch (error) {
         yield put(modalActions.showError('Error authChanged saga'));
     }
 }
+
 
 const _createAuthChannel = () => {
     return eventChannel(emit => {
@@ -94,4 +107,5 @@ const _getVOUser = (user: any): VOUser => {
     return pUser;
 };
 
+const isSubscribed = (state: any) => state.user.get("isSubscribed");
 

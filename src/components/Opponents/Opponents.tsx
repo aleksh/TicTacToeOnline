@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { allUsersActions } from "../../bus/allUsers/actions";
 import { gameActions } from "../../bus/game/actions";
-import { PC_USERS_COUNT } from "../../utils/Constants";
 import GameUtils from "../../utils/GameUtils";
 import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
@@ -21,14 +20,6 @@ interface IOpponentsProps {
 interface IOpponentsState {}
 
 class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
-	componentDidMount = () => {
-		const { actions, allUsers } = this.props;
-
-		if (allUsers.length <= PC_USERS_COUNT) {
-			actions.getUsersAsync();
-		}
-	};
-
 	_handlerInviteForPlay = () => {
 		const { choosedUser, actions, user, type } = this.props;
 
