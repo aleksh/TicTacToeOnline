@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router";
+import EditProfilePage from "../pages/EditProfilePage";
 import MainPage from "../pages/MainPage";
 import { Path } from "./path";
 
@@ -15,6 +16,7 @@ export default class Public extends React.Component<
 		return (
 			<Switch>
 				<Route component={MainPage} path={Path.game} />
+				<Route component={EditProfilePage} path={Path.profile} />
 				<Redirect to={Path.game} />
 			</Switch>
 		);

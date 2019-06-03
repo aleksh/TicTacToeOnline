@@ -20,7 +20,6 @@ export default class TicItem extends React.Component<
 	ITicItemProps,
 	ITicItemState
 > {
-
 	_handlerClick = (): void => {
 		const { click, id, isEmpty, isMyTurn } = this.props;
 		if (isEmpty && isMyTurn) {

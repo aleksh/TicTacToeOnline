@@ -2,6 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { userActions } from "../../bus/user/actions";
+import { history } from "../../init/middleware/core";
+import { Path } from "../../navigation/path";
 import VOUser from "../../VO/VOUser";
 import UserCard from "../UserCard/UserCard";
 
@@ -20,6 +22,10 @@ class User extends React.Component<IUserProps, IUserState> {
 		actions.logoutAsync();
 	};
 
+	private _handlerEditProfile = () => {
+		history.push(Path.profile);
+	};
+
 	public render() {
 		const { user, isPlaying } = this.props;
 		return (
@@ -30,6 +36,8 @@ class User extends React.Component<IUserProps, IUserState> {
 					isOnline={true}
 					btnTitle={"Log Out"}
 					click={this._handlerLogout}
+					btnTitle2={"Edit Profile"}
+					clickBtn2={this._handlerEditProfile}
 					avatarUrl={user.photoURL}
 				/>
 			</div>

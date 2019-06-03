@@ -4,8 +4,8 @@ import { bindActionCreators } from "redux";
 //actions
 import { gameActions } from "../../bus/game/actions";
 import { GAME_TYPES } from "../../utils/Constants";
-import VOUser from "../../VO/VOUser";
 import Utils from "../../utils/Utils";
+import VOUser from "../../VO/VOUser";
 
 interface IGameSettingsProps {
 	type: number;
@@ -45,7 +45,9 @@ class GameSettings extends React.Component<
 		if (isPlaying) {
 			isMyTurn
 				? (message = "My Turn")
-				: (message = `${Utils.CutString(choosedUser.displayName)} Turn`);
+				: (message = `${Utils.CutString(
+						choosedUser.displayName
+				  )} Turn`);
 		}
 
 		return message;

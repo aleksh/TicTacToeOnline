@@ -9,8 +9,10 @@ interface IUserCardProps {
 	isOnline: boolean;
 	avatarUrl: string;
 	btnTitle: string;
-	click?: Function;
-	isPlaying?: boolean;
+	click: Function;
+	isPlaying: boolean;
+	clickBtn2?: Function;
+	btnTitle2?: string;
 }
 
 interface IUserCardState {}
@@ -26,17 +28,25 @@ export default class UserCard extends React.Component<
 		}
 	};
 
+	private _handlerClickBtn2 = () => {
+		const { clickBtn2 } = this.props;
+		if (clickBtn2) {
+			clickBtn2();
+		}
+	};
+
 	public render() {
 		const {
 			displayName,
 			isOnline,
 			avatarUrl,
 			isPlaying,
-			btnTitle
+			btnTitle,
+			btnTitle2
 		} = this.props;
 
 		const btnClass = cl({
-			"btn mt-3": true,
+			"btn mt-3 btn-sm": true,
 			"btn-success": isOnline && !isPlaying,
 			"btn-secondary": !isOnline || (isOnline && isPlaying)
 		});
@@ -58,7 +68,17 @@ export default class UserCard extends React.Component<
 						className={imgClass}
 						alt={displayName}
 					/>
-					<p>
+					<div className="d-flex justify-content-around">
+						{btnTitle2 && (
+							<button
+								type="button"
+								disabled={isOnline ? false : true}
+								onClick={this._handlerClickBtn2}
+								className={btnClass}
+							>
+								{btnTitle2}
+							</button>
+						)}
 						<button
 							type="button"
 							disabled={isOnline ? false : true}
@@ -67,7 +87,7 @@ export default class UserCard extends React.Component<
 						>
 							{btnTitle}
 						</button>
-					</p>
+					</div>
 				</div>
 			</div>
 		);
