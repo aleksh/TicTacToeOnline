@@ -12,7 +12,8 @@ interface IUserCardProps {
 	click: Function;
 	isPlaying: boolean;
 	clickBtn2?: Function;
-	btnTitle2?: string;
+    btnTitle2?: string;
+    disabled?:boolean;
 }
 
 interface IUserCardState {}
@@ -42,7 +43,8 @@ export default class UserCard extends React.Component<
 			avatarUrl,
 			isPlaying,
 			btnTitle,
-			btnTitle2
+            btnTitle2,
+            disabled
 		} = this.props;
 
 		const btnClass = cl({
@@ -89,6 +91,8 @@ export default class UserCard extends React.Component<
 						</button>
 					</div>
 				</div>
+
+                {disabled && <div className="disabledBg"></div>}
 			</div>
 		);
 	}

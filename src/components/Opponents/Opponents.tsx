@@ -15,6 +15,7 @@ interface IOpponentsProps {
 	actions: any;
 	isPlaying: boolean;
 	type: number;
+	disabled?: boolean;
 }
 
 interface IOpponentsState {}
@@ -46,7 +47,8 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 	};
 
 	public render() {
-		const { choosedUser, allUsers, isPlaying } = this.props;
+		const { choosedUser, allUsers, isPlaying, disabled } = this.props;
+
 		return (
 			<div className="userCol">
 				<UserCard
@@ -55,12 +57,14 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 					isOnline={choosedUser.isOnline}
 					avatarUrl={choosedUser.photoURL}
 					click={this._handlerInviteForPlay}
+					disabled={disabled}
 					btnTitle={GameUtils.GetInviteButtonLabel(choosedUser.isPC)}
 				/>
 				<UsersList
 					isPlaying={isPlaying}
 					choosedUser={choosedUser}
 					allUsers={allUsers}
+					disabled={disabled}
 					click={this._handlerSetOpponent}
 				/>
 			</div>

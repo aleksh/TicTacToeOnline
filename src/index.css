@@ -48,3 +48,11 @@ code {
 .modal {
    display: block;
 }
+
+.disabledBg{
+    background: #e9ebee;
+    opacity: .5;
+    position: absolute;    
+    width: 100%;
+    height: 100%;      
+}

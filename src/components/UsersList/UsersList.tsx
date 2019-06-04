@@ -9,6 +9,7 @@ interface ITicItemProps {
 	choosedUser: VOUser;
 	allUsers: VOUser[];
 	isPlaying: boolean;
+	disabled?: boolean;
 }
 
 export interface ITicItemState {}
@@ -38,11 +39,17 @@ export default class UsersList extends React.Component<
 	};
 
 	public render() {
-		const classes = "list-group mt-3 rounded " + Styles.ScrollStyle;
+        const { disabled } = this.props;
+		const classes = "list-group rounded" + Styles.ScrollStyle;
 
 		return (
 			<Catcher>
-				<div className={classes}>{this._getUsersList()}</div>
+                <div className="card mt-3 rounded">
+                    <div className={classes}>
+                        {this._getUsersList()}					
+                    </div>
+                    {disabled && <div className="disabledBg" />}
+                </div>
 			</Catcher>
 		);
 	}

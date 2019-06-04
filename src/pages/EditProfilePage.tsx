@@ -16,7 +16,7 @@ const EditProfilePage: React.FunctionComponent<IEditProfilePageProps> = (
 				<div className="row m-0 justify-content-center flex-nowrap">
 					<User />
 					<EditProfile />
-					<Opponents />
+					<Opponents disabled/>
 				</div>
 			</div>
 			<Modals />
