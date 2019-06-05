@@ -2,18 +2,22 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { userActions } from "../../bus/user/actions";
+import { fb, prImagesRef } from "../../init/firebaseConfig";
 import { history } from "../../init/middleware/core";
 import { Path } from "../../navigation/path";
 import Utils from "../../utils/Utils";
 import VOUser from "../../VO/VOUser";
 
 interface IEditProfileProps {
-	user: VOUser;
+    user: VOUser;
+    actions: any;
 }
 
 interface IEditProfileState {
 	file: any;
 	loadedPhoto: any;
+	displayName: string;
+	[key: string]: any;
 }
 
 class EditProfile extends React.Component<
@@ -24,9 +28,18 @@ class EditProfile extends React.Component<
 		super(props);
 		this.state = {
 			file: null,
-			loadedPhoto: null
+			loadedPhoto: null,
+			displayName: ""
 		};
 	}
+
+	componentDidMount = () => {
+		const { user } = this.props;
+		this.setState({
+			displayName: user.displayName,
+			loadedPhoto: user.photoURL
+		});
+	};
 
 	private _getImageLabel = (): string => {
 		const { file } = this.state;
@@ -50,6 +63,13 @@ class EditProfile extends React.Component<
 	private _handleSubmit = (event: any) => {
 		event.preventDefault();
 		console.log("submit");
+
+		const { actions } = this.props;
+        const { loadedPhoto, displayName, file } = this.state;
+        
+
+        //need block submit button
+        actions.updateProfile({ loadedPhoto, displayName, file });	
 	};
 
 	private _onImageChange = (event: any) => {
@@ -68,9 +88,16 @@ class EditProfile extends React.Component<
 		}
 	};
 
+	_handleUserInput = (event: any) => {
+		const { name, value } = event.target;
+
+		this.setState({ [name]: value });
+		/* this.setState({[name]: value},
+                    () => { this._validateField(name, value) });*/
+	};
+
 	public render() {
-		const { user } = this.props;
-		const { loadedPhoto } = this.state;
+		const { loadedPhoto, displayName } = this.state;
 		return (
 			<div className="col-md-5 col-lg-4 bg-grey p-3 m-3 rounded">
 				<div className="d-flex align-items-center border-bottom mb-3 pb-3">
@@ -91,7 +118,9 @@ class EditProfile extends React.Component<
 								type="text"
 								className="form-control"
 								id="displayName"
-								defaultValue={user.displayName}
+								name="displayName"
+								value={displayName}
+								onChange={this._handleUserInput}
 							/>
 						</div>
 
@@ -119,9 +148,9 @@ class EditProfile extends React.Component<
 
 							<div className="mx-auto">
 								<img
-									src={loadedPhoto || user.photoURL}
+									src={loadedPhoto}
 									className="rounded-circle userAvatar"
-									alt={user.photoURL}
+									alt=""
 								/>
 							</div>
 						</div>

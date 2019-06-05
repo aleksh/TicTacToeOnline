@@ -5,6 +5,7 @@ import { auth, fb } from "../../../../init/firebaseConfig";
 import VOUser from "../../../../VO/VOUser";
 import { allUsersActions } from "../../../allUsers/actions";
 import { modalActions } from "../../../modal/actions";
+import { userActions } from "../../../user/actions";
 
 
 export function* getUsers() {
@@ -16,12 +17,17 @@ export function* getUsers() {
             const snap = yield take(channel);
             if (snap.exists()) {
                 let usersList: VOUser[] = [];
-                const userId: any = auth.currentUser!.uid;
+                let currentUser:any;
+                const userId: any = auth.currentUser!.uid;                
                 snap.forEach((child: any) => {
                     if (userId !== child.val().uid) {
                         usersList.push(child.val() as VOUser);
+                    } else {
+                        currentUser = child.val() as VOUser;
                     }
                 });
+
+                yield put(userActions.setUser(currentUser));   
                 yield put(allUsersActions.updateUsers(usersList));
             }
 

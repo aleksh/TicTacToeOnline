@@ -43,4 +43,11 @@ export const userActions = {
             type: types.AUTH_CHANGED_ASYNC,
         };
     },
+
+    updateProfile: (data: any) => {
+        return {
+            type: types.UPDATE_PROFILE_ASYNC,
+            payload: data,
+        };
+    },
 }

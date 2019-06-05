@@ -1,6 +1,7 @@
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
+import "firebase/storage";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBApghjyCca6umqEEJ-rc_R41h92Ixuqp8",
@@ -12,5 +13,7 @@ export const firebaseConfig = {
     appId: "1:635413277069:web:5a191563cf13e8de"
 };
 export const fb = firebase.initializeApp(firebaseConfig);
+export const storageRef = firebase.storage().ref();
+export const prImagesRef = storageRef.child("profilePhoto");
 export const providerFacebook = new firebase.auth.FacebookAuthProvider();
 export const auth = firebase.auth();
