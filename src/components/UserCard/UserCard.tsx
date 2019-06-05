@@ -2,7 +2,6 @@ import cl from "classnames";
 import * as React from "react";
 import Utils from "../../utils/Utils";
 import StatusIndicator from "../StatusIndIcator/StatusIndicator";
-import Styles from "./UserCard.module.scss";
 
 interface IUserCardProps {
 	displayName: string;
@@ -12,8 +11,8 @@ interface IUserCardProps {
 	click: Function;
 	isPlaying: boolean;
 	clickBtn2?: Function;
-    btnTitle2?: string;
-    disabled?:boolean;
+	btnTitle2?: string;
+	disabled?: boolean;
 }
 
 interface IUserCardState {}
@@ -43,19 +42,14 @@ export default class UserCard extends React.Component<
 			avatarUrl,
 			isPlaying,
 			btnTitle,
-            btnTitle2,
-            disabled
+			btnTitle2,
+			disabled
 		} = this.props;
 
 		const btnClass = cl({
 			"btn mt-3 btn-sm": true,
 			"btn-success": isOnline && !isPlaying,
 			"btn-secondary": !isOnline || (isOnline && isPlaying)
-		});
-
-		const imgClass = cl({
-			"card-img-top rounded-circle": true,
-			[Styles.userAvatar]: true
 		});
 
 		return (
@@ -67,7 +61,7 @@ export default class UserCard extends React.Component<
 				<div className="card-body">
 					<img
 						src={avatarUrl}
-						className={imgClass}
+						className="card-img-top rounded-circle userAvatar"
 						alt={displayName}
 					/>
 					<div className="d-flex justify-content-around">
@@ -92,7 +86,7 @@ export default class UserCard extends React.Component<
 					</div>
 				</div>
 
-                {disabled && <div className="disabledBg"></div>}
+				{disabled && <div className="disabledBg" />}
 			</div>
 		);
 	}

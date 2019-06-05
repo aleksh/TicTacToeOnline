@@ -16,7 +16,7 @@ export function* authChanged() {
         while (true) {
             const { user } = yield take(channel);
 
-            if (user) {
+            if (user) {                
                 const userDB = yield call(_checkIfUserExistIDB, user);
                 yield call(_setOnDisconnect, userDB.uid);
 
