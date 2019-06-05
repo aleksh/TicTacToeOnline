@@ -2,11 +2,13 @@
 import { call, put } from "redux-saga/effects";
 import { auth, fb, prImagesRef } from "../../../../init/firebaseConfig";
 import { modalActions } from "../../../modal/actions";
+import { userActions } from "../../../user/actions";
 
 
 export function* updateProfile({ payload: { file, displayName, loadedPhoto } }: any) {
     try {
 
+        yield put(userActions.profileUpdating());
         let photoURL = "";
 
         if (file) {
@@ -14,9 +16,10 @@ export function* updateProfile({ payload: { file, displayName, loadedPhoto } }: 
         }
 
         yield call(_updateProfile, displayName, photoURL, auth.currentUser!.uid);
-
+        yield put(userActions.profileUpdated());
 
     } catch (error) {
+        yield put(userActions.profileUpdateError());
         yield put(modalActions.showError('Error logout saga'));
     }
 }

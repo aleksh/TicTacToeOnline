@@ -2,15 +2,18 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { userActions } from "../../bus/user/actions";
-import { fb, prImagesRef } from "../../init/firebaseConfig";
 import { history } from "../../init/middleware/core";
 import { Path } from "../../navigation/path";
 import Utils from "../../utils/Utils";
 import VOUser from "../../VO/VOUser";
+import FormIndicator from "../FormIndicator/FormIndicator";
 
 interface IEditProfileProps {
-    user: VOUser;
-    actions: any;
+	user: VOUser;
+	isUpdating: boolean;
+	isUpdated: boolean;
+	isUpdateError: boolean;
+	actions: any;
 }
 
 interface IEditProfileState {
@@ -41,6 +44,11 @@ class EditProfile extends React.Component<
 		});
 	};
 
+	componentWillUnmount = () => {
+		const { actions } = this.props;
+		actions.profileUpdateReset();
+	};
+
 	private _getImageLabel = (): string => {
 		const { file } = this.state;
 		let label = "Choose file...";
@@ -65,11 +73,10 @@ class EditProfile extends React.Component<
 		console.log("submit");
 
 		const { actions } = this.props;
-        const { loadedPhoto, displayName, file } = this.state;
-        
+		const { loadedPhoto, displayName, file } = this.state;
 
-        //need block submit button
-        actions.updateProfile({ loadedPhoto, displayName, file });	
+		//need block submit button
+		actions.updateProfile({ loadedPhoto, displayName, file });
 	};
 
 	private _onImageChange = (event: any) => {
@@ -98,9 +105,10 @@ class EditProfile extends React.Component<
 
 	public render() {
 		const { loadedPhoto, displayName } = this.state;
+		const { isUpdating, isUpdateError, isUpdated } = this.props;
 		return (
 			<div className="col-md-5 col-lg-4 bg-grey p-3 m-3 rounded">
-				<div className="d-flex align-items-center border-bottom mb-3 pb-3">
+				<div className="d-flex align-items-center justify-content-between border-bottom mb-3 pb-3">
 					<button
 						type="button"
 						onClick={this._handlerClickBack}
@@ -108,6 +116,12 @@ class EditProfile extends React.Component<
 					>
 						Back
 					</button>
+
+					<FormIndicator
+						loading={isUpdating}
+						done={isUpdated}
+						error={isUpdateError}
+					/>
 				</div>
 
 				<div>
@@ -156,7 +170,7 @@ class EditProfile extends React.Component<
 						</div>
 
 						<div className="d-flex">
-							<button type="submit" className="btn btn-primary">
+							<button type="submit" className="btn btn-primary" disabled={isUpdating}>
 								Submit
 							</button>
 						</div>
@@ -169,7 +183,10 @@ class EditProfile extends React.Component<
 
 const mapStateToProps = (state: any) => {
 	return {
-		user: state.user.get("user")
+		user: state.user.get("user"),
+		isUpdating: state.user.get("isUpdating"),
+		isUpdated: state.user.get("isUpdated"),
+		isUpdateError: state.user.get("isUpdateError")
 	};
 };
 

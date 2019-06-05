@@ -24,6 +24,30 @@ export const userActions = {
         }
     },
 
+    profileUpdating: () => {
+        return {
+            type: types.PROFILE_UPDATING,
+        }
+    },
+
+    profileUpdated: () => {
+        return {
+            type: types.PROFILE_UPDATED,
+        }
+    },
+
+    profileUpdateReset: () => {
+        return {
+            type: types.PROFILE_UPDATE_RESET,
+        }
+    },
+
+    profileUpdateError: () => {
+        return {
+            type: types.PROFILE_UPDATE_ERROR,
+        }
+    },
+
     // Async
     loginAsync: () => {
         return {
