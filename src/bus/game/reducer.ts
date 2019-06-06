@@ -14,13 +14,13 @@ const initialState = Map({
     gameId: null,
     isPlaying: false,
     amICross: true,
-    type: GAME_TYPES[1],
+    type: GAME_TYPES[0],
     isMyTurn: true,
     time: 30,
     isStepsExist: true,
     isDraw: false,
     isWin: false,
-    items: GameUtils.InitGameItems(GAME_TYPES[1]),
+    items: GameUtils.InitGameItems(GAME_TYPES[0]),
     stepsCount: 0,
 });
 
@@ -47,13 +47,13 @@ export const gameReducer = (state = initialState, action: any) => {
                 gameId: null,
                 isPlaying: false,
                 amICross: true,
-                type: GAME_TYPES[1],
+                type: GAME_TYPES[0],
                 isMyTurn: true,
                 time: 30,
                 isStepsExist: true,
                 isDraw: false,
                 isWin: false,
-                items: GameUtils.InitGameItems(GAME_TYPES[1]),
+                items: GameUtils.InitGameItems(GAME_TYPES[0]),
                 stepsCount: 0,
             });
 

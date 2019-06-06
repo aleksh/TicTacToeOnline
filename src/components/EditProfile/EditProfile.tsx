@@ -20,6 +20,9 @@ interface IEditProfileState {
 	file: any;
 	loadedPhoto: any;
 	displayName: string;
+	formErrors: any;
+	displayNameValid: boolean;
+	formValid: boolean;
 	[key: string]: any;
 }
 
@@ -32,7 +35,11 @@ class EditProfile extends React.Component<
 		this.state = {
 			file: null,
 			loadedPhoto: null,
-			displayName: ""
+			displayName: "",
+			formErrors: { displayName: "" },
+			displayNameValid: true,
+			formValid: false,
+			formChanged: false
 		};
 	}
 
@@ -70,13 +77,14 @@ class EditProfile extends React.Component<
 
 	private _handleSubmit = (event: any) => {
 		event.preventDefault();
-		console.log("submit");
 
 		const { actions } = this.props;
-		const { loadedPhoto, displayName, file } = this.state;
+		const { loadedPhoto, displayName, file, formValid } = this.state;
 
-		//need block submit button
-		actions.updateProfile({ loadedPhoto, displayName, file });
+		if (formValid) {
+			actions.updateProfile({ loadedPhoto, displayName, file });
+			this.setState({ formChanged: false }, this._validateForm);
+		}
 	};
 
 	private _onImageChange = (event: any) => {
@@ -89,7 +97,10 @@ class EditProfile extends React.Component<
 
 			if (isImage) {
 				Utils.GetResizedImage(file, 90, 90).then(loadedPhoto => {
-					this.setState({ file, loadedPhoto });
+					this.setState(
+						{ file, loadedPhoto, formChanged: true },
+						this._validateForm
+					);
 				});
 			}
 		}
@@ -98,13 +109,41 @@ class EditProfile extends React.Component<
 	_handleUserInput = (event: any) => {
 		const { name, value } = event.target;
 
-		this.setState({ [name]: value });
-		/* this.setState({[name]: value},
-                    () => { this._validateField(name, value) });*/
+		this.setState({ [name]: value, formChanged: true }, () => {
+			this._validateField(name, value);
+		});
+	};
+
+	_validateField = (fieldName: string, value: string) => {
+		let { formErrors, displayNameValid } = this.state;
+
+		switch (fieldName) {
+			case "displayName":
+				displayNameValid = value.length >= 6;
+				formErrors.displayName = displayNameValid ? "" : "Too short";
+				break;
+			default:
+				break;
+		}
+
+		this.setState({ formErrors, displayNameValid }, this._validateForm);
+	};
+
+	_validateForm = () => {
+		this.setState((prevState, props) => {
+			return {
+				formValid: prevState.displayNameValid && prevState.formChanged
+			};
+		});
 	};
 
 	public render() {
-		const { loadedPhoto, displayName } = this.state;
+		const {
+			loadedPhoto,
+			displayName,
+			formErrors,
+			displayNameValid
+		} = this.state;
 		const { isUpdating, isUpdateError, isUpdated } = this.props;
 		return (
 			<div className="col-md-5 col-lg-4 bg-grey p-3 m-3 rounded">
@@ -130,12 +169,16 @@ class EditProfile extends React.Component<
 							<label htmlFor="displayName">Display Name</label>
 							<input
 								type="text"
-								className="form-control"
+								className={`form-control ${!displayNameValid &&
+									"is-invalid"}`}
 								id="displayName"
 								name="displayName"
 								value={displayName}
 								onChange={this._handleUserInput}
 							/>
+							<div className="invalid-feedback">
+								{formErrors.displayName}
+							</div>
 						</div>
 
 						<div className="d-flex">
@@ -154,9 +197,6 @@ class EditProfile extends React.Component<
 									>
 										{this._getImageLabel()}
 									</label>
-									<div className="invalid-feedback">
-										Example invalid custom file feedback
-									</div>
 								</div>
 							</div>
 
@@ -170,8 +210,12 @@ class EditProfile extends React.Component<
 						</div>
 
 						<div className="d-flex">
-							<button type="submit" className="btn btn-primary" disabled={isUpdating}>
-								Submit
+							<button
+								type="submit"
+								className="btn btn-primary"
+								disabled={isUpdating}
+							>
+								Update
 							</button>
 						</div>
 					</form>

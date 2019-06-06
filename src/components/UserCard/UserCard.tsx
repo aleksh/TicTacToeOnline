@@ -1,6 +1,8 @@
 import cl from "classnames";
 import * as React from "react";
+import { ReactComponent as IconLoading } from "../../assets/image/loader.svg";
 import Utils from "../../utils/Utils";
+import ImageLoader from "../ImageLoader/ImageLoader";
 import StatusIndicator from "../StatusIndIcator/StatusIndicator";
 
 interface IUserCardProps {
@@ -35,6 +37,10 @@ export default class UserCard extends React.Component<
 		}
 	};
 
+    componentDidMount = () => {
+        console.log("component Did Mount User Card");
+    }
+
 	public render() {
 		const {
 			displayName,
@@ -59,11 +65,14 @@ export default class UserCard extends React.Component<
 					<StatusIndicator isOnline={isOnline} />
 				</div>
 				<div className="card-body">
-					<img
+					<ImageLoader
 						src={avatarUrl}
+						loading={
+							<IconLoading className="card-img-top rounded-circle userAvatar" />
+						}
 						className="card-img-top rounded-circle userAvatar"
-						alt={displayName}
 					/>
+
 					<div className="d-flex justify-content-around">
 						{btnTitle2 && (
 							<button

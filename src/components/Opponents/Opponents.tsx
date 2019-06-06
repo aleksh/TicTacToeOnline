@@ -60,6 +60,7 @@ class Opponents extends React.Component<IOpponentsProps, IOpponentsState> {
 					disabled={disabled}
 					btnTitle={GameUtils.GetInviteButtonLabel(choosedUser.isPC)}
 				/>
+
 				<UsersList
 					isPlaying={isPlaying}
 					choosedUser={choosedUser}
