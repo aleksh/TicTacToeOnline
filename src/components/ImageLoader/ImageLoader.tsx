@@ -116,7 +116,8 @@ export default class ImageLoader extends React.PureComponent<
 					style={style}
 					className={className}
 					width={width}
-					height={height}
+                    height={height}
+                    alt=""
 				/>
 			);
 		}
