@@ -33,10 +33,8 @@ export default class ImageLoader extends React.PureComponent<
 			width: 90,
 			height: 90,
 			errMsg: null
-        };
-        console.log("constructor");
+		};
 	}
-	
 
 	componentDidUpdate = (
 		prevProps: IImageLoaderProps,
@@ -44,23 +42,17 @@ export default class ImageLoader extends React.PureComponent<
 	) => {
 		// reload only when image src is changed.
 		if (this.props.src !== prevProps.src) {
-            console.log("Reload Did Update");
 			this._reload(this.props);
 		}
 	};
 
 	componentDidMount = () => {
-        console.log("Reload Did Mount");
-        console.log(this.state);
-        console.log(this.props);
-        if(!this.state.src || this.state.src.length === 0) {
-            this._reload(this.props);
-        }
+		if (!this.state.src || this.state.src.length === 0) {
+			this._reload(this.props);
+		}
 	};
 
 	_reload = (props: IImageLoaderProps) => {
-        console.log("Reload");
-		// initialize
 		this.setState({
 			isLoading: true,
 			isError: false,
@@ -116,8 +108,8 @@ export default class ImageLoader extends React.PureComponent<
 					style={style}
 					className={className}
 					width={width}
-                    height={height}
-                    alt=""
+					height={height}
+					alt=""
 				/>
 			);
 		}

@@ -9,7 +9,6 @@ export default class GameUtils {
         let isWin: boolean = pFilteredItems.length === pGameType;
         if (isWin) {
             pFilteredItems.forEach((item) => { item.done = true; })
-            //   console.log("Win By => " + pByAcross);
         }
         return isWin;
     }
@@ -126,8 +125,6 @@ export default class GameUtils {
                 rowsDraw.push(true);
             }
         }
-        console.log("rowsDraw");
-        console.log(rowsDraw);
 
 
         //check cols
@@ -147,10 +144,6 @@ export default class GameUtils {
                 colsDraw.push(true);
             }
         }
-
-        console.log("colsDraw");
-        console.log(colsDraw);
-        //////////////
 
 
         ///check for Cross
@@ -185,14 +178,7 @@ export default class GameUtils {
         rowDraw = (rowsDraw.filter((item) => item === true).length > 0) ? false : true;
         colDraw = (colsDraw.filter((item) => item === true).length > 0) ? false : true;
 
-        /* console.log("rowDraw => "+rowDraw);
-         console.log("colDraw => "+colDraw);
-         console.log("crossRightDraw => "+crossRightDraw);
-         console.log("crossLeftDraw => "+crossLeftDraw);
-     */
         isDraw = crossRightDraw && crossLeftDraw && rowDraw && colDraw;
-
-        //  console.log("isDraw => "+isDraw);
 
         return isDraw;
     }
@@ -238,7 +224,7 @@ export default class GameUtils {
     }
 
 
-    static GetInviteButtonLabel = (pIsPC:boolean): string => {
+    static GetInviteButtonLabel = (pIsPC: boolean): string => {
         const message: string = pIsPC ? "Play With Me" : "Invite Me to Play";
         return message;
     }

@@ -37,10 +37,6 @@ export default class UserCard extends React.Component<
 		}
 	};
 
-    componentDidMount = () => {
-        console.log("component Did Mount User Card");
-    }
-
 	public render() {
 		const {
 			displayName,
