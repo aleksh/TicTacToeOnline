@@ -17,23 +17,34 @@ export function* getUsers() {
         while (true) {
 
             const snap = yield take(channel);
+            const userId: any = auth.currentUser!.uid;
+            let needRemoveGame: boolean = false;
+            let game: any = yield select(getState);
+
             if (snap.exists()) {
                 let usersList: VOUser[] = [];
                 let currentUser: any;
-                const userId: any = auth.currentUser!.uid;
+
                 snap.forEach((child: any) => {
-                    if (userId !== child.val().uid) {
-                        usersList.push(child.val() as VOUser);
+                    let item = child.val();
+
+                    // check if your opponent goes offline during the game
+                    if (game.choosedUser && game.choosedUser.uid === item.uid && !item.isOnline && game.isPlaying) {
+                        needRemoveGame = true;
+                    }
+
+                    if (userId !== item.uid) {
+                        usersList.push(item as VOUser);
                     } else {
-                        currentUser = child.val() as VOUser;
+                        currentUser = item as VOUser;
                     }
                 });
 
                 yield put(userActions.setUser(currentUser));
-                let game: any = yield select(getState);
+                yield put(allUsersActions.updateUsers(usersList));
 
                 // check if your opponent goes offline during the game
-                if (game.choosedUser && !game.choosedUser.isOnline && game.isPlaying) {
+                if (needRemoveGame) {
                     yield put(gameActions.removeGameAsync(game.gameId));
                     yield put(modalActions.showModal({
                         modalType: MODAL_TYPES.INFO,
@@ -43,7 +54,6 @@ export function* getUsers() {
                     }));
                 }
 
-                yield put(allUsersActions.updateUsers(usersList));
             }
 
         }
