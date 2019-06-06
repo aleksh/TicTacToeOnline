@@ -1,5 +1,6 @@
 import { eventChannel } from "redux-saga";
 import { call, put, take } from "redux-saga/effects";
+import { MODAL_TYPES } from "../../../../components/Modals/Modals";
 import { auth, fb } from "../../../../init/firebaseConfig";
 import GameUtils from "../../../../utils/GameUtils";
 import { allUsersActions } from "../../../allUsers/actions";
@@ -48,7 +49,7 @@ export function* subscribeForGames() {
             const isGameStillExist = yield call(_checkIfGameStillExist, game.gameId);
 
             if (confirmed && isGameStillExist) {
-
+                // if game start
                 yield put(allUsersActions.setOpponent(game.opponentUser));
                 const data = yield call(_acceptGame, game);
 
@@ -64,8 +65,15 @@ export function* subscribeForGames() {
                     yield put(gameActions.subscribeForCurrentGameAsync({ gameId: game.gameId, isItFirstPlayer: false }));
                 }
             } else {
+                // if game canceled
                 yield put(gameActions.removeGameAsync(game.gameId));
                 yield put(gameActions.subscribeForGamesAsync());
+                yield put(modalActions.showModal({
+                    modalType: MODAL_TYPES.INFO,
+                    modalProps: {
+                        message: "This game is canceled",
+                    }
+                }));
             }
         }
 

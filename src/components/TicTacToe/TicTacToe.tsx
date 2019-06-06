@@ -54,7 +54,7 @@ class TicTacToe extends React.Component<ITicTacToeProps, ITicTacToeAppState> {
 			if (choosedUser.isPC && !isMyTurn === false) {
 				setTimeout(() => {
 					this._madePCChoice();
-				}, 1000);
+				}, 1500);
 			}
 		}
 	};

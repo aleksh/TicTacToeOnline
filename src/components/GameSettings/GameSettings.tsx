@@ -59,9 +59,9 @@ class GameSettings extends React.Component<
 		return (
 			<div className="d-flex align-items-center flex-wrap border-bottom mb-3 pb-3">
 				<div className="text-nowrap flex-grow-1">
-					<strong>Game Status:&nbsp;</strong>{" "}
+					<strong>Game Status:&nbsp;</strong>
 					<span className="text-primary">
-						{this._getGameStatus()}
+						<strong>{this._getGameStatus()}</strong>
 					</span>
 				</div>
 				<form className="form-inline">
