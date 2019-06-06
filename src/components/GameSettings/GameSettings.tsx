@@ -46,7 +46,7 @@ class GameSettings extends React.Component<
 			isMyTurn
 				? (message = "My Turn")
 				: (message = `${Utils.CutString(
-						choosedUser.displayName
+						choosedUser.displayName, 11
 				  )} Turn`);
 		}
 
@@ -57,29 +57,31 @@ class GameSettings extends React.Component<
 		const { type, isPlaying } = this.props;
 
 		return (
-			<div className="d-flex align-items-center flex-wrap border-bottom mb-3 pb-3">
-				<div className="text-nowrap flex-grow-1">
+			<div className="d-flex align-items-center justify-content-between flex-nowrap border-bottom mb-3 pb-3">
+				<div className="text-nowrap">
 					<strong>Game Status:&nbsp;</strong>
 					<span className="text-primary">
 						<strong>{this._getGameStatus()}</strong>
 					</span>
 				</div>
-				<form className="form-inline">
-					<div className="form-group">
-						<label htmlFor="type" className="form-label pr-3">
-							<strong>Game Type</strong>
-						</label>
-						<select
-							className="form-control"
-							id="type"
-							disabled={isPlaying}
-							value={type}
-							onChange={this._handlerTypeUpdated}
-						>
-							{this._getOptions()}
-						</select>
-					</div>
-				</form>
+				<div>
+					<form className="form-inline">
+						<div className="form-group">
+							<label htmlFor="type" className="form-label pr-3">
+								<strong>Game Type</strong>
+							</label>
+							<select
+								className="form-control"
+								id="type"
+								disabled={isPlaying}
+								value={type}
+								onChange={this._handlerTypeUpdated}
+							>
+								{this._getOptions()}
+							</select>
+						</div>
+					</form>
+				</div>
 			</div>
 		);
 	}

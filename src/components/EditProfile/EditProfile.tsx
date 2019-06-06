@@ -146,7 +146,7 @@ class EditProfile extends React.Component<
 		} = this.state;
 		const { isUpdating, isUpdateError, isUpdated } = this.props;
 		return (
-			<div className="col-md-5 col-lg-4 bg-grey p-3 m-3 rounded">
+			<div className="col-md-5 col-lg-4 bg-grey p-3 m-3 rounded content">
 				<div className="d-flex align-items-center justify-content-between border-bottom mb-3 pb-3">
 					<button
 						type="button"
@@ -203,7 +203,7 @@ class EditProfile extends React.Component<
 							<div className="mx-auto">
 								<img
 									src={loadedPhoto}
-									className="rounded-circle userAvatar"
+									className="rounded-circle userAvatar mx-2"
 									alt=""
 								/>
 							</div>

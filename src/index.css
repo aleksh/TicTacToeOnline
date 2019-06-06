@@ -17,6 +17,10 @@ code {
 }
 
 
+#root {
+    height: 100%;
+}
+
 .bd-highlight {
     background: #cccccc;
     border:3px solid #ff00ff;
@@ -31,12 +35,7 @@ code {
    min-width: 230px;
 }
 
-#root{
-    height:100vh;
-}
-
 .container-fluid{
-    height:100vh;
     min-width: 860px;
     padding:0;
 }
@@ -60,4 +59,8 @@ code {
 .userAvatar {
     width:90px;
     height:90px;
+}
+
+.content{
+    min-width:430px;
 }
