@@ -30,9 +30,10 @@ export const userActions = {
         }
     },
 
-    profileUpdated: () => {
+    profileUpdated: (data:any) => {
         return {
             type: types.PROFILE_UPDATED,
+            payload: data,
         }
     },
 
@@ -49,9 +50,10 @@ export const userActions = {
     },
 
     // Async
-    loginAsync: () => {
+    loginAsync: (provider: any) => {
         return {
             type: types.LOGIN_ASYNC,
+            payload: provider,
         };
     },
 

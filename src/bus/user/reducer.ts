@@ -1,5 +1,6 @@
 // Types
 import { Map } from "immutable";
+import VOUser from "../../VO/VOUser";
 import { types } from "./types";
 
 const initialState = Map({
@@ -32,7 +33,11 @@ export const userReducer = (state = initialState, action: any) => {
                 isUpdateError: false,
             });
         case types.PROFILE_UPDATED:
+            const user = <VOUser><unknown>state.get("user");
+            const updatedData = { ...user, ...action.payload };
+
             return state.merge({
+                user: updatedData,
                 isUpdating: false,
                 isUpdated: true,
                 isUpdateError: false,

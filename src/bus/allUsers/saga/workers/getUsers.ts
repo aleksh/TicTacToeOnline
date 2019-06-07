@@ -7,7 +7,6 @@ import VOUser from "../../../../VO/VOUser";
 import { allUsersActions } from "../../../allUsers/actions";
 import { gameActions } from "../../../game/actions";
 import { modalActions } from "../../../modal/actions";
-import { userActions } from "../../../user/actions";
 
 
 export function* getUsers() {
@@ -17,49 +16,47 @@ export function* getUsers() {
         while (true) {
 
             const snap = yield take(channel);
-            const userId: any = auth.currentUser!.uid;
-            let needRemoveGame: boolean = false;
-            let game: any = yield select(getState);
 
-            if (snap.exists()) {
-                let usersList: VOUser[] = [];
-                let currentUser: any;
+            if (auth.currentUser) {
+                const userId: any = auth.currentUser!.uid;
+                let needRemoveGame: boolean = false;
+                let game: any = yield select(getState);
 
-                snap.forEach((child: any) => {
-                    let item = child.val();
+                if (snap.exists()) {
+                    let usersList: VOUser[] = [];
+
+                    snap.forEach((child: any) => {
+                        let item = child.val();
+
+                        // check if your opponent goes offline during the game
+                        if (game.choosedUser && game.choosedUser.uid === item.uid && !item.isOnline && game.isPlaying) {
+                            needRemoveGame = true;
+                        }
+
+                        if (userId !== item.uid) {
+                            usersList.push(item as VOUser);
+                        }
+                    });
+
+                    yield put(allUsersActions.updateUsers(usersList));
 
                     // check if your opponent goes offline during the game
-                    if (game.choosedUser && game.choosedUser.uid === item.uid && !item.isOnline && game.isPlaying) {
-                        needRemoveGame = true;
+                    if (needRemoveGame) {
+                        yield put(gameActions.removeGameAsync(game.gameId));
+                        yield put(modalActions.showModal({
+                            modalType: MODAL_TYPES.INFO,
+                            modalProps: {
+                                message: game.choosedUser.displayName + " is disconnected",
+                            }
+                        }));
                     }
-
-                    if (userId !== item.uid) {
-                        usersList.push(item as VOUser);
-                    } else {
-                        currentUser = item as VOUser;
-                    }
-                });
-
-                yield put(userActions.setUser(currentUser));
-                yield put(allUsersActions.updateUsers(usersList));
-
-                // check if your opponent goes offline during the game
-                if (needRemoveGame) {
-                    yield put(gameActions.removeGameAsync(game.gameId));
-                    yield put(modalActions.showModal({
-                        modalType: MODAL_TYPES.INFO,
-                        modalProps: {
-                            message: game.choosedUser.displayName + " is disconnected",
-                        }
-                    }));
                 }
-
             }
 
         }
 
     } catch (error) {
-        yield put(modalActions.showError('Error getUsers saga'));
+        yield put(modalActions.showError('Error getUsers saga => ' + error.message));
     }
 }
 

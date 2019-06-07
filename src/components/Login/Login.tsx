@@ -1,10 +1,11 @@
 //actions
-import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { userActions } from "../../bus/user/actions";
+import { providerFacebook, providerGoogle } from "../../init/firebaseConfig";
 import Styles from "./Login.module.scss";
 
 interface ILoginProps {
@@ -14,9 +15,14 @@ interface ILoginProps {
 interface ILoginState {}
 
 class Login extends React.Component<ILoginProps, ILoginState> {
-	private _handlerClick = () => {
+	private _handlerClickFacebook = () => {
 		const { actions } = this.props;
-		actions.loginAsync();
+		actions.loginAsync(providerFacebook);
+	};
+
+	private _handlerClickGoogle = () => {
+		const { actions } = this.props;
+		actions.loginAsync(providerGoogle);
 	};
 
 	public render() {
@@ -24,11 +30,20 @@ class Login extends React.Component<ILoginProps, ILoginState> {
 			<div className="d-flex h-100 justify-content-center align-items-center">
 				<button
 					type="button"
-					className={"btn btn-lg " + Styles.btnFacebook}
-					onClick={this._handlerClick}
+					className={"btn mr-2 btn-lg " + Styles.btnFacebook}
+					onClick={this._handlerClickFacebook}
 				>
 					<FontAwesomeIcon className="mr-2" icon={faFacebookF} />
 					Sign in with Facebook
+				</button>
+
+				<button
+					type="button"
+					className={"btn ml-2 btn-lg " + Styles.btnGoogle}
+					onClick={this._handlerClickGoogle}
+				>
+					<FontAwesomeIcon className="mr-2" icon={faGoogle} />
+					Sign in with Google
 				</button>
 			</div>
 		);

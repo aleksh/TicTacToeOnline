@@ -16,4 +16,5 @@ export const fb = firebase.initializeApp(firebaseConfig);
 export const storageRef = firebase.storage().ref();
 export const prImagesRef = storageRef.child("profilePhoto");
 export const providerFacebook = new firebase.auth.FacebookAuthProvider();
+export const providerGoogle = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();

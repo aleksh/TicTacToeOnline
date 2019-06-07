@@ -1,13 +1,13 @@
 
 import { apply, put } from "redux-saga/effects";
-import { auth, providerFacebook } from "../../../../init/firebaseConfig";
+import { auth } from "../../../../init/firebaseConfig";
 import { modalActions } from "../../../modal/actions";
 
 
-export function* login() {
+export function* login({ payload }: any) {
     try {
-        yield apply(auth, auth.signInWithPopup, [providerFacebook]);
+        yield apply(auth, auth.signInWithPopup, [payload]);
     } catch (error) {
-        yield put(modalActions.showError('Error login saga'));
+        yield put(modalActions.showError(error.message));
     }
 }

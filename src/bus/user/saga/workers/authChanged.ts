@@ -16,7 +16,7 @@ export function* authChanged() {
         while (true) {
             const { user } = yield take(channel);
 
-            if (user) {                
+            if (user) {
                 const userDB = yield call(_checkIfUserExistIDB, user);
                 yield call(_setOnDisconnect, userDB.uid);
 
@@ -33,7 +33,6 @@ export function* authChanged() {
                 yield put(userActions.logout());
                 yield put(userActions.initialized());
             }
-
         }
 
     } catch (error) {
@@ -48,6 +47,7 @@ const _createAuthChannel = () => {
         return unsubscribe;
     });
 }
+
 
 const _checkIfUserExistIDB = (user: any) => {
     return new Promise((resolve, reject) => {
@@ -76,6 +76,7 @@ const _checkIfUserExistIDB = (user: any) => {
                                 uid: user.uid,
                                 displayName: user.displayName,
                                 photoURL: user.photoURL,
+                                email: user.email,
                                 isOnline: true
                             },
                             error => {
@@ -92,15 +93,19 @@ const _checkIfUserExistIDB = (user: any) => {
 }
 
 const _setOnDisconnect = (userId: string) => {
-    fb.database().ref("users/" + userId).onDisconnect().update({ isOnline: false });
+    const ref =  fb.database().ref("users/" + userId);    
+    ref.onDisconnect().cancel();            
+    ref.onDisconnect().update({ isOnline: false }); 
 }
 
 
 const _getVOUser = (user: any): VOUser => {
+    console.log(user);
     const pUser: VOUser = new VOUser(
         user.uid,
         user.displayName,
         user.photoURL,
+        user.email,
         true
     );
     return pUser;

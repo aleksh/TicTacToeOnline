@@ -5,6 +5,8 @@ export default class Utils {
     }
 
     static CutString = (pStr: string, maxLetters: number = 18, end: string = "..."): string => {
+        if(!pStr) return "";
+        
         let newStr: string = "";
         let strArr: string[] = pStr.split(" ");
 

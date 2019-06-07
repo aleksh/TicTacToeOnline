@@ -15,12 +15,12 @@ export function* updateProfile({ payload: { file, displayName, loadedPhoto } }: 
             photoURL = yield call(_uploadProfileImage, auth.currentUser!.uid, loadedPhoto);
         }
 
-        yield call(_updateProfile, displayName, photoURL, auth.currentUser!.uid);
-        yield put(userActions.profileUpdated());
+        const data = yield call(_updateProfile, displayName, photoURL, auth.currentUser!.uid);
+        yield put(userActions.profileUpdated(data));
 
     } catch (error) {
         yield put(userActions.profileUpdateError());
-        yield put(modalActions.showError('Error logout saga'));
+        yield put(modalActions.showError('Error logout saga => ' + error.message));
     }
 }
 
@@ -34,7 +34,7 @@ const _updateProfile = (displayName: string, photoURL: string, uid: string) => {
         }
 
         fb.database().ref("users/" + uid).update(data).then(() => {
-            resolve()
+            resolve(data);
         }).catch(error => {
             reject(error);
         });
@@ -61,4 +61,4 @@ const _uploadProfileImage = (userId: string, loadedPhoto: string) => {
                 reject(error);
             });
     })
-}	
+}
