@@ -33,7 +33,7 @@ export const userReducer = (state = initialState, action: any) => {
                 isUpdateError: false,
             });
         case types.PROFILE_UPDATED:
-            const user = <VOUser><unknown>state.get("user");
+            const user = state.get("user") as unknown as VOUser;
             const updatedData = { ...user, ...action.payload };
 
             return state.merge({

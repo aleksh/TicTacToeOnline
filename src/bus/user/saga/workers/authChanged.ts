@@ -93,9 +93,9 @@ const _checkIfUserExistIDB = (user: any) => {
 }
 
 const _setOnDisconnect = (userId: string) => {
-    const ref =  fb.database().ref("users/" + userId);    
-    ref.onDisconnect().cancel();            
-    ref.onDisconnect().update({ isOnline: false }); 
+    const ref = fb.database().ref("users/" + userId);
+    ref.onDisconnect().cancel();
+    ref.onDisconnect().update({ isOnline: false });
 }
 
 
