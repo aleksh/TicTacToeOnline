@@ -16,7 +16,7 @@ export const allUsersReducer = (state = initialState, action: any) => {
         case types.UPDATE_USERS_LIST:
             let choosedUser = state.get("choosedUser") as VOUser;
             let users: VOUser[] = action.payload;
-
+            users.sort((a, b) => Number(b.isOnline) - Number(a.isOnline));
             if (choosedUser) {
                 let getUpdatedUser = users.filter((user) => user.uid === choosedUser.uid)
                 if (getUpdatedUser.length > 0) {

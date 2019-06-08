@@ -40,7 +40,7 @@ export default class UsersList extends React.Component<
 
 	public render() {
         const { disabled } = this.props;
-		const classes = "list-group rounded" + Styles.ScrollStyle;
+		const classes = "list-group rounded " + Styles.ScrollStyle;
 
 		return (
 			<Catcher>

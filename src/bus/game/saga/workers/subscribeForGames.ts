@@ -21,7 +21,6 @@ export function* subscribeForGames() {
 
             if (snap.exists()) {
                 const userId: any = auth.currentUser!.uid;
-
                 // eslint-disable-next-line
                 snap.forEach((child: any) => {
                     if (child.val().player2.uid === userId) {

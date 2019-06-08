@@ -18,15 +18,9 @@ export function* authChanged() {
 
             if (user) {
                 const userDB = yield call(_checkIfUserExistIDB, user);
-                yield call(_setOnDisconnect, userDB.uid);
-
-                // subscribe for Games/ get all Users (if not subscribed)
-                const isSubscribe = yield select(isSubscribed);
-                if (!isSubscribe) {
-                    yield put(gameActions.subscribeForGamesAsync());
-                    yield put(allUsersActions.getUsersAsync());
-                }
-
+                yield call(_setOnDisconnect, userDB.uid);                                              
+                yield put(gameActions.subscribeForGamesAsync());
+                yield put(allUsersActions.getUsersAsync());                
                 yield put(userActions.setUser(userDB));
 
             } else {
@@ -110,6 +104,4 @@ const _getVOUser = (user: any): VOUser => {
     );
     return pUser;
 };
-
-const isSubscribed = (state: any) => state.user.get("isSubscribed");
 
