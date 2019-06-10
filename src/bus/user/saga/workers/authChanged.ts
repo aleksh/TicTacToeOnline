@@ -1,6 +1,6 @@
 
 import { eventChannel } from "redux-saga";
-import { call, put, select, take } from "redux-saga/effects";
+import { call, put, take } from "redux-saga/effects";
 import { auth, fb } from "../../../../init/firebaseConfig";
 import VOUser from "../../../../VO/VOUser";
 import { allUsersActions } from "../../../allUsers/actions";
@@ -18,9 +18,9 @@ export function* authChanged() {
 
             if (user) {
                 const userDB = yield call(_checkIfUserExistIDB, user);
-                yield call(_setOnDisconnect, userDB.uid);                                              
+                yield call(_setOnDisconnect, userDB.uid);
                 yield put(gameActions.subscribeForGamesAsync());
-                yield put(allUsersActions.getUsersAsync());                
+                yield put(allUsersActions.getUsersAsync());
                 yield put(userActions.setUser(userDB));
 
             } else {

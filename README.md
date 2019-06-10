@@ -1,3 +1,6 @@
+## Play online 
+https://tic-tac-game-504c0.firebaseapp.com/login
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
