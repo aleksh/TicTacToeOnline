@@ -3,7 +3,7 @@ https://tic-tac-game-504c0.firebaseapp.com/login
 
 
 
-## I this app I use
+## In this app I use
 -react
 -redux
 -redux-saga
